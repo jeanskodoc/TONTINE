@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tontine Enseignants - Gestion des Cotisations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --light: #f9f9f9;
+            --dark: #34495e;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        .login-container, .registration-container {
+            max-width: 100%;
+            margin: 20px auto;
+            padding: 15px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.8rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+        
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 60%;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 12px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .btn {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 1rem;
+            width: 100%;
+            margin: 8px 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+        
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
+        
+        .btn-payment {
+            background-color: #9b59b6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-payment:hover {
+            background-color: #8e44ad;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 8px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .alert {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .badge-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .badge-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .badge-danger {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .tab:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .user-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .group-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .group-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .group-amount {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+        
+        .group-description {
+            color: #666;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .group-card-1000 {
+            border-top: 4px solid #3498db;
+        }
+        
+        .group-card-2000 {
+            border-top: 4px solid #2ecc71;
+        }
+        
+        .group-card-5000 {
+            border-top: 4px solid #f39c12;
+        }
+        
+        .group-card-10000 {
+            border-top: 4px solid #9b59b6;
+        }
+        
+        .member-card {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background-color: #f9f9f9;
+        }
+        
+        .member-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .member-info {
+            flex: 1;
+        }
+        
+        .payment-status {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status-paid {
+            background-color: var(--secondary);
+        }
+        
+        .status-pending {
+            background-color: #f39c12;
+        }
+        
+        .status-delayed {
+            background-color: var(--accent);
+        }
+        
+        .next-winner-section {
+            background-color: #e1f5fe;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .month-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .month-item {
+            text-align: center;
+            padding: 8px;
+            min-width: 45px;
+            font-size: 0.85rem;
+        }
+        
+        .month-item.current {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .month-item.paid {
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 5px;
+        }
+        
+        .month-item.pending {
+            background-color: #ffeaa7;
+            border-radius: 5px;
+        }
+        
+        .month-item.delayed {
+            background-color: #ffcccc;
+            border-radius: 5px;
+        }
+        
+        .summary-box {
+            background-color: #e8f4f8;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .winner-history {
+            margin-top: 20px;
+        }
+        
+        .winner-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .reminder-section {
+            background-color: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .reminder-list {
+            margin-top: 12px;
+        }
+        
+        .reminder-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-bottom: 1px solid #ffeaa7;
+            font-size: 0.9rem;
+        }
+        
+        .teacher-icon {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        
+        .support-info {
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .whatsapp-support {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .credentials-instruction {
+            background-color: #e8f4f8;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .payment-action {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        
+        .whatsapp-group-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #25D366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .payment-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #9b59b6;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        /* Styles pour le formulaire d'inscription */
+        .registration-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .form-full-width {
+            grid-column: span 1;
+        }
+        
+        .form-section-title {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--light);
+            grid-column: span 1;
+        }
+        
+        /* Menu hamburger pour mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .menu-toggle span {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        /* Media Queries pour la responsivité */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                flex-direction: column;
+                background-color: var(--primary);
+                width: 70%;
+                height: 100vh;
+                transition: right 0.3s ease;
+                padding-top: 20px;
+                z-index: 99;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+                padding-left: 20px;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 12px;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            table th, table td {
+                padding: 8px 5px;
+            }
+            
+            .btn {
+                padding: 12px;
+            }
+            
+            .month-item {
+                min-width: 40px;
+                font-size: 0.8rem;
+                padding: 6px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .teacher-icon {
+                font-size: 2rem;
+            }
+            
+            .member-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .member-avatar {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+            
+            .payment-action {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .month-item {
+                min-width: 35px;
+                font-size: 0.75rem;
+                padding: 5px;
+            }
+            
+            .tabs {
+                font-size: 0.9rem;
+            }
+            
+            .tab {
+                padding: 8px 12px;
+            }
+        }
+        
+        /* Amélioration de l'expérience tactile pour mobile */
+        @media (hover: none) {
+            .btn:hover {
+                transform: none;
+                filter: brightness(0.95);
+            }
+            
+            .tab:hover {
+                background-color: transparent;
+            }
+        }
+        
+        /* Empêcher le zoom sur les champs de formulaire sur iOS */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Styles pour les petits écrans en mode paysage */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .login-container, .registration-container {
+                margin: 10px auto;
+                padding: 10px;
+            }
+            
+            .teacher-icon {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+            
+            .card {
+                margin-bottom: 10px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Section de connexion -->
+    <div id="login-section">
+        <header>
+            <nav>
+                <div class="logo">Tontine Enseignants</div>
+                <button class="menu-toggle" id="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#" id="nav-dashboard">Tableau de bord</a></li>
+                    <li><a href="#" id="nav-profile">Mon Profil</a></li>
+                    <li><a href="#" id="nav-logout">Déconnexion</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="login-container">
+            <div class="teacher-icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Connexion à l'espace membre</h2>
+                
+                <div class="credentials-instruction">
+                    <p><strong>Accès réservé aux enseignants inscrits</strong></p>
+                    <p>Utilisez les identifiants qui vous ont été fournis</p>
+                </div>
+                
+                <div id="login-error" class="alert alert-danger hidden">
+                    Identifiant ou mot de passe incorrect. Veuillez réessayer.
+                </div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Identifiant</label>
+                        <input type="text" id="login-email" class="form-control" placeholder="Votre identifiant personnel" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Votre mot de passe" required>
+                    </div>
+                    
+                    <button type="button" id="btn-login" class="btn btn-primary">Se connecter</button>
+                </form>
+            </div>
+            
+            <div class="support-info">
+                <p><strong>Vous êtes enseignant mais n'avez pas encore de compte ?</strong></p>
+                <button id="btn-show-registration" class="btn btn-secondary">S'inscrire maintenant</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section d'inscription (cachée initialement) -->
+    <div id="registration-section" class="hidden">
+        <header>
+            <nav>
+                <div class="logo">Tontine Enseignants</div>
+                <button class="menu-toggle" id="mobile-menu-reg">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="nav-links-reg">
+                    <li><a href="#" id="nav-back-to-login">Retour à la connexion</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="registration-container">
+            <div class="teacher-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Formulaire d'inscription</h2>
+                
+                <div class="credentials-instruction">
+                    <p><strong>Remplissez ce formulaire pour vous inscrire à la tontine des enseignants</strong></p>
+                    <p>Après validation, vos identifiants vous seront communiqués par WhatsApp</p>
+                </div>
+                
+                <div id="registration-error" class="alert alert-danger hidden"></div>
+                <div id="registration-success" class="alert alert-success hidden"></div>
+                
+                <form id="registration-form">
+                    <h3 class="form-section-title">Informations personnelles</h3>
+                    
+                    <div class="form-group">
+                        <label for="reg-nom">Nom *</label>
+                        <input type="text" id="reg-nom" class="form-control" placeholder="Votre nom" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-prenoms">Prénoms *</label>
+                        <input type="text" id="reg-prenoms" class="form-control" placeholder="Vos prénoms" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-cin">Numéro de carte d'identité *</label>
+                        <input type="text" id="reg-cin" class="form-control" placeholder="Numéro CIN" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-cin-expiry">Date d'expiration de la carte *</label>
+                        <input type="date" id="reg-cin-expiry" class="form-control" required>
+                    </div>
+                    
+                    <h3 class="form-section-title">Informations professionnelles</h3>
+                    
+                    <div class="form-group">
+                        <label for="reg-etablissement">Établissement *</label>
+                        <input type="text" id="reg-etablissement" class="form-control" placeholder="Nom de l'établissement" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-iesg">IESG *</label>
+                        <input type="text" id="reg-iesg" class="form-control" placeholder="IESG" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-dre">DRE *</label>
+                        <select id="reg-dre" class="form-control" required>
+                            <option value="">Sélectionnez votre DRE</option>
+                            <option value="DRE-Lomé">DRE-Lomé</option>
+                            <option value="DRE-Golfe">DRE-Golfe</option>
+                            <option value="DRE-Zio">DRE-Zio</option>
+                            <option value="DRE-Vo">DRE-Vo</option>
+                            <option value="DRE-Agou">DRE-Agou</option>
+                            <option value="DRE-Ave">DRE-Ave</option>
+                            <option value="DRE-Amou">DRE-Amou</option>
+                            <option value="DRE-Wawa">DRE-Wawa</option>
+                            <option value="DRE-Kloto">DRE-Kloto</option>
+                            <option value="DRE-Danyi">DRE-Danyi</option>
+                            <option value="DRE-Moyen-Mono">DRE-Moyen-Mono</option>
+                            <option value="DRE-Haho">DRE-Haho</option>
+                            <option value="DRE-Sotouboua">DRE-Sotouboua</option>
+                            <option value="DRE-Tchaoudjo">DRE-Tchaoudjo</option>
+                            <option value="DRE-Assoli">DRE-Assoli</option>
+                            <option value="DRE-Bassar">DRE-Bassar</option>
+                            <option value="DRE-Binah">DRE-Binah</option>
+                            <option value="DRE-Dankpen">DRE-Dankpen</option>
+                            <option value="DRE-Kéran">DRE-Kéran</option>
+                            <option value="DRE-Kozah">DRE-Kozah</option>
+                            <option value="DRE-OTI">DRE-OTI</option>
+                            <option value="DRE-OTI-Sud">DRE-OTI-Sud</option>
+                            <option value="DRE-Tône">DRE-Tône</option>
+                            <option value="DRE-Cinkassé">DRE-Cinkassé</option>
+                            <option value="DRE-Kpendjal">DRE-Kpendjal</option>
+                            <option value="DRE-Tandjouaré">DRE-Tandjouaré</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-matricule">Numéro matricule *</label>
+                        <input type="text" id="reg-matricule" class="form-control" placeholder="Votre numéro matricule" required>
+                    </div>
+                    
+                    <h3 class="form-section-title">Informations de tontine</h3>
+                    
+                    <div class="form-group">
+                        <label>Groupes de tontine *</label>
+                        <div style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; background-color: #f9f9f9;">
+                            <p><strong>Chaque enseignant est automatiquement inscrit dans tous les groupes</strong></p>
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Groupe 1000 FCFA/mois</li>
+                                <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Groupe 2000 FCFA/mois</li>
+                                <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Groupe 5000 FCFA/mois</li>
+                                <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Groupe 10000 FCFA/mois</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group form-full-width">
+                        <label for="reg-phone">Numéro de téléphone (WhatsApp) *</label>
+                        <input type="tel" id="reg-phone" class="form-control" placeholder="Votre numéro WhatsApp avec indicatif" required>
+                    </div>
+                    
+                    <div class="form-group form-full-width">
+                        <button type="button" id="btn-submit-registration" class="btn btn-primary">Soumettre l'inscription</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="support-info">
+                <p><strong>Après soumission, vos informations seront envoyées à l'administrateur par WhatsApp</strong></p>
+                <p>Vous recevrez vos identifiants de connexion après validation de votre inscription</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau de bord (caché initialement) -->
+    <div id="dashboard-section" class="hidden">
+        <header>
+            <nav>
+                <div class="logo">Tontine Enseignants</div>
+                <button class="menu-toggle" id="mobile-menu-dash">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="nav-links-dash">
+                    <li><a href="#" id="nav-dashboard">Tableau de bord</a></li>
+                    <li><a href="#" id="nav-profile">Mon Profil</a></li>
+                    <li><a href="#" id="nav-logout-dash">Déconnexion</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="container">
+            <h1>Gestion des Cotisations - <span id="user-welcome">Groupes de Tontine</span></h1>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="all-groups">Tous les groupes</div>
+                <div class="tab" data-tab="contributions">Mes cotisations</div>
+                <div class="tab" data-tab="winners">Anciens bénéficiaires</div>
+            </div>
+            
+            <div class="tab-content active" id="tab-all-groups">
+                <div class="card">
+                    <h2 class="card-title">Tous les groupes de tontine</h2>
+                    <p>En tant qu'enseignant, vous êtes inscrit dans tous les groupes de tontine. Vous pouvez accéder à chaque groupe et effectuer vos paiements.</p>
+                    
+                    <div class="group-cards" id="all-groups-container">
+                        <!-- Group cards will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="tab-contributions">
+                <div class="card">
+                    <h2 class="card-title">Détail de mes cotisations</h2>
+                    
+                    <div class="tabs" style="margin-top: 15px;">
+                        <div class="tab active" data-subtab="contributions-1000">1000 FCFA</div>
+                        <div class="tab" data-subtab="contributions-2000">2000 FCFA</div>
+                        <div class="tab" data-subtab="contributions-5000">5000 FCFA</div>
+                        <div class="tab" data-subtab="contributions-10000">10000 FCFA</div>
+                    </div>
+                    
+                    <div class="subtab-content active" id="subtab-contributions-1000">
+                        <div class="summary-box">
+                            <h3>Synthèse - Groupe 1000 FCFA</h3>
+                            <div class="summary-item">
+                                <span>Total des cotisations:</span>
+                                <span id="total-contributions-1000">0 FCFA</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Mois payés:</span>
+                                <span id="months-paid-1000">0/10</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Prochain mois à payer:</span>
+                                <span id="next-month-to-pay-1000">Mois 1</span>
+                            </div>
+                        </div>
+                        
+                        <h3>Historique détaillé par mois</h3>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Date limite</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
+                                        <th>Date de paiement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contributions-detail-1000">
+                                    <!-- Contributions detail will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="subtab-content" id="subtab-contributions-2000">
+                        <div class="summary-box">
+                            <h3>Synthèse - Groupe 2000 FCFA</h3>
+                            <div class="summary-item">
+                                <span>Total des cotisations:</span>
+                                <span id="total-contributions-2000">0 FCFA</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Mois payés:</span>
+                                <span id="months-paid-2000">0/10</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Prochain mois à payer:</span>
+                                <span id="next-month-to-pay-2000">Mois 1</span>
+                            </div>
+                        </div>
+                        
+                        <h3>Historique détaillé par mois</h3>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Date limite</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
+                                        <th>Date de paiement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contributions-detail-2000">
+                                    <!-- Contributions detail will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="subtab-content" id="subtab-contributions-5000">
+                        <div class="summary-box">
+                            <h3>Synthèse - Groupe 5000 FCFA</h3>
+                            <div class="summary-item">
+                                <span>Total des cotisations:</span>
+                                <span id="total-contributions-5000">0 FCFA</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Mois payés:</span>
+                                <span id="months-paid-5000">0/10</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Prochain mois à payer:</span>
+                                <span id="next-month-to-pay-5000">Mois 1</span>
+                            </div>
+                        </div>
+                        
+                        <h3>Historique détaillé par mois</h3>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Date limite</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
+                                        <th>Date de paiement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contributions-detail-5000">
+                                    <!-- Contributions detail will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="subtab-content" id="subtab-contributions-10000">
+                        <div class="summary-box">
+                            <h3>Synthèse - Groupe 10000 FCFA</h3>
+                            <div class="summary-item">
+                                <span>Total des cotisations:</span>
+                                <span id="total-contributions-10000">0 FCFA</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Mois payés:</span>
+                                <span id="months-paid-10000">0/10</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Prochain mois à payer:</span>
+                                <span id="next-month-to-pay-10000">Mois 1</span>
+                            </div>
+                        </div>
+                        
+                        <h3>Historique détaillé par mois</h3>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Date limite</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
+                                        <th>Date de paiement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contributions-detail-10000">
+                                    <!-- Contributions detail will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-action">
+                        <div>
+                            <p><strong>Confirmer votre paiement via WhatsApp</strong></p>
+                            <a href="#" id="whatsapp-confirm-link" class="whatsapp-group-link" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Confirmer le paiement
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="tab-winners">
+                <div class="card">
+                    <h2 class="card-title">Historique des bénéficiaires</h2>
+                    <p>Liste de tous les anciens bénéficiaires, leur mois de ramassage et le montant perçu</p>
+                    
+                    <div class="tabs" style="margin-top: 15px;">
+                        <div class="tab active" data-subtab="winners-1000">1000 FCFA</div>
+                        <div class="tab" data-subtab="winners-2000">2000 FCFA</div>
+                        <div class="tab" data-subtab="winners-5000">5000 FCFA</div>
+                        <div class="tab" data-subtab="winners-10000">10000 FCFA</div>
+                    </div>
+                    
+                    <div class="subtab-content active" id="subtab-winners-1000">
+                        <div class="winner-history">
+                            <div id="winners-list-1000">
+                                <!-- Winners will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="subtab-content" id="subtab-winners-2000">
+                        <div class="winner-history">
+                            <div id="winners-list-2000">
+                                <!-- Winners will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="subtab-content" id="subtab-winners-5000">
+                        <div class="winner-history">
+                            <div id="winners-list-5000">
+                                <!-- Winners will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="subtab-content" id="subtab-winners-10000">
+                        <div class="winner-history">
+                            <div id="winners-list-10000">
+                                <!-- Winners will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration de la tontine - 10 mois
+        const TOTAL_MONTHS = 10;
+        const WHATSAPP_ADMIN_NUMBER = "22892871605";
+        
+        // Liens de paiement FedaPay par groupe
+        const paymentLinks = {
+            "1000": "https://me.fedapay.com/F50SPObJ",
+            "2000": "https://me.fedapay.com/n0UlodtK",
+            "5000": "https://me.fedapay.com/vE2joUDA",
+            "10000": "https://me.fedapay.com/TTbl2m0s"
+        };
+        
+        // Liens de groupes WhatsApp par groupe
+        const whatsappGroupLinks = {
+            "1000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY?mode=ems_share_c",
+            "2000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY?mode=ems_share_c",
+            "5000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY?mode=ems_share_c",
+            "10000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY?mode=ems_share_c"
+        };
+        
+        // Base de données des enseignants inscrits
+        const registeredTeachers = [
+            { 
+                identifier: "ENS001", 
+                password: "pass1000", 
+                name: "Koffi Amétépé", 
+                school: "Lycée Moderne d'Adidogomé",
+                groups: ["1000", "2000", "5000", "10000"],
+                phone: "+22890123456"
+            },
+            { 
+                identifier: "ENS002", 
+                password: "pass1000", 
+                name: "Ama Djondo", 
+                school: "CEG Nyékonakpoè",
+                groups: ["1000", "2000", "5000", "10000"],
+                phone: "+22891234567"
+            },
+            { 
+                identifier: "ENS003", 
+                password: "pass2000", 
+                name: "Yawo Agbefou", 
+                school: "Lycée de Tokoin",
+                groups: ["1000", "2000", "5000", "10000"],
+                phone: "+22892345678"
+            },
+            { 
+                identifier: "ENS004", 
+                password: "pass2000", 
+                name: "Mawussi Adoko", 
+                school: "Collège Protestant",
+                groups: ["1000", "2000", "5000", "10000"],
+                phone: "+22893456789"
+            },
+            { 
+                identifier: "ENS005", 
+                password: "pass5000", 
+                name: "Abra Djelou", 
+                school: "Lycée Scientifique de Lomé",
+                groups: ["1000", "2000", "5000", "10000"],
+                phone: "+22894567890"
+            },
+            { 
+                identifier: "ENS006", 
+                password: "pass5000", 
+                name: "Séna Agbogbo", 
+                school: "CETEF d'Agbalépédogan",
+                groups: ["1000", "2000", "5000", "10000"],
+                phone: "+22895678901"
+            },
+            { 
+                identifier: "ENS007", 
+                password: "pass10000", 
+                name: "Kossi Atchi", 
+                school: "Lycée du 2 Février",
+                groups: ["1000", "2000", "5000", "10000"],
+                phone: "+22896789012"
+            },
+            { 
+                identifier: "ENS008", 
+                password: "pass10000", 
+                name: "Essi Adani", 
+                school: "Lycée de Bé",
+                groups: ["1000", "2000", "5000", "10000"],
+                phone: "+22897890123"
+            }
+        ];
+
+        // Historique des bénéficiaires par groupe
+        const winnersHistory = {
+            "1000": [
+                { month: "Janvier 2023", winner: "Koffi Amétépé", amount: 10000 },
+                { month: "Février 2023", winner: "Ama Djondo", amount: 10000 },
+                { month: "Mars 2023", winner: "Koffi Amétépé", amount: 10000 }
+            ],
+            "2000": [
+                { month: "Janvier 2023", winner: "Yawo Agbefou", amount: 20000 },
+                { month: "Février 2023", winner: "Mawussi Adoko", amount: 20000 },
+                { month: "Mars 2023", winner: "Yawo Agbefou", amount: 20000 }
+            ],
+            "5000": [
+                { month: "Janvier 2023", winner: "Abra Djelou", amount: 50000 },
+                { month: "Février 2023", winner: "Séna Agbogbo", amount: 50000 },
+                { month: "Mars 2023", winner: "Abra Djelou", amount: 50000 }
+            ],
+            "10000": [
+                { month: "Janvier 2023", winner: "Kossi Atchi", amount: 100000 },
+                { month: "Février 2023", winner: "Essi Adani", amount: 100000 },
+                { month: "Mars 2023", winner: "Kossi Atchi", amount: 100000 }
+            ]
+        };
+
+        // Bénéficiaire du mois en cours
+        const currentMonthWinner = {
+            "1000": { winner: "Ama Djondo", amount: 10000 },
+            "2000": { winner: "Mawussi Adoko", amount: 20000 },
+            "5000": { winner: "Séna Agbogbo", amount: 50000 },
+            "10000": { winner: "Essi Adani", amount: 100000 }
+        };
+
+        // Groupes de tontine disponibles
+        const tontineGroups = {
+            "1000": {
+                name: "Groupe 1000 FCFA",
+                amount: 1000,
+                description: "Cotisation mensuelle de 1000 FCFA pendant 10 mois"
+            },
+            "2000": {
+                name: "Groupe 2000 FCFA",
+                amount: 2000,
+                description: "Cotisation mensuelle de 2000 FCFA pendant 10 mois"
+            },
+            "5000": {
+                name: "Groupe 5000 FCFA",
+                amount: 5000,
+                description: "Cotisation mensuelle de 5000 FCFA pendant 10 mois"
+            },
+            "10000": {
+                name: "Groupe 10000 FCFA",
+                amount: 10000,
+                description: "Cotisation mensuelle de 10000 FCFA pendant 10 mois"
+            }
+        };
+        
+        // Données de démonstration (remplacées par des données réelles en production)
+        let currentUser = null;
+        let allMembers = [];
+        
+        // Éléments DOM
+        const loginSection = document.getElementById('login-section');
+        const registrationSection = document.getElementById('registration-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        
+        const loginForm = document.getElementById('login-form');
+        const registrationForm = document.getElementById('registration-form');
+        
+        const btnLogin = document.getElementById('btn-login');
+        const btnShowRegistration = document.getElementById('btn-show-registration');
+        const btnSubmitRegistration = document.getElementById('btn-submit-registration');
+        const navBackToLogin = document.getElementById('nav-back-to-login');
+        const navLogout = document.getElementById('nav-logout');
+        const navLogoutDash = document.getElementById('nav-logout-dash');
+        
+        const loginError = document.getElementById('login-error');
+        const registrationError = document.getElementById('registration-error');
+        const registrationSuccess = document.getElementById('registration-success');
+        
+        // Initialisation de l'application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser les gestionnaires d'événements
+            initEventListeners();
+            
+            // Vérifier si l'utilisateur est déjà connecté
+            checkIfLoggedIn();
+        });
+        
+        function initEventListeners() {
+            // Navigation mobile
+            document.querySelectorAll('.menu-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const navLinks = this.closest('nav').querySelector('.nav-links');
+                    navLinks.classList.toggle('active');
+                });
+            });
+            
+            // Bouton de connexion
+            btnLogin.addEventListener('click', handleLogin);
+            
+            // Bouton pour afficher le formulaire d'inscription
+            btnShowRegistration.addEventListener('click', function() {
+                loginSection.classList.add('hidden');
+                registrationSection.classList.remove('hidden');
+            });
+            
+            // Bouton pour revenir à la connexion
+            navBackToLogin.addEventListener('click', function() {
+                registrationSection.classList.add('hidden');
+                loginSection.classList.remove('hidden');
+            });
+            
+            // Bouton de soumission d'inscription
+            btnSubmitRegistration.addEventListener('click', handleRegistration);
+            
+            // Boutons de déconnexion
+            navLogout.addEventListener('click', handleLogout);
+            navLogoutDash.addEventListener('click', handleLogout);
+            
+            // Navigation par onglets
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+            
+            // Navigation par sous-onglets
+            document.querySelectorAll('[data-subtab]').forEach(subtab => {
+                subtab.addEventListener('click', function() {
+                    const subtabId = this.getAttribute('data-subtab');
+                    switchSubTab(subtabId);
+                });
+            });
+        }
+        
+        function checkIfLoggedIn() {
+            // Vérifier si l'utilisateur est déjà connecté (dans le localStorage)
+            const savedUser = localStorage.getItem('tontine_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
+            }
+        }
+        
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Validation simple
+            if (!email || !password) {
+                showError(loginError, 'Veuillez remplir tous les champs');
+                return;
+            }
+            
+            // Rechercher l'utilisateur dans la base de données
+            const teacher = registeredTeachers.find(t => t.identifier === email && t.password === password);
+            
+            if (teacher) {
+                // Connexion réussie
+                currentUser = teacher;
+                
+                // Sauvegarder l'utilisateur dans le localStorage
+                localStorage.setItem('tontine_user', JSON.stringify(currentUser));
+                
+                // Afficher le tableau de bord
+                showDashboard();
+            } else {
+                showError(loginError, 'Identifiant ou mot de passe incorrect');
+            }
+        }
+        
+        function handleRegistration() {
+            // Récupérer les valeurs du formulaire
+            const nom = document.getElementById('reg-nom').value;
+            const prenoms = document.getElementById('reg-prenoms').value;
+            const cin = document.getElementById('reg-cin').value;
+            const cinExpiry = document.getElementById('reg-cin-expiry').value;
+            const etablissement = document.getElementById('reg-etablissement').value;
+            const iesg = document.getElementById('reg-iesg').value;
+            const dre = document.getElementById('reg-dre').value;
+            const matricule = document.getElementById('reg-matricule').value;
+            const phone = document.getElementById('reg-phone').value;
+            
+            // Validation
+            if (!nom || !prenoms || !cin || !cinExpiry || !etablissement || !iesg || !dre || !matricule || !phone) {
+                showError(registrationError, 'Veuillez remplir tous les champs obligatoires');
+                return;
+            }
+            
+            // En production, on enverrait ces données au serveur
+            // Pour la démo, on simule juste un envoi réussi
+            
+            // Afficher un message de succès
+            registrationError.classList.add('hidden');
+            registrationSuccess.classList.remove('hidden');
+            registrationSuccess.innerHTML = `
+                <p><strong>Inscription soumise avec succès !</strong></p>
+                <p>Vos informations ont été envoyées à l'administrateur.</p>
+                <p>Vous recevrez vos identifiants de connexion par WhatsApp une fois votre inscription validée.</p>
+            `;
+            
+            // Réinitialiser le formulaire
+            registrationForm.reset();
+            
+            // Rediriger vers la page de connexion après 5 secondes
+            setTimeout(() => {
+                registrationSection.classList.add('hidden');
+                loginSection.classList.remove('hidden');
+                registrationSuccess.classList.add('hidden');
+            }, 5000);
+        }
+        
+        function handleLogout() {
+            // Déconnecter l'utilisateur
+            currentUser = null;
+            localStorage.removeItem('tontine_user');
+            
+            // Revenir à la page de connexion
+            dashboardSection.classList.add('hidden');
+            registrationSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+        }
+        
+        function showDashboard() {
+            // Cacher les autres sections et afficher le tableau de bord
+            loginSection.classList.add('hidden');
+            registrationSection.classList.add('hidden');
+            dashboardSection.classList.remove('hidden');
+            
+            // Mettre à jour les informations utilisateur
+            document.getElementById('user-welcome').textContent = `${currentUser.name}`;
+            
+            // Charger les données de tous les groupes
+            loadAllGroupsData();
+            
+            // Charger les cotisations de l'utilisateur
+            loadContributions();
+            
+            // Charger l'historique des bénéficiaires
+            loadWinners();
+        }
+        
+        function loadAllGroupsData() {
+            const allGroupsContainer = document.getElementById('all-groups-container');
+            allGroupsContainer.innerHTML = '';
+            
+            // Afficher tous les groupes
+            for (const groupKey in tontineGroups) {
+                const group = tontineGroups[groupKey];
+                const groupMembers = generateDemoMembers(groupKey);
+                const paymentLink = paymentLinks[groupKey];
+                const whatsappLink = whatsappGroupLinks[groupKey];
+                
+                const groupCard = document.createElement('div');
+                groupCard.className = `group-card group-card-${groupKey}`;
+                groupCard.innerHTML = `
+                    <h3>${group.name}</h3>
+                    <div class="group-amount">${group.amount.toLocaleString()} FCFA/mois</div>
+                    <div class="group-description">${group.description}</div>
+                    <p><strong>Nombre de membres:</strong> ${groupMembers.length}</p>
+                    <p><strong>Montant total par ramassage:</strong> ${(group.amount * groupMembers.length).toLocaleString()} FCFA</p>
+                    <p><strong>Bénéficiaire du mois:</strong> ${currentMonthWinner[groupKey].winner}</p>
+                    
+                    <div class="payment-action">
+                        <a href="${paymentLink}" class="btn btn-payment" target="_blank">
+                            <i class="fas fa-money-bill-wave"></i> Payer la cotisation
+                        </a>
+                        <a href="${whatsappLink}" class="btn btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Rejoindre le groupe
+                        </a>
+                    </div>
+                `;
+                
+                allGroupsContainer.appendChild(groupCard);
+            }
+        }
+        
+        function generateDemoMembers(group) {
+            // Récupérer les membres du groupe depuis la base de données
+            return registeredTeachers.filter(teacher => teacher.groups.includes(group));
+        }
+        
+        function loadContributions() {
+            // En production, ces données viendraient d'une API
+            // Pour la démo, nous générons des données factices pour chaque groupe
+            
+            const groups = ["1000", "2000", "5000", "10000"];
+            
+            groups.forEach(group => {
+                const groupAmount = tontineGroups[group].amount;
+                const paidMonths = Math.floor(Math.random() * 5); // L'utilisateur a payé entre 0 et 4 mois
+                
+                // Mettre à jour le résumé pour chaque groupe
+                document.getElementById(`total-contributions-${group}`).textContent = (groupAmount * paidMonths).toLocaleString() + ' FCFA';
+                document.getElementById(`months-paid-${group}`).textContent = `${paidMonths}/${TOTAL_MONTHS}`;
+                document.getElementById(`next-month-to-pay-${group}`).textContent = `Mois ${paidMonths + 1}`;
+                
+                // Générer le détail des cotisations pour chaque groupe
+                const contributionsDetail = document.getElementById(`contributions-detail-${group}`);
+                contributionsDetail.innerHTML = '';
+                
+                const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre"];
+                
+                for (let i = 0; i < TOTAL_MONTHS; i++) {
+                    const isPaid = i < paidMonths;
+                    const status = isPaid ? 'Payé' : (i === paidMonths ? 'En attente' : 'À venir');
+                    const statusClass = isPaid ? 'badge-success' : (i === paidMonths ? 'badge-warning' : 'badge-danger');
+                    const paymentDate = isPaid ? `15/${i + 1}/2023` : '-';
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${months[i]}</td>
+                        <td>15/${i + 1}/2023</td>
+                        <td>${groupAmount.toLocaleString()} FCFA</td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
+                        <td>${paymentDate}</td>
+                        <td>${i === paidMonths ? `<button class="btn-payment" style="padding: 5px 10px; font-size: 0.8rem;" onclick="handleGroupPayment('${group}')">Payer</button>` : ''}</td>
+                    `;
+                    
+                    contributionsDetail.appendChild(row);
+                }
+            });
+            
+            // Mettre à jour le lien WhatsApp de confirmation
+            const whatsappConfirmLink = document.getElementById('whatsapp-confirm-link');
+            whatsappConfirmLink.href = `https://wa.me/${WHATSAPP_ADMIN_NUMBER}?text=${encodeURIComponent('Bonjour, je confirme mon paiement pour les groupes de tontine.')}`;
+        }
+        
+        function loadWinners() {
+            // Charger l'historique des bénéficiaires pour chaque groupe
+            const groups = ["1000", "2000", "5000", "10000"];
+            
+            groups.forEach(group => {
+                const winnersList = document.getElementById(`winners-list-${group}`);
+                winnersList.innerHTML = '';
+                
+                const groupWinners = winnersHistory[group];
+                
+                if (!groupWinners || groupWinners.length === 0) {
+                    winnersList.innerHTML = '<p>Aucun bénéficiaire enregistré pour le moment.</p>';
+                    return;
+                }
+                
+                groupWinners.forEach(winner => {
+                    const winnerElement = document.createElement('div');
+                    winnerElement.className = 'winner-item';
+                    winnerElement.innerHTML = `
+                        <div>
+                            <strong>${winner.month}</strong><br>
+                            ${winner.winner}
+                        </div>
+                        <div style="font-weight: bold;">${winner.amount.toLocaleString()} FCFA</div>
+                    `;
+                    
+                    winnersList.appendChild(winnerElement);
+                });
+            });
+        }
+        
+        function switchTab(tabId) {
+            // Désactiver tous les onglets
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Activer l'onglet sélectionné
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+        
+        function switchSubTab(subtabId) {
+            // Extraire le groupe du subtabId
+            const group = subtabId.split('-').pop();
+            
+            // Désactiver tous les sous-onglets du conteneur parent
+            const parent = document.querySelector(`[data-subtab="${subtabId}"]`).closest('.tabs');
+            parent.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Désactiver tous les sous-contenus du conteneur parent
+            const contentContainer = parent.nextElementSibling;
+            while (contentContainer && contentContainer.classList.contains('subtab-content')) {
+                contentContainer.classList.remove('active');
+                contentContainer = contentContainer.nextElementSibling;
+            }
+            
+            // Activer le sous-onglet sélectionné
+            document.querySelector(`[data-subtab="${subtabId}"]`).classList.add('active');
+            document.getElementById(subtabId).classList.add('active');
+        }
+        
+        function handleGroupPayment(group) {
+            const groupAmount = tontineGroups[group].amount;
+            const paymentLink = paymentLinks[group];
+            
+            // Ouvrir le lien de paiement dans une nouvelle fenêtre
+            window.open(paymentLink, '_blank');
+            
+            // Afficher un message de confirmation
+            alert(`Vous allez être redirigé vers la page de paiement de ${groupAmount.toLocaleString()} FCFA pour le groupe ${group}. Après paiement, n'oubliez pas de confirmer via WhatsApp.`);
+        }
+        
+        function showError(element, message) {
+            element.textContent = message;
+            element.classList.remove('hidden');
+            
+            // Masquer le message après 5 secondes
+            setTimeout(() => {
+                element.classList.add('hidden');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
