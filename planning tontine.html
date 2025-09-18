@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Tontine pour Enseignants</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin: 20px 0 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button.print {
+            background-color: #27ae60;
+        }
+        
+        button.print:hover {
+            background-color: #219653;
+        }
+        
+        button.reset {
+            background-color: #e74c3c;
+        }
+        
+        button.reset:hover {
+            background-color: #c0392b;
+        }
+        
+        button.print-teacher {
+            background-color: #9b59b6;
+        }
+        
+        button.print-teacher:hover {
+            background-color: #8e44ad;
+        }
+        
+        button.save {
+            background-color: #f39c12;
+        }
+        
+        button.save:hover {
+            background-color: #e67e22;
+        }
+        
+        button.load {
+            background-color: #16a085;
+        }
+        
+        button.load:hover {
+            background-color: #1abc9c;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .teacher-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .teacher-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .group-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .group-1000 { background-color: #ffeaa7; color: #d35400; }
+        .group-2000 { background-color: #81ecec; color: #00b894; }
+        .group-5000 { background-color: #fab1a0; color: #d63031; }
+        .group-10000 { background-color: #a29bfe; color: #2d3436; }
+        
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .teacher-details {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .summary-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .summary-card h4 {
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .teacher-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        @media print {
+            button, .no-print, .filter-section {
+                display: none;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+            
+            .teacher-details {
+                page-break-inside: avoid;
+                margin-bottom: 30px;
+            }
+            
+            body, html {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        }
+        
+        @media print and (orientation: portrait) {
+            .teacher-details {
+                break-inside: avoid;
+            }
+        }
+        
+        @media print and (orientation: landscape) {
+            .teacher-details {
+                break-inside: avoid;
+            }
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        @media print {
+            .print-only {
+                display: block;
+            }
+            
+            .no-print {
+                display: none;
+            }
+            
+            .teacher-details {
+                border: 1px solid #ddd;
+                margin-bottom: 20px;
+            }
+            
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            
+            .summary-card {
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestion de Tontine pour Enseignants</h1>
+            <p class="description">Générateur de programme de tontine équitable pour 10 enseignants avec 4 groupes de cotisation</p>
+        </header>
+        
+        <div class="success-message" id="successMessage">
+            Programme généré avec succès! Vous pouvez maintenant visualiser et imprimer le planning.
+        </div>
+        
+        <div class="error-message" id="errorMessage">
+        </div>
+        
+        <div class="section">
+            <h2>Enregistrement des Enseignants</h2>
+            <div id="teacherForm">
+                <div class="form-group">
+                    <label for="teacherName">Nom et Prénom de l'Enseignant</label>
+                    <input type="text" id="teacherName" placeholder="Ex: DUPONT Jean">
+                </div>
+                <button onclick="addTeacher()">Ajouter l'Enseignant</button>
+                <button class="reset" onclick="resetData()">Supprimer tous les enseignants</button>
+                <button class="save" onclick="saveData()">Enregistrer les données</button>
+                <button class="load" onclick="loadData()">Charger les données sauvegardées</button>
+            </div>
+            
+            <div id="teacherList" class="teacher-list"></div>
+        </div>
+        
+        <div class="section no-print">
+            <h2>Génération du Programme</h2>
+            <p>Après avoir ajouté 10 enseignants, vous pourrez générer le programme de tontine.</p>
+            <button onclick="generateProgram()" id="generateBtn" disabled>Générer le Programme</button>
+        </div>
+        
+        <div class="section" id="programSection" style="display: none;">
+            <div class="button-group">
+                <button onclick="window.print()" class="print">Imprimer tout le Programme</button>
+                <button onclick="printFilteredTeachers()" class="print-teacher">Imprimer les enseignants filtrés</button>
+                <button class="reset" onclick="resetData()">Supprimer toutes les données</button>
+                <button class="save" onclick="saveData()">Enregistrer les données</button>
+                <button class="load" onclick="loadData()">Charger les données sauvegardées</button>
+            </div>
+            
+            <h2>Filtres</h2>
+            <div class="filter-section">
+                <div class="filter-item">
+                    <label for="teacherFilter">Filtrer par enseignant</label>
+                    <select id="teacherFilter" onchange="filterByTeacher()">
+                        <option value="all">Tous les enseignants</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="monthFilter">Filtrer par mois</label>
+                    <select id="monthFilter" onchange="filterByMonth()">
+                        <option value="all">Tous les mois</option>
+                        <option value="1">Mois 1</option>
+                        <option value="2">Mois 2</option>
+                        <option value="3">Mois 3</option>
+                        <option value="4">Mois 4</option>
+                        <option value="5">Mois 5</option>
+                        <option value="6">Mois 6</option>
+                        <option value="7">Mois 7</option>
+                        <option value="8">Mois 8</option>
+                        <option value="9">Mois 9</option>
+                        <option value="10">Mois 10</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="groupFilter">Filtrer par groupe</label>
+                    <select id="groupFilter" onchange="filterByGroup()">
+                        <option value="all">Tous les groupes</option>
+                        <option value="1000">1000 FCFA</option>
+                        <option value="2000">2000 FCFA</option>
+                        <option value="5000">5000 FCFA</option>
+                        <option value="10000">10000 FCFA</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="teacherDetails"></div>
+            
+            <h2>Programme de Tontine</h2>
+            <div id="programOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        let teachers = [];
+        let programGenerated = false;
+        let currentFilter = {
+            teacher: 'all',
+            month: 'all',
+            group: 'all'
+        };
+        
+        // Charger les données au démarrage si elles existent
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedData = localStorage.getItem('tontineData');
+            if (savedData) {
+                if (confirm('Des données sauvegardées existent. Voulez-vous les charger?')) {
+                    loadData();
+                }
+            }
+        });
+        
+        function showMessage(message, isSuccess = true) {
+            const messageElement = isSuccess ? 
+                document.getElementById('successMessage') : 
+                document.getElementById('errorMessage');
+                
+            const otherElement = isSuccess ? 
+                document.getElementById('errorMessage') : 
+                document.getElementById('successMessage');
+                
+            messageElement.textContent = message;
+            messageElement.style.display = 'block';
+            otherElement.style.display = 'none';
+            
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+        
+        function addTeacher() {
+            const nameInput = document.getElementById('teacherName');
+            const name = nameInput.value.trim();
+            
+            if (name === '') {
+                showMessage('Veuillez entrer un nom', false);
+                return;
+            }
+            
+            if (teachers.length >= 10) {
+                showMessage('Vous avez déjà ajouté 10 enseignants', false);
+                return;
+            }
+            
+            teachers.push({
+                id: teachers.length + 1,
+                name: name,
+                identifier: `PROF${String(teachers.length + 1).padStart(3, '0')}`,
+                password: `Tontine@${String(teachers.length + 1).padStart(2, '0')}`
+            });
+            
+            updateTeacherList();
+            nameInput.value = '';
+            
+            if (teachers.length === 10) {
+                document.getElementById('generateBtn').disabled = false;
+            }
+            
+            showMessage('Enseignant ajouté avec succès');
+        }
+        
+        function updateTeacherList() {
+            const teacherList = document.getElementById('teacherList');
+            teacherList.innerHTML = '';
+            
+            teachers.forEach(teacher => {
+                const card = document.createElement('div');
+                card.className = 'teacher-card';
+                card.innerHTML = `
+                    <strong>${teacher.name}</strong><br>
+                    <small>ID: ${teacher.identifier} | Mot de passe: ${teacher.password}</small>
+                `;
+                teacherList.appendChild(card);
+            });
+        }
+        
+        function saveData() {
+            try {
+                const dataToSave = {
+                    teachers: teachers,
+                    programGenerated: programGenerated
+                };
+                
+                localStorage.setItem('tontineData', JSON.stringify(dataToSave));
+                showMessage('Données enregistrées avec succès!');
+            } catch (error) {
+                showMessage('Erreur lors de l\'enregistrement: ' + error.message, false);
+            }
+        }
+        
+        function loadData() {
+            try {
+                const savedData = localStorage.getItem('tontineData');
+                if (!savedData) {
+                    showMessage('Aucune donnée sauvegardée trouvée', false);
+                    return;
+                }
+                
+                const parsedData = JSON.parse(savedData);
+                teachers = parsedData.teachers || [];
+                programGenerated = parsedData.programGenerated || false;
+                
+                updateTeacherList();
+                
+                if (teachers.length === 10) {
+                    document.getElementById('generateBtn').disabled = false;
+                }
+                
+                if (programGenerated) {
+                    generateProgram();
+                }
+                
+                showMessage('Données chargées avec succès!');
+            } catch (error) {
+                showMessage('Erreur lors du chargement: ' + error.message, false);
+            }
+        }
+        
+        function generateProgram() {
+            if (teachers.length !== 10) {
+                showMessage('Veuillez ajouter exactement 10 enseignants', false);
+                return;
+            }
+            
+            // Définir l'ordre des favoris pour chaque groupe (prédéfini pour l'équité)
+            const group1000Order = [3, 8, 1, 6, 9, 4, 10, 5, 2, 7];
+            const group2000Order = [7, 2, 4, 10, 5, 9, 3, 6, 8, 1];
+            const group5000Order = [10, 5, 7, 3, 2, 8, 1, 9, 6, 4];
+            const group10000Order = [1, 9, 6, 5, 4, 7, 2, 10, 3, 8];
+            
+            // Réinitialiser les gains des enseignants
+            teachers.forEach(teacher => {
+                teacher.gains1000 = 0;
+                teacher.gains2000 = 0;
+                teacher.gains5000 = 0;
+                teacher.gains10000 = 0;
+                teacher.collections = [];
+            });
+            
+            let programHTML = `
+                <h3>Identifiants et mots de passe</h3>
+                <table>
+                    <tr>
+                        <th>Enseignant</th>
+                        <th>Identifiant</th>
+                        <th>Mot de passe</th>
+                        <th>Groupes</th>
+                    </tr>
+            `;
+            
+            teachers.forEach(teacher => {
+                programHTML += `
+                    <tr>
+                        <td>${teacher.name}</td>
+                        <td>${teacher.identifier}</td>
+                        <td>${teacher.password}</td>
+                        <td>
+                            <span class="group-badge group-1000">1000F</span>
+                            <span class="group-badge group-2000">2000F</span>
+                            <span class="group-badge group-5000">5000F</span>
+                            <span class="group-badge group-10000">10000F</span>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            programHTML += `</table>`;
+            
+            // Ajouter les tableaux de planning pour chaque groupe
+            programHTML += generateGroupTable('1000 FCFA', '10 000 FCFA', group1000Order, 1000);
+            programHTML += generateGroupTable('2000 FCFA', '20 000 FCFA', group2000Order, 2000);
+            programHTML += generateGroupTable('5000 FCFA', '50 000 FCFA', group5000Order, 5000);
+            programHTML += generateGroupTable('10000 FCFA', '100 000 FCFA', group10000Order, 10000);
+            
+            // Récapitulatif des gains par enseignant
+            programHTML += `
+                <h3>Récapitulatif des gains par enseignant</h3>
+                <table>
+                    <tr>
+                        <th>Enseignant</th>
+                        <th>Gains totaux</th>
+                        <th>Détail des gains</th>
+                    </tr>
+            `;
+            
+            teachers.forEach(teacher => {
+                const gains = {
+                    '1000': teacher.gains1000 || 0,
+                    '2000': teacher.gains2000 || 0,
+                    '5000': teacher.gains5000 || 0,
+                    '10000': teacher.gains10000 || 0
+                };
+                
+                const totalGains = Object.values(gains).reduce((sum, val) => sum + val, 0);
+                const gainDetails = [];
+                
+                if (gains['1000'] > 0) gainDetails.push(`${gains['1000']}F (1000F)`);
+                if (gains['2000'] > 0) gainDetails.push(`${gains['2000']}F (2000F)`);
+                if (gains['5000'] > 0) gainDetails.push(`${gains['5000']}F (5000F)`);
+                if (gains['10000'] > 0) gainDetails.push(`${gains['10000']}F (10000F)`);
+                
+                programHTML += `
+                    <tr>
+                        <td>${teacher.name}</td>
+                        <td><strong>${totalGains.toLocaleString()} FCFA</strong></td>
+                        <td>${gainDetails.join(', ')}</td>
+                    </tr>
+                `;
+            });
+            
+            programHTML += `</table>`;
+            
+            document.getElementById('programOutput').innerHTML = programHTML;
+            document.getElementById('programSection').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Mettre à jour le filtre des enseignants
+            const teacherFilter = document.getElementById('teacherFilter');
+            teacherFilter.innerHTML = '<option value="all">Tous les enseignants</option>';
+            teachers.forEach(teacher => {
+                teacherFilter.innerHTML += `<option value="${teacher.id}">${teacher.name}</option>`;
+            });
+            
+            programGenerated = true;
+            
+            // Afficher les détails par défaut
+            showTeacherDetails();
+            
+            // Sauvegarder automatiquement après génération
+            saveData();
+            
+            // Faire défiler jusqu'au programme
+            document.getElementById('programSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function generateGroupTable(groupName, collectionAmount, order, groupValue) {
+            let tableHTML = `
+                <h3>Groupe ${groupName} - Ramassage: ${collectionAmount}</h3>
+                <table>
+                    <tr>
+                        <th>Mois</th>
+                        <th>Enseignant favori</th>
+                        <th>Identifiant</th>
+                        <th>Montant ramassé</th>
+                    </tr>
+            `;
+            
+            for (let month = 1; month <= 10; month++) {
+                const teacherIndex = order[month - 1] - 1;
+                const teacher = teachers[teacherIndex];
+                
+                // Enregistrer le gain pour le récapitulatif
+                const amount = parseInt(collectionAmount.replace(/\s/g, ''));
+                if (groupValue === 1000) {
+                    teacher.gains1000 = (teacher.gains1000 || 0) + amount;
+                } else if (groupValue === 2000) {
+                    teacher.gains2000 = (teacher.gains2000 || 0) + amount;
+                } else if (groupValue === 5000) {
+                    teacher.gains5000 = (teacher.gains5000 || 0) + amount;
+                } else if (groupValue === 10000) {
+                    teacher.gains10000 = (teacher.gains10000 || 0) + amount;
+                }
+                
+                // Enregistrer la collection pour l'enseignant
+                if (!teacher.collections) teacher.collections = [];
+                teacher.collections.push({
+                    month: month,
+                    group: groupValue,
+                    amount: amount
+                });
+                
+                tableHTML += `
+                    <tr>
+                        <td>Mois ${month}</td>
+                        <td>${teacher.name}</td>
+                        <td>${teacher.identifier}</td>
+                        <td>${collectionAmount} FCFA</td>
+                    </tr>
+                `;
+            }
+            
+            tableHTML += `</table>`;
+            return tableHTML;
+        }
+        
+        function filterByTeacher() {
+            const teacherId = document.getElementById('teacherFilter').value;
+            currentFilter.teacher = teacherId;
+            showTeacherDetails();
+        }
+        
+        function filterByMonth() {
+            const month = document.getElementById('monthFilter').value;
+            currentFilter.month = month;
+            showTeacherDetails();
+        }
+        
+        function filterByGroup() {
+            const group = document.getElementById('groupFilter').value;
+            currentFilter.group = group;
+            showTeacherDetails();
+        }
+        
+        function showTeacherDetails() {
+            if (!programGenerated) return;
+            
+            const teacherDetails = document.getElementById('teacherDetails');
+            teacherDetails.innerHTML = '';
+            
+            let filteredTeachers = teachers;
+            
+            // Appliquer les filtres
+            if (currentFilter.teacher !== 'all') {
+                filteredTeachers = teachers.filter(t => t.id == currentFilter.teacher);
+            }
+            
+            filteredTeachers.forEach(teacher => {
+                let detailsHTML = `
+                    <div class="teacher-details">
+                        <div class="teacher-header">
+                            <h3>Détails pour ${teacher.name}</h3>
+                            <button onclick="printTeacher(${teacher.id})" class="print-teacher no-print">Imprimer cette fiche</button>
+                        </div>
+                        <p><strong>Identifiant:</strong> ${teacher.identifier} | <strong>Mot de passe:</strong> ${teacher.password}</p>
+                        
+                        <h4>Cotisations</h4>
+                        <div class="summary-card">
+                            <p>1000 FCFA × 10 mois: <strong>10 000 FCFA</strong></p>
+                            <p>2000 FCFA × 10 mois: <strong>20 000 FCFA</strong></p>
+                            <p>5000 FCFA × 10 mois: <strong>50 000 FCFA</strong></p>
+                            <p>10000 FCFA × 10 mois: <strong>100 000 FCFA</strong></p>
+                            <p><strong>Total des cotisations:</strong> 180 000 FCFA</p>
+                        </div>
+                        
+                        <h4>Ramassages</h4>
+                `;
+                
+                // Filtrer les collections selon les critères
+                let filteredCollections = teacher.collections || [];
+                if (currentFilter.month !== 'all') {
+                    filteredCollections = filteredCollections.filter(c => c.month == currentFilter.month);
+                }
+                if (currentFilter.group !== 'all') {
+                    filteredCollections = filteredCollections.filter(c => c.group == currentFilter.group);
+                }
+                
+                if (filteredCollections.length > 0) {
+                    detailsHTML += `<table>
+                        <tr>
+                            <th>Mois</th>
+                            <th>Groupe</th>
+                            <th>Montant ramassé</th>
+                        </tr>`;
+                    
+                    filteredCollections.forEach(collection => {
+                        detailsHTML += `
+                            <tr>
+                                <td>Mois ${collection.month}</td>
+                                <td>${collection.group} FCFA</td>
+                                <td>${(collection.amount).toLocaleString()} FCFA</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    detailsHTML += `</table>`;
+                    
+                    // Calculer le total des ramassages filtrés
+                    const totalCollected = filteredCollections.reduce((sum, c) => sum + c.amount, 0);
+                    detailsHTML += `
+                        <div class="summary-card">
+                            <p><strong>Total des ramassages (filtre appliqué):</strong> ${totalCollected.toLocaleString()} FCFA</p>
+                        </div>
+                    `;
+                } else {
+                    detailsHTML += `<p>Aucun ramassage ne correspond aux filtres sélectionnés.</p>`;
+                }
+                
+                // Afficher le total de tous les ramassages
+                const totalAllCollections = teacher.collections ? 
+                    teacher.collections.reduce((sum, c) => sum + c.amount, 0) : 0;
+                
+                detailsHTML += `
+                    <div class="summary-card">
+                        <p><strong>Total de tous les ramassages:</strong> ${totalAllCollections.toLocaleString()} FCFA</p>
+                        <p><strong>Solde net:</strong> ${(totalAllCollections - 180000).toLocaleString()} FCFA</p>
+                    </div>
+                `;
+                
+                detailsHTML += `</div>`;
+                teacherDetails.innerHTML += detailsHTML;
+            });
+        }
+        
+        function printFilteredTeachers() {
+            window.print();
+        }
+        
+        function printTeacher(teacherId) {
+            // Sauvegarder l'état actuel des filtres
+            const currentTeacherFilter = currentFilter.teacher;
+            const currentMonthFilter = currentFilter.month;
+            const currentGroupFilter = currentFilter.group;
+            
+            // Appliquer le filtre pour cet enseignant seulement
+            currentFilter.teacher = teacherId;
+            currentFilter.month = 'all';
+            currentFilter.group = 'all';
+            
+            // Mettre à jour l'interface
+            document.getElementById('teacherFilter').value = teacherId;
+            document.getElementById('monthFilter').value = 'all';
+            document.getElementById('groupFilter').value = 'all';
+            
+            // Regénérer l'affichage
+            showTeacherDetails();
+            
+            // Attendre un peu pour que l'interface se mette à jour puis imprimer
+            setTimeout(() => {
+                window.print();
+                
+                // Restaurer les filtres après l'impression
+                currentFilter.teacher = currentTeacherFilter;
+                currentFilter.month = currentMonthFilter;
+                currentFilter.group = currentGroupFilter;
+                
+                document.getElementById('teacherFilter').value = currentTeacherFilter;
+                document.getElementById('monthFilter').value = currentMonthFilter;
+                document.getElementById('groupFilter').value = currentGroupFilter;
+                
+                // Remettre à jour l'interface
+                setTimeout(() => {
+                    showTeacherDetails();
+                }, 100);
+            }, 500);
+        }
+        
+        function resetData() {
+            if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données? Cette action est irréversible.")) {
+                teachers = [];
+                programGenerated = false;
+                document.getElementById('teacherList').innerHTML = '';
+                document.getElementById('generateBtn').disabled = true;
+                document.getElementById('programSection').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'none';
+                document.getElementById('teacherName').value = '';
+                document.getElementById('teacherFilter').innerHTML = '<option value="all">Tous les enseignants</option>';
+                document.getElementById('teacherDetails').innerHTML = '';
+                document.getElementById('programOutput').innerHTML = '';
+                
+                // Réinitialiser les filtres
+                document.getElementById('monthFilter').value = 'all';
+                document.getElementById('groupFilter').value = 'all';
+                currentFilter = {
+                    teacher: 'all',
+                    month: 'all',
+                    group: 'all'
+                };
+                
+                // Supprimer les données sauvegardées
+                localStorage.removeItem('tontineData');
+                
+                showMessage('Données réinitialisées avec succès');
+            }
+        }
+    </script>
+</body>
+</html>
