@@ -1,20 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-     <style>
-  .btn-retour {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .btn-retour:hover {
-    background-color: #e0e0e0;
-  }
-</style>
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -771,10 +756,42 @@
                 padding: 10px;
             }
         }
+
+        /* Styles pour le bouton retour */
+        .btn-retour {
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .btn-retour:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Indicateur de sauvegarde automatique */
+        .auto-save-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #27ae60;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+        }
     </style>
 </head>
-    <button class="btn-retour" onclick="history.back()">← Retour</button>
 <body>
+    <div class="container">
+        <button class="btn-retour" onclick="history.back()">← Retour</button>
+    </div>
+
     <!-- Section de connexion -->
     <div id="login-section">
         <header>
@@ -910,8 +927,6 @@
                             <option value="DRE-Centrale">DRE-Centrale</option>
                             <option value="DRE-KARA">DRE-KARA</option>
                             <option value="DRE-Savanes">DRE-Savanes</option>
-                           
-                           
                         </select>
                     </div>
                     
@@ -1175,36 +1190,92 @@
                     
                     <div class="subtab-content active" id="subtab-winners-1000">
                         <div class="winner-history">
-                            <div id="winners-list-1000">
-                                <!-- Winners will be populated dynamically -->
+                            <h3>Bénéficiaires du groupe 1000 FCFA</h3>
+                            <div style="overflow-x: auto;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Mois</th>
+                                            <th>Bénéficiaire</th>
+                                            <th>Montant perçu</th>
+                                            <th>Date de ramassage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="winners-list-1000">
+                                        <!-- Winners will be populated dynamically -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     
                     <div class="subtab-content" id="subtab-winners-2000">
                         <div class="winner-history">
-                            <div id="winners-list-2000">
-                                <!-- Winners will be populated dynamically -->
+                            <h3>Bénéficiaires du groupe 2000 FCFA</h3>
+                            <div style="overflow-x: auto;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Mois</th>
+                                            <th>Bénéficiaire</th>
+                                            <th>Montant perçu</th>
+                                            <th>Date de ramassage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="winners-list-2000">
+                                        <!-- Winners will be populated dynamically -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     
                     <div class="subtab-content" id="subtab-winners-5000">
                         <div class="winner-history">
-                            <div id="winners-list-5000">
-                                <!-- Winners will be populated dynamically -->
+                            <h3>Bénéficiaires du groupe 5000 FCFA</h3>
+                            <div style="overflow-x: auto;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Mois</th>
+                                            <th>Bénéficiaire</th>
+                                            <th>Montant perçu</th>
+                                            <th>Date de ramassage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="winners-list-5000">
+                                        <!-- Winners will be populated dynamically -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     
                     <div class="subtab-content" id="subtab-winners-10000">
                         <div class="winner-history">
-                            <div id="winners-list-10000">
-                                <!-- Winners will be populated dynamically -->
+                            <h3>Bénéficiaires du groupe 10000 FCFA</h3>
+                            <div style="overflow-x: auto;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Mois</th>
+                                            <th>Bénéficiaire</th>
+                                            <th>Montant perçu</th>
+                                            <th>Date de ramassage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="winners-list-10000">
+                                        <!-- Winners will be populated dynamically -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="auto-save-status">
+                <i class="fas fa-sync-alt"></i> Sauvegarde automatique active
             </div>
         </div>
     </div>
@@ -1213,6 +1284,7 @@
         // Configuration de la tontine - 10 mois
         const TOTAL_MONTHS = 10;
         const WHATSAPP_ADMIN_NUMBER = "22892871605";
+        const AUTO_SAVE_INTERVAL = 30000; // 30 secondes
         
         // Liens de paiement FedaPay par groupe
         const paymentLinks = {
@@ -1231,7 +1303,7 @@
         };
         
         // Base de données des enseignants inscrits
-        const registeredTeachers = [
+        let registeredTeachers = [
             { 
                 identifier: "ENS001", 
                 password: "pass1000", 
@@ -1299,26 +1371,38 @@
         ];
 
         // Historique des bénéficiaires par groupe
-        const winnersHistory = {
+        let winnersHistory = {
             "1000": [
-                { month: "Janvier 2023", winner: "Koffi Amétépé", amount: 10000 },
-                { month: "Février 2023", winner: "Ama Djondo", amount: 10000 },
-                { month: "Mars 2023", winner: "Koffi Amétépé", amount: 10000 }
+                { month: "Janvier 2023", winner: "Koffi Amétépé", amount: 10000, date: "15/01/2023" },
+                { month: "Février 2023", winner: "Ama Djondo", amount: 10000, date: "15/02/2023" },
+                { month: "Mars 2023", winner: "Koffi Amétépé", amount: 10000, date: "15/03/2023" },
+                { month: "Avril 2023", winner: "Yawo Agbefou", amount: 10000, date: "15/04/2023" },
+                { month: "Mai 2023", winner: "Mawussi Adoko", amount: 10000, date: "15/05/2023" },
+                { month: "Juin 2023", winner: "Abra Djelou", amount: 10000, date: "15/06/2023" }
             ],
             "2000": [
-                { month: "Janvier 2023", winner: "Yawo Agbefou", amount: 20000 },
-                { month: "Février 2023", winner: "Mawussi Adoko", amount: 20000 },
-                { month: "Mars 2023", winner: "Yawo Agbefou", amount: 20000 }
+                { month: "Janvier 2023", winner: "Yawo Agbefou", amount: 20000, date: "15/01/2023" },
+                { month: "Février 2023", winner: "Mawussi Adoko", amount: 20000, date: "15/02/2023" },
+                { month: "Mars 2023", winner: "Yawo Agbefou", amount: 20000, date: "15/03/2023" },
+                { month: "Avril 2023", winner: "Ama Djondo", amount: 20000, date: "15/04/2023" },
+                { month: "Mai 2023", winner: "Kossi Atchi", amount: 20000, date: "15/05/2023" },
+                { month: "Juin 2023", winner: "Essi Adani", amount: 20000, date: "15/06/2023" }
             ],
             "5000": [
-                { month: "Janvier 2023", winner: "Abra Djelou", amount: 50000 },
-                { month: "Février 2023", winner: "Séna Agbogbo", amount: 50000 },
-                { month: "Mars 2023", winner: "Abra Djelou", amount: 50000 }
+                { month: "Janvier 2023", winner: "Abra Djelou", amount: 50000, date: "15/01/2023" },
+                { month: "Février 2023", winner: "Séna Agbogbo", amount: 50000, date: "15/02/2023" },
+                { month: "Mars 2023", winner: "Abra Djelou", amount: 50000, date: "15/03/2023" },
+                { month: "Avril 2023", winner: "Koffi Amétépé", amount: 50000, date: "15/04/2023" },
+                { month: "Mai 2023", winner: "Mawussi Adoko", amount: 50000, date: "15/05/2023" },
+                { month: "Juin 2023", winner: "Yawo Agbefou", amount: 50000, date: "15/06/2023" }
             ],
             "10000": [
-                { month: "Janvier 2023", winner: "Kossi Atchi", amount: 100000 },
-                { month: "Février 2023", winner: "Essi Adani", amount: 100000 },
-                { month: "Mars 2023", winner: "Kossi Atchi", amount: 100000 }
+                { month: "Janvier 2023", winner: "Kossi Atchi", amount: 100000, date: "15/01/2023" },
+                { month: "Février 2023", winner: "Essi Adani", amount: 100000, date: "15/02/2023" },
+                { month: "Mars 2023", winner: "Kossi Atchi", amount: 100000, date: "15/03/2023" },
+                { month: "Avril 2023", winner: "Séna Agbogbo", amount: 100000, date: "15/04/2023" },
+                { month: "Mai 2023", winner: "Abra Djelou", amount: 100000, date: "15/05/2023" },
+                { month: "Juin 2023", winner: "Ama Djondo", amount: 100000, date: "15/06/2023" }
             ]
         };
 
@@ -1357,6 +1441,7 @@
         // Données de démonstration (remplacées par des données réelles en production)
         let currentUser = null;
         let allMembers = [];
+        let autoSaveInterval = null;
         
         // Éléments DOM
         const loginSection = document.getElementById('login-section');
@@ -1379,11 +1464,17 @@
         
         // Initialisation de l'application
         document.addEventListener('DOMContentLoaded', function() {
+            // Charger les données sauvegardées
+            loadSavedData();
+            
             // Initialiser les gestionnaires d'événements
             initEventListeners();
             
             // Vérifier si l'utilisateur est déjà connecté
             checkIfLoggedIn();
+            
+            // Démarrer la sauvegarde automatique
+            startAutoSave();
         });
         
         function initEventListeners() {
@@ -1512,6 +1603,11 @@
         }
         
         function handleLogout() {
+            // Arrêter la sauvegarde automatique
+            if (autoSaveInterval) {
+                clearInterval(autoSaveInterval);
+            }
+            
             // Déconnecter l'utilisateur
             currentUser = null;
             localStorage.removeItem('tontine_user');
@@ -1638,22 +1734,20 @@
                 const groupWinners = winnersHistory[group];
                 
                 if (!groupWinners || groupWinners.length === 0) {
-                    winnersList.innerHTML = '<p>Aucun bénéficiaire enregistré pour le moment.</p>';
+                    winnersList.innerHTML = '<tr><td colspan="4" style="text-align: center;">Aucun bénéficiaire enregistré pour le moment.</td></tr>';
                     return;
                 }
                 
                 groupWinners.forEach(winner => {
-                    const winnerElement = document.createElement('div');
-                    winnerElement.className = 'winner-item';
-                    winnerElement.innerHTML = `
-                        <div>
-                            <strong>${winner.month}</strong><br>
-                            ${winner.winner}
-                        </div>
-                        <div style="font-weight: bold;">${winner.amount.toLocaleString()} FCFA</div>
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${winner.month}</td>
+                        <td>${winner.winner}</td>
+                        <td>${winner.amount.toLocaleString()} FCFA</td>
+                        <td>${winner.date}</td>
                     `;
                     
-                    winnersList.appendChild(winnerElement);
+                    winnersList.appendChild(row);
                 });
             });
         }
@@ -1674,9 +1768,6 @@
         }
         
         function switchSubTab(subtabId) {
-            // Extraire le groupe du subtabId
-            const group = subtabId.split('-').pop();
-            
             // Désactiver tous les sous-onglets du conteneur parent
             const parent = document.querySelector(`[data-subtab="${subtabId}"]`).closest('.tabs');
             parent.querySelectorAll('.tab').forEach(tab => {
@@ -1684,11 +1775,10 @@
             });
             
             // Désactiver tous les sous-contenus du conteneur parent
-            const contentContainer = parent.nextElementSibling;
-            while (contentContainer && contentContainer.classList.contains('subtab-content')) {
-                contentContainer.classList.remove('active');
-                contentContainer = contentContainer.nextElementSibling;
-            }
+            const contentContainer = parent.parentElement;
+            contentContainer.querySelectorAll('.subtab-content').forEach(content => {
+                content.classList.remove('active');
+            });
             
             // Activer le sous-onglet sélectionné
             document.querySelector(`[data-subtab="${subtabId}"]`).classList.add('active');
@@ -1715,6 +1805,52 @@
                 element.classList.add('hidden');
             }, 5000);
         }
+
+        // Système de sauvegarde automatique
+        function startAutoSave() {
+            // Sauvegarde automatique toutes les 30 secondes
+            autoSaveInterval = setInterval(saveData, AUTO_SAVE_INTERVAL);
+            console.log('Système de sauvegarde automatique activé');
+        }
+
+        function saveData() {
+            try {
+                const dataToSave = {
+                    registeredTeachers: registeredTeachers,
+                    winnersHistory: winnersHistory,
+                    lastSave: new Date().toISOString()
+                };
+                
+                localStorage.setItem('tontine_app_data', JSON.stringify(dataToSave));
+                console.log('Sauvegarde automatique effectuée à ' + new Date().toLocaleTimeString());
+            } catch (error) {
+                console.error('Erreur lors de la sauvegarde automatique: ' + error.message);
+            }
+        }
+
+        function loadSavedData() {
+            try {
+                const savedData = localStorage.getItem('tontine_app_data');
+                if (savedData) {
+                    const parsedData = JSON.parse(savedData);
+                    
+                    if (parsedData.registeredTeachers) {
+                        registeredTeachers = parsedData.registeredTeachers;
+                    }
+                    
+                    if (parsedData.winnersHistory) {
+                        winnersHistory = parsedData.winnersHistory;
+                    }
+                    
+                    console.log('Données chargées depuis la sauvegarde automatique');
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des données sauvegardées: ' + error.message);
+            }
+        }
+
+        // Sauvegarde avant de quitter la page
+        window.addEventListener('beforeunload', saveData);
     </script>
 </body>
 </html>
