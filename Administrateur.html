@@ -16,10 +16,10 @@
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
         }
         
@@ -27,15 +27,17 @@
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            padding: 25px;
             width: 100%;
             max-width: 400px;
+            margin: 20px auto;
         }
         
         .login-container h2 {
             text-align: center;
             color: #2c3e50;
             margin-bottom: 20px;
+            font-size: 24px;
         }
         
         .login-form .form-group {
@@ -44,15 +46,16 @@
         
         .login-form label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
+            font-size: 14px;
         }
         
         .login-form input {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 16px;
         }
         
@@ -61,8 +64,8 @@
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 4px;
+            padding: 14px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
@@ -78,6 +81,7 @@
             text-align: center;
             margin-top: 15px;
             display: none;
+            font-size: 14px;
         }
         
         .container {
@@ -93,19 +97,22 @@
         
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             padding-bottom: 20px;
             border-bottom: 1px solid #eaeaea;
+            position: relative;
         }
         
         h1 {
             color: #2c3e50;
             margin-bottom: 10px;
+            font-size: 28px;
         }
         
         .description {
             color: #7f8c8d;
             margin-bottom: 20px;
+            font-size: 16px;
         }
         
         .section {
@@ -120,11 +127,13 @@
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 1px solid #eaeaea;
+            font-size: 22px;
         }
         
         h3 {
             color: #2c3e50;
             margin: 20px 0 15px;
+            font-size: 18px;
         }
         
         .form-group {
@@ -133,15 +142,16 @@
         
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
+            font-size: 14px;
         }
         
         input[type="text"], select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 16px;
         }
         
@@ -149,8 +159,8 @@
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
+            padding: 12px 18px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
@@ -206,8 +216,8 @@
         button.logout {
             background-color: #7f8c8d;
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
         }
         
         button.logout:hover {
@@ -218,10 +228,11 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            font-size: 14px;
         }
         
         th, td {
-            padding: 12px 15px;
+            padding: 12px 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
@@ -253,7 +264,7 @@
             background-color: #d4edda;
             color: #155724;
             padding: 15px;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-bottom: 20px;
             display: none;
         }
@@ -262,18 +273,19 @@
             background-color: #f8d7da;
             color: #721c24;
             padding: 15px;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-bottom: 20px;
             display: none;
         }
         
         .group-badge {
             display: inline-block;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 12px;
             font-size: 12px;
             font-weight: bold;
             margin-right: 5px;
+            margin-bottom: 5px;
         }
         
         .group-1000 { background-color: #ffeaa7; color: #d35400; }
@@ -283,14 +295,14 @@
         
         .filter-section {
             display: flex;
+            flex-direction: column;
             gap: 15px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
         
         .filter-item {
             flex: 1;
-            min-width: 200px;
+            min-width: 100%;
         }
         
         .teacher-details {
@@ -316,22 +328,33 @@
         
         .button-group {
             display: flex;
-            gap: 10px;
             flex-wrap: wrap;
+            gap: 10px;
             margin: 20px 0;
         }
         
         .teacher-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .auto-save-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #27ae60;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
         }
         
         @media print {
-            button, .no-print, .filter-section {
+            button, .no-print, .filter-section, .auto-save-status {
                 display: none;
             }
             
@@ -395,9 +418,104 @@
                 border: 1px solid #ddd;
             }
         }
+        
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .login-container {
+                padding: 30px;
+            }
+            
+            .container {
+                padding: 30px;
+            }
+            
+            .filter-section {
+                flex-direction: row;
+            }
+            
+            .filter-item {
+                min-width: 200px;
+            }
+            
+            .teacher-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            table {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .login-container, .container {
+                padding: 15px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+            
+            button {
+                width: 100%;
+                margin-right: 0;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .teacher-list {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 12px;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+            }
+        }
+        
+        /* Améliorations pour le tactile */
+        @media (hover: none) and (pointer: coarse) {
+            button:hover {
+                transform: none;
+                background-color: #3498db;
+            }
+            
+            button:active {
+                transform: scale(0.98);
+            }
+            
+            input, button, select {
+                min-height: 44px;
+            }
+        }
     </style>
 </head>
-   
     
 <body>
     <div class="login-container" id="loginContainer">
@@ -437,10 +555,12 @@
                     <label for="teacherName">Nom et Prénom de l'Enseignant</label>
                     <input type="text" id="teacherName" placeholder="Ex: DUPONT Jean">
                 </div>
-                <button onclick="addTeacher()">Ajouter l'Enseignant</button>
-                <button class="reset" onclick="resetData()">Supprimer tous les enseignants</button>
-                <button class="save" onclick="saveData()">Enregistrer les données</button>
-                <button class="load" onclick="loadData()">Charger les données sauvegardées</button>
+                <div class="button-group">
+                    <button onclick="addTeacher()">Ajouter l'Enseignant</button>
+                    <button class="reset" onclick="resetData()">Supprimer tous les enseignants</button>
+                    <button class="save" onclick="saveData()">Enregistrer les données</button>
+                    <button class="load" onclick="loadData()">Charger les données sauvegardées</button>
+                </div>
             </div>
             
             <div id="teacherList" class="teacher-list"></div>
@@ -502,6 +622,10 @@
             <h2>Programme de Tontine</h2>
             <div id="programOutput"></div>
         </div>
+        
+        <div class="auto-save-status">
+            <i class="fas fa-sync-alt"></i> Sauvegarde automatique active
+        </div>
     </div>
 
     <script>
@@ -513,10 +637,17 @@
             month: 'all',
             group: 'all'
         };
+        let autoSaveInterval = null;
         
         // Identifiants de connexion
         const CORRECT_USERNAME = "KOLA";
         const CORRECT_PASSWORD = "KOLA1@";
+        
+        // Initialiser l'application
+        function initializeApp() {
+            checkAuth();
+            startAutoSave();
+        }
         
         // Vérifier si l'utilisateur est déjà connecté
         function checkAuth() {
@@ -549,6 +680,9 @@
                 if (savedData) {
                     loadData();
                 }
+                
+                // Démarrer la sauvegarde automatique
+                startAutoSave();
             } else {
                 // Afficher l'erreur de connexion
                 document.getElementById('loginError').style.display = 'block';
@@ -557,12 +691,24 @@
         
         // Fonction de déconnexion
         function logout() {
+            // Arrêter la sauvegarde automatique
+            if (autoSaveInterval) {
+                clearInterval(autoSaveInterval);
+            }
+            
             localStorage.removeItem('tontineLoggedIn');
             document.getElementById('loginContainer').style.display = 'block';
             document.getElementById('appContainer').style.display = 'none';
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             document.getElementById('loginError').style.display = 'none';
+        }
+        
+        // Démarrer la sauvegarde automatique
+        function startAutoSave() {
+            // Sauvegarde automatique toutes les 30 secondes
+            autoSaveInterval = setInterval(saveData, 30000);
+            console.log('Système de sauvegarde automatique activé');
         }
         
         // Afficher un message
@@ -616,6 +762,9 @@
             }
             
             showMessage('Enseignant ajouté avec succès');
+            
+            // Sauvegarde automatique après ajout
+            saveData();
         }
         
         // Mettre à jour la liste des enseignants
@@ -643,9 +792,9 @@
                 };
                 
                 localStorage.setItem('tontineData', JSON.stringify(dataToSave));
-                showMessage('Données enregistrées avec succès!');
+                console.log('Sauvegarde automatique effectuée à ' + new Date().toLocaleTimeString());
             } catch (error) {
-                showMessage('Erreur lors de l\'enregistrement: ' + error.message, false);
+                console.error('Erreur lors de la sauvegarde: ' + error.message);
             }
         }
         
@@ -1032,8 +1181,11 @@
             }
         }
         
-        // Vérifier l'authentification au chargement de la page
-        window.onload = checkAuth;
+        // Sauvegarde avant de quitter la page
+        window.addEventListener('beforeunload', saveData);
+        
+        // Initialiser l'application au chargement
+        window.onload = initializeApp;
     </script>
 </body>
 </html>
