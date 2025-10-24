@@ -621,141 +621,6 @@
             border-radius: 5px;
             transition: all 0.3s;
         }
-        
-        /* Media Queries pour la responsivité */
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 60px;
-                right: -100%;
-                flex-direction: column;
-                background-color: var(--primary);
-                width: 70%;
-                height: 100vh;
-                transition: right 0.3s ease;
-                padding-top: 20px;
-                z-index: 99;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links li {
-                margin: 15px 0;
-                padding-left: 20px;
-            }
-            
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-            
-            .card {
-                padding: 12px;
-            }
-            
-            table {
-                font-size: 0.8rem;
-            }
-            
-            table th, table td {
-                padding: 8px 5px;
-            }
-            
-            .btn {
-                padding: 12px;
-            }
-            
-            .month-item {
-                min-width: 40px;
-                font-size: 0.8rem;
-                padding: 6px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 1.2rem;
-            }
-            
-            .card-title {
-                font-size: 1.1rem;
-            }
-            
-            .teacher-icon {
-                font-size: 2rem;
-            }
-            
-            .member-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .member-avatar {
-                margin-right: 0;
-                margin-bottom: 8px;
-            }
-            
-            .payment-action {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .month-item {
-                min-width: 35px;
-                font-size: 0.75rem;
-                padding: 5px;
-            }
-            
-            .tabs {
-                font-size: 0.9rem;
-            }
-            
-            .tab {
-                padding: 8px 12px;
-            }
-        }
-        
-        /* Amélioration de l'expérience tactile pour mobile */
-        @media (hover: none) {
-            .btn:hover {
-                transform: none;
-                filter: brightness(0.95);
-            }
-            
-            .tab:hover {
-                background-color: transparent;
-            }
-        }
-        
-        /* Empêcher le zoom sur les champs de formulaire sur iOS */
-        @media screen and (max-width: 768px) {
-            input, select, textarea {
-                font-size: 16px !important;
-            }
-        }
-        
-        /* Styles pour les petits écrans en mode paysage */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .login-container, .registration-container {
-                margin: 10px auto;
-                padding: 10px;
-            }
-            
-            .teacher-icon {
-                font-size: 1.8rem;
-                margin-bottom: 8px;
-            }
-            
-            .card {
-                margin-bottom: 10px;
-                padding: 10px;
-            }
-        }
 
         /* Styles pour le bouton retour */
         .btn-retour {
@@ -784,6 +649,538 @@
             padding: 10px;
             background-color: #f8f9fa;
             border-radius: 6px;
+        }
+
+        /* ========== STYLES RESPONSIVE ========== */
+
+        /* Petits écrans mobiles (jusqu'à 360px) */
+        @media (max-width: 360px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .login-container, .registration-container {
+                padding: 10px;
+                margin: 10px auto;
+            }
+            
+            .logo {
+                font-size: 1.1rem;
+                max-width: 50%;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                flex-direction: column;
+                background-color: var(--primary);
+                width: 80%;
+                height: 100vh;
+                transition: right 0.3s ease;
+                padding-top: 20px;
+                z-index: 99;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 12px 0;
+                padding-left: 20px;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .card {
+                padding: 10px;
+                margin-bottom: 12px;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+            
+            .btn {
+                padding: 10px;
+                font-size: 0.9rem;
+                margin: 6px 0;
+            }
+            
+            .form-control {
+                padding: 10px;
+                font-size: 16px; /* Éviter le zoom sur iOS */
+            }
+            
+            table {
+                font-size: 0.75rem;
+            }
+            
+            table th, table td {
+                padding: 6px 4px;
+            }
+            
+            .group-cards {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .group-card {
+                padding: 12px;
+            }
+            
+            .group-amount {
+                font-size: 1.1rem;
+            }
+            
+            .teacher-icon {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+            
+            .member-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px;
+            }
+            
+            .member-avatar {
+                margin-right: 0;
+                margin-bottom: 8px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .month-item {
+                min-width: 35px;
+                font-size: 0.7rem;
+                padding: 5px;
+            }
+            
+            .tabs {
+                font-size: 0.85rem;
+            }
+            
+            .tab {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+            
+            .alert {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .badge {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+            
+            .whatsapp-group-link, .payment-link {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .btn-retour {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Mobiles standards (361px à 480px) */
+        @media (min-width: 361px) and (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+            
+            .login-container, .registration-container {
+                padding: 12px;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+                max-width: 55%;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                flex-direction: column;
+                background-color: var(--primary);
+                width: 70%;
+                height: 100vh;
+                transition: right 0.3s ease;
+                padding-top: 20px;
+                z-index: 99;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+                padding-left: 20px;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .card {
+                padding: 12px;
+            }
+            
+            .card-title {
+                font-size: 1.15rem;
+            }
+            
+            .btn {
+                padding: 11px;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            table th, table td {
+                padding: 8px 5px;
+            }
+            
+            .group-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .month-item {
+                min-width: 40px;
+                font-size: 0.8rem;
+                padding: 6px;
+            }
+            
+            .teacher-icon {
+                font-size: 2rem;
+            }
+            
+            .member-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .member-avatar {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+            
+            .payment-action {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Tablettes et écrans moyens (481px à 768px) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .login-container, .registration-container {
+                max-width: 90%;
+            }
+            
+            .nav-links {
+                position: static;
+                flex-direction: row;
+                width: auto;
+                height: auto;
+                background-color: transparent;
+                padding-top: 0;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .group-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .registration-form {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-section-title {
+                grid-column: span 2;
+            }
+            
+            .form-full-width {
+                grid-column: span 2;
+            }
+            
+            .member-card {
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .member-avatar {
+                margin-right: 12px;
+                margin-bottom: 0;
+            }
+            
+            .payment-action {
+                flex-direction: row;
+                justify-content: space-around;
+            }
+        }
+
+        /* Tablettes larges et petits écrans desktop (769px à 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .login-container, .registration-container {
+                max-width: 80%;
+                padding: 25px;
+            }
+            
+            .group-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .registration-form {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .form-section-title {
+                grid-column: span 2;
+            }
+            
+            .form-full-width {
+                grid-column: span 2;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        /* Grands écrans (1025px et plus) */
+        @media (min-width: 1025px) {
+            .group-cards {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .registration-form {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .form-section-title {
+                grid-column: span 2;
+            }
+            
+            .form-full-width {
+                grid-column: span 2;
+            }
+            
+            .dashboard {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        /* Très grands écrans (1400px et plus) */
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1400px;
+            }
+            
+            .group-cards {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 25px;
+            }
+            
+            .group-card {
+                padding: 25px;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+        }
+
+        /* Améliorations pour le tactile */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+                filter: brightness(0.95);
+            }
+            
+            .tab:hover {
+                background-color: transparent;
+            }
+            
+            .group-card:hover {
+                transform: none;
+            }
+            
+            input, button, select {
+                min-height: 44px;
+            }
+            
+            .member-card {
+                cursor: pointer;
+            }
+        }
+
+        /* Support pour les préférences de contraste élevé */
+        @media (prefers-contrast: high) {
+            :root {
+                --primary: #0066cc;
+                --secondary: #008000;
+                --dark: #000000;
+            }
+            
+            .card, .group-card, .member-card {
+                border: 2px solid #333;
+            }
+            
+            table th {
+                background-color: #e0e0e0;
+            }
+        }
+
+        /* Support pour la réduction des animations */
+        @media (prefers-reduced-motion: reduce) {
+            .group-card, .btn, .tab {
+                transition: none;
+            }
+            
+            .group-card:hover, .btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Mode paysage sur mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .login-container, .registration-container {
+                margin: 10px auto;
+                padding: 10px;
+            }
+            
+            .teacher-icon {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+            
+            .card {
+                margin-bottom: 10px;
+                padding: 10px;
+            }
+            
+            .btn {
+                padding: 8px;
+                margin: 5px 0;
+            }
+        }
+
+        /* Styles d'impression */
+        @media print {
+            .btn-retour, .no-print, .menu-toggle, .payment-action, 
+            .auto-save-status, .btn, .tabs, .nav-links {
+                display: none !important;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+            
+            .card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .group-card {
+                page-break-inside: avoid;
+                border: 1px solid #ddd;
+            }
+            
+            table {
+                font-size: 10pt;
+            }
+            
+            th {
+                background-color: #f0f0f0 !important;
+                color: black !important;
+            }
+            
+            .hidden {
+                display: none !important;
+            }
+            
+            #login-section, #registration-section {
+                display: none !important;
+            }
+            
+            #dashboard-section {
+                display: block !important;
+            }
+        }
+
+        /* Impression en mode paysage */
+        @media print and (orientation: landscape) {
+            .group-cards {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Impression en mode portrait */
+        @media print and (orientation: portrait) {
+            .group-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .group-card {
+                break-inside: avoid;
+            }
+        }
+
+        .print-only {
+            display: none;
+        }
+        
+        @media print {
+            .print-only {
+                display: block;
+            }
+            
+            .no-print {
+                display: none;
+            }
+        }
+
+        /* Empêcher le zoom sur les champs de formulaire sur iOS */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
         }
     </style>
 </head>
