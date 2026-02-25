@@ -2,933 +2,953 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion de Tontine pour Enseignants</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Tontine Enseignants - Administration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        
+
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
+            align-items: center;
+            padding: 20px;
         }
-        
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+            --radius: 24px;
+            --radius-sm: 16px;
+            --radius-xs: 12px;
+        }
+
+        /* Écran de connexion */
         .login-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 25px;
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px 30px;
             width: 100%;
-            max-width: 400px;
-            margin: 20px auto;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.5s ease;
         }
-        
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .login-container h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 24px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), #9333ea);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-        
+
         .login-form .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        
+
         .login-form label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray);
+            font-size: 0.95rem;
         }
-        
+
         .login-form input {
             width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
+            padding: 14px 16px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius-xs);
+            font-size: 1rem;
+            transition: all 0.2s;
         }
-        
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
         .login-btn {
             width: 100%;
-            background-color: #3498db;
+            background: linear-gradient(135deg, var(--primary), #9333ea);
             color: white;
             border: none;
-            padding: 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
+            padding: 16px;
+            border-radius: var(--radius-xs);
+            font-size: 1.1rem;
             font-weight: 600;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-md);
         }
-        
+
         .login-btn:hover {
-            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            filter: brightness(1.1);
         }
-        
+
         .error-message {
-            color: #e74c3c;
+            color: var(--danger);
             text-align: center;
-            margin-top: 15px;
+            margin-top: 16px;
+            font-size: 0.95rem;
+            padding: 12px;
+            background: #fee2e2;
+            border-radius: var(--radius-xs);
             display: none;
-            font-size: 14px;
         }
-        
+
+        /* Application principale */
         .container {
             display: none;
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
             width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eaeaea;
+
+        .main-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
             position: relative;
         }
-        
-        h1 {
-            color: #2c3e50;
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), #9333ea);
+            color: white;
+            padding: 30px;
+            position: relative;
+        }
+
+        .app-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
             margin-bottom: 10px;
-            font-size: 28px;
         }
-        
-        .description {
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            font-size: 16px;
+
+        .app-header .description {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            max-width: 600px;
         }
-        
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
         .section {
+            background: #f8fafc;
+            border-radius: var(--radius-sm);
+            padding: 24px;
             margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
+            border: 1px solid var(--gray-light);
         }
-        
-        h2 {
-            color: #3498db;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eaeaea;
-            font-size: 22px;
+
+        .section h2 {
+            color: var(--dark);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
-        h3 {
-            color: #2c3e50;
-            margin: 20px 0 15px;
-            font-size: 18px;
+
+        .section h2 i {
+            color: var(--primary);
         }
-        
-        .form-group {
-            margin-bottom: 15px;
+
+        /* Formulaire d'ajout */
+        .teacher-form {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            margin-bottom: 24px;
         }
-        
-        label {
+
+        .teacher-form .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .teacher-form label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray);
         }
-        
-        input[type="text"], select {
+
+        .teacher-form input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
+            padding: 14px 16px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius-xs);
+            font-size: 1rem;
+            transition: all 0.2s;
         }
-        
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            margin-right: 10px;
-            margin-bottom: 10px;
+
+        .teacher-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
         }
-        
-        button:hover {
-            background-color: #2980b9;
-        }
-        
-        button.print {
-            background-color: #27ae60;
-        }
-        
-        button.print:hover {
-            background-color: #219653;
-        }
-        
-        button.reset {
-            background-color: #e74c3c;
-        }
-        
-        button.reset:hover {
-            background-color: #c0392b;
-        }
-        
-        button.print-teacher {
-            background-color: #9b59b6;
-        }
-        
-        button.print-teacher:hover {
-            background-color: #8e44ad;
-        }
-        
-        button.save {
-            background-color: #f39c12;
-        }
-        
-        button.save:hover {
-            background-color: #e67e22;
-        }
-        
-        button.load {
-            background-color: #16a085;
-        }
-        
-        button.load:hover {
-            background-color: #1abc9c;
-        }
-        
-        button.logout {
-            background-color: #7f8c8d;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        
-        button.logout:hover {
-            background-color: #636e72;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        
-        th, td {
-            padding: 12px 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        th {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        
-        .teacher-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .teacher-card {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        
-        .error-container {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        
-        .group-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-right: 5px;
-            margin-bottom: 5px;
-        }
-        
-        .group-1000 { background-color: #ffeaa7; color: #d35400; }
-        .group-2000 { background-color: #81ecec; color: #00b894; }
-        .group-5000 { background-color: #fab1a0; color: #d63031; }
-        .group-10000 { background-color: #a29bfe; color: #2d3436; }
-        
-        .filter-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .filter-item {
-            flex: 1;
-            min-width: 100%;
-        }
-        
-        .teacher-details {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .summary-card {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
-        }
-        
-        .summary-card h4 {
-            color: #3498db;
-            margin-bottom: 10px;
-        }
-        
+
         .button-group {
             display: flex;
+            gap: 12px;
             flex-wrap: wrap;
-            gap: 10px;
             margin: 20px 0;
         }
-        
-        .teacher-header {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .auto-save-status {
-            display: flex;
+
+        .btn {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 10px;
-            font-size: 14px;
-            color: #27ae60;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
+            padding: 14px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+            min-width: 160px;
         }
 
-        /* ========== STYLES RESPONSIVE ========== */
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
 
-        /* Petits écrans mobiles (jusqu'à 360px) */
-        @media (max-width: 360px) {
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #0d9488;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #ea580c;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-purple {
+            background: #9333ea;
+            color: white;
+        }
+
+        .btn-purple:hover {
+            background: #7e22ce;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gray-light);
+            color: var(--dark);
+        }
+
+        .btn-outline:hover {
+            background: var(--light);
+            border-color: var(--primary);
+        }
+
+        .btn-info {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+        }
+
+        /* Grille des enseignants */
+        .teacher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .teacher-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-light);
+            transition: all 0.3s;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .teacher-card strong {
+            font-size: 1.1rem;
+            color: var(--dark);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .teacher-card small {
+            color: var(--gray);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .teacher-badges {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .group-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .group-1000 {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .group-2000 {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .group-5000 {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+
+        .group-10000 {
+            background: #e9d5ff;
+            color: #6b21a8;
+        }
+
+        /* Filtres */
+        .filter-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-item {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-item label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .filter-item select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius-xs);
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .filter-item select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Tableaux */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: var(--radius-sm);
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 16px 12px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        tr:hover {
+            background: #f1f5f9;
+        }
+
+        /* Détails enseignant */
+        .teacher-details {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-light);
+        }
+
+        .teacher-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .teacher-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .summary-card {
+            background: #f8fafc;
+            border-radius: var(--radius-xs);
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .summary-card p {
+            margin: 8px 0;
+            color: var(--dark);
+        }
+
+        /* Graphiques */
+        .chart-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-light);
+        }
+
+        .chart-card h4 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-card h4 i {
+            color: var(--primary);
+        }
+
+        canvas {
+            max-height: 300px;
+            max-width: 100%;
+        }
+
+        /* Messages */
+        .success-message, .error-container {
+            padding: 16px 20px;
+            border-radius: var(--radius-xs);
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .error-container {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Auto-save indicator */
+        .auto-save-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 40px;
+            box-shadow: var(--shadow-lg);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--gray-light);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+        }
+
+        .auto-save-status i {
+            color: var(--secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
-            
-            .login-container, .container {
-                padding: 15px;
-            }
-            
-            .login-container h2 {
-                font-size: 20px;
-            }
-            
-            .login-form input, .login-btn {
-                padding: 12px;
-                font-size: 16px;
-            }
-            
-            h1 {
-                font-size: 22px;
-                margin-bottom: 8px;
-            }
-            
-            .description {
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-            
-            .section {
-                padding: 15px;
-                margin-bottom: 20px;
-            }
-            
-            h2 {
-                font-size: 18px;
-                margin-bottom: 12px;
-            }
-            
-            h3 {
-                font-size: 16px;
-                margin: 15px 0 10px;
-            }
-            
-            button {
-                width: 100%;
-                margin-right: 0;
-                padding: 14px;
-                font-size: 15px;
-            }
-            
-            .button-group {
-                flex-direction: column;
-                gap: 8px;
-                margin: 15px 0;
-            }
-            
-            .teacher-list {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .teacher-card {
-                padding: 12px;
-            }
-            
-            table {
-                font-size: 12px;
-            }
-            
-            th, td {
-                padding: 8px 6px;
-            }
-            
-            .filter-section {
-                gap: 10px;
-            }
-            
-            .teacher-details {
-                padding: 15px;
-            }
-            
-            .summary-card {
-                padding: 12px;
-            }
-            
-            .group-badge {
-                font-size: 10px;
-                padding: 3px 8px;
-            }
-            
-            .logout {
-                position: relative;
-                top: 0;
-                right: 0;
-                width: 100%;
-                margin-top: 10px;
-            }
-            
-            header {
-                padding-bottom: 15px;
-                margin-bottom: 20px;
-            }
-        }
 
-        /* Mobiles standards (361px à 480px) */
-        @media (min-width: 361px) and (max-width: 480px) {
-            body {
-                padding: 12px;
-            }
-            
-            .login-container, .container {
-                padding: 18px;
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-            
-            h2 {
-                font-size: 20px;
-            }
-            
-            button {
-                width: 100%;
-                margin-right: 0;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .teacher-list {
-                grid-template-columns: 1fr;
-            }
-            
-            table {
-                font-size: 13px;
-            }
-            
-            th, td {
-                padding: 10px 8px;
-            }
-            
-            .filter-section {
-                flex-direction: column;
-            }
-            
-            .logout {
-                position: relative;
-                top: 0;
-                right: 0;
-                width: 100%;
-                margin-top: 10px;
-            }
-        }
-
-        /* Tablettes et écrans moyens (481px à 768px) */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .login-container {
-                padding: 30px;
-            }
-            
-            .container {
-                padding: 25px;
-            }
-            
-            .filter-section {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            
-            .filter-item {
-                min-width: calc(50% - 10px);
-            }
-            
-            .teacher-header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            h1 {
-                font-size: 28px;
-            }
-            
-            h2 {
-                font-size: 22px;
-            }
-            
-            table {
-                font-size: 15px;
-            }
-            
-            .teacher-list {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .logout {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                width: auto;
-            }
-        }
-
-        /* Tablettes larges et petits écrans desktop (769px à 1024px) */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 30px;
-            }
-            
-            .filter-section {
-                flex-direction: row;
-            }
-            
-            .filter-item {
-                min-width: 200px;
-            }
-            
-            .teacher-list {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            table {
-                font-size: 15px;
-            }
-        }
-
-        /* Grands écrans (1025px et plus) */
-        @media (min-width: 1025px) {
-            .teacher-list {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .filter-section {
-                flex-direction: row;
-            flex-wrap: nowrap;
-            gap: 20px;
-            margin-bottom: 25px;
-            padding: 15px;
-                background-color: white;
-                border-radius: 8px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            }
-            
-            .filter-item {
-                min-width: 220px;
-            }
-        }
-
-        /* Très grands écrans (1400px et plus) */
-        @media (min-width: 1400px) {
-            .container {
-                max-width: 1400px;
-            }
-            
-            .teacher-list {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 20px;
-            }
-            
-            .teacher-card {
+            .app-header {
                 padding: 20px;
             }
-            
-            .section {
-                padding: 30px;
-            }
-        }
 
-        /* Améliorations pour le tactile */
-        @media (hover: none) and (pointer: coarse) {
-            button:hover {
-                background-color: #3498db;
+            .app-header h1 {
+                font-size: 1.6rem;
             }
-            
-            button:active {
-                transform: scale(0.98);
-                background-color: #2980b9;
-            }
-            
-            input, button, select {
-                min-height: 44px;
-            }
-            
-            .teacher-card {
-                cursor: pointer;
-            }
-            
-            .teacher-card:active {
-                transform: scale(0.98);
-            }
-        }
 
-        /* Support pour les préférences de contraste élevé */
-        @media (prefers-contrast: high) {
-            :root {
-                --primary: #0066cc;
-                --secondary: #008000;
+            .app-header .description {
+                font-size: 0.95rem;
+                margin-bottom: 60px;
             }
-            
-            .teacher-card, .summary-card, .teacher-details {
-                border: 2px solid #333;
-            }
-            
-            th {
-                background-color: #0066cc;
-            }
-        }
 
-        /* Support pour la réduction des animations */
-        @media (prefers-reduced-motion: reduce) {
-            .teacher-card, button {
-                transition: none;
+            .logout-btn {
+                top: 15px;
+                right: 15px;
+                padding: 8px 16px;
+                font-size: 0.9rem;
             }
-            
-            .teacher-card:hover, button:hover {
-                transform: none;
-            }
-        }
 
-        /* Mode paysage sur mobile */
-        @media (max-height: 500px) and (orientation: landscape) {
-            body {
+            .content {
+                padding: 20px;
+            }
+
+            .teacher-form {
+                flex-direction: column;
+            }
+
+            .teacher-form .form-group {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .filter-section {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .filter-item {
+                width: 100%;
+            }
+
+            .teacher-header {
+                flex-direction: column;
                 align-items: flex-start;
-                padding: 10px;
             }
-            
-            .login-container {
-                margin: 10px auto;
+
+            .teacher-header button {
+                width: 100%;
             }
-            
-            .container {
-                margin: 10px auto;
+
+            .chart-row {
+                grid-template-columns: 1fr;
             }
-            
-            .section {
-                padding: 15px;
-                margin-bottom: 15px;
-            }
-            
-            h1 {
-                font-size: 24px;
-                margin-bottom: 8px;
-            }
-            
-            h2 {
-                font-size: 20px;
-                margin-bottom: 10px;
+
+            .auto-save-status {
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 8px 16px;
             }
         }
 
-        /* Styles d'impression */
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-                font-size: 12pt;
-            }
-            
-            .login-container, .no-print, .filter-section, .auto-save-status, 
-            .button-group, .logout, .teacher-header button {
-                display: none !important;
-            }
-            
-            .container {
-                box-shadow: none;
-                padding: 0;
-                margin: 0;
-                max-width: 100%;
-                background: white;
-            }
-            
-            .section {
-                page-break-inside: avoid;
-                background: white;
-                border: 1px solid #ddd;
-                margin-bottom: 20px;
-            }
-            
-            .teacher-details {
-                page-break-inside: avoid;
-                margin-bottom: 25px;
-                border: 1px solid #ddd;
-            }
-            
-            table {
-                font-size: 10pt;
-            }
-            
-            th {
-                background-color: #f8f9fa !important;
-                color: black !important;
-                border-bottom: 2px solid #333;
-            }
-            
-            .teacher-list {
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .teacher-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .teacher-card {
-                border: 1px solid #ddd;
+            .chart-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Impression */
+        @media print {
+            .no-print, .logout-btn, .btn, .filter-section, .auto-save-status, .teacher-header button {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                display: block !important;
+            }
+
+            .main-card {
                 box-shadow: none;
+                border: 1px solid #ddd;
             }
-            
-            .group-badge {
-                border: 1px solid #333;
+
+            .app-header {
+                background: white;
+                color: black;
+                border-bottom: 2px solid #333;
             }
-            
-            h1, h2, h3 {
+
+            .section {
+                break-inside: avoid;
+                border: 1px solid #ddd;
+                background: white;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th {
+                background: #f0f0f0 !important;
                 color: black !important;
             }
             
-            .description {
-                color: #666 !important;
+            canvas {
+                max-height: 200px;
             }
         }
 
-        /* Impression en mode paysage */
-        @media print and (orientation: landscape) {
-            .teacher-list {
-                grid-template-columns: repeat(3, 1fr);
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
             }
-            
-            table {
-                font-size: 9pt;
-            }
-        }
-
-        /* Impression en mode portrait */
-        @media print and (orientation: portrait) {
-            .teacher-details {
-                break-inside: avoid;
+            50% {
+                transform: scale(1.05);
             }
         }
 
-        .print-only {
-            display: none;
-        }
-        
-        @media print {
-            .print-only {
-                display: block;
-            }
-            
-            .no-print {
-                display: none;
-            }
-            
-            h1 {
-                text-align: center;
-                margin-bottom: 20px;
-            }
-            
-            .summary-card {
-                border: 1px solid #ddd;
-            }
+        .pulse {
+            animation: pulse 2s infinite;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-    
 <body>
+    <!-- Écran de connexion -->
     <div class="login-container" id="loginContainer">
-        <h2>Connexion à la Tontine</h2>
+        <h2><i class="fas fa-hand-holding-usd"></i> Tontine Admin</h2>
         <form class="login-form" onsubmit="event.preventDefault(); login();">
             <div class="form-group">
-                <label for="username">Identifiant</label>
+                <label><i class="fas fa-user"></i> Identifiant</label>
                 <input type="text" id="username" placeholder="Entrez votre identifiant" required>
             </div>
             <div class="form-group">
-                <label for="password">Mot de passe</label>
+                <label><i class="fas fa-lock"></i> Mot de passe</label>
                 <input type="password" id="password" placeholder="Entrez votre mot de passe" required>
             </div>
-            <button type="submit" class="login-btn">Se connecter</button>
-            <div class="error-message" id="loginError">Identifiant ou mot de passe incorrect</div>
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Se connecter
+            </button>
+            <div class="error-message" id="loginError">
+                <i class="fas fa-exclamation-circle"></i> Identifiant ou mot de passe incorrect
+            </div>
         </form>
     </div>
 
+    <!-- Application principale -->
     <div class="container" id="appContainer">
-        <button class="logout no-print" onclick="logout()">Déconnexion</button>
-        
-        <header>
-            <h1>Gestion de Tontine pour Enseignants</h1>
-            <p class="description">Générateur de programme de tontine équitable pour 10 enseignants avec 4 groupes de cotisation</p>
-        </header>
-        
-        <div class="success-message" id="successMessage">
-            Programme généré avec succès! Vous pouvez maintenant visualiser et imprimer le planning.
-        </div>
-        
-        <div class="error-container" id="errorMessage"></div>
-        
-        <div class="section">
-            <h2>Enregistrement des Enseignants</h2>
-            <div id="teacherForm">
-                <div class="form-group">
-                    <label for="teacherName">Nom et Prénom de l'Enseignant</label>
-                    <input type="text" id="teacherName" placeholder="Ex: DUPONT Jean">
+        <div class="main-card">
+            <!-- En-tête -->
+            <div class="app-header">
+                <h1><i class="fas fa-chalkboard-teacher"></i> Gestion de Tontine Enseignants</h1>
+                <p class="description">Générateur de programme de tontine équitable pour 10 enseignants avec 4 groupes de cotisation</p>
+                <button class="logout-btn no-print" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
+
+            <!-- Contenu -->
+            <div class="content">
+                <!-- Messages -->
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i> <span></span>
                 </div>
-                <div class="button-group">
-                    <button onclick="addTeacher()">Ajouter l'Enseignant</button>
-                    <button class="reset" onclick="resetData()">Supprimer tous les enseignants</button>
-                    <button class="save" onclick="saveData()">Enregistrer les données</button>
-                    <button class="load" onclick="loadData()">Charger les données sauvegardées</button>
+                <div class="error-container" id="errorMessage">
+                    <i class="fas fa-exclamation-triangle"></i> <span></span>
+                </div>
+
+                <!-- Section Enregistrement -->
+                <div class="section">
+                    <h2><i class="fas fa-user-plus"></i> Enregistrement des Enseignants</h2>
+                    
+                    <div class="teacher-form">
+                        <div class="form-group">
+                            <label for="teacherName">Nom et Prénom de l'Enseignant</label>
+                            <input type="text" id="teacherName" placeholder="Ex: DUPONT Jean">
+                        </div>
+                        <button class="btn btn-primary" onclick="addTeacher()">
+                            <i class="fas fa-plus-circle"></i> Ajouter
+                        </button>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-danger" onclick="resetData()">
+                            <i class="fas fa-trash-alt"></i> Tout supprimer
+                        </button>
+                        <button class="btn btn-warning" onclick="saveData()">
+                            <i class="fas fa-save"></i> Enregistrer
+                        </button>
+                        <button class="btn btn-success" onclick="loadData()">
+                            <i class="fas fa-folder-open"></i> Charger
+                        </button>
+                    </div>
+
+                    <div id="teacherList" class="teacher-grid"></div>
+                </div>
+
+                <!-- Section Génération -->
+                <div class="section no-print">
+                    <h2><i class="fas fa-cogs"></i> Génération du Programme</h2>
+                    <p class="description">Après avoir ajouté 10 enseignants, vous pourrez générer le programme de tontine.</p>
+                    <div class="button-group">
+                        <button class="btn btn-purple" onclick="generateProgram()" id="generateBtn" disabled>
+                            <i class="fas fa-play"></i> Générer le Programme
+                        </button>
+                        <button class="btn btn-info" onclick="exportAllToCSV()" id="exportBtn" disabled>
+                            <i class="fas fa-file-csv"></i> Exporter en CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section Programme -->
+                <div class="section" id="programSection" style="display: none;">
+                    <div class="button-group no-print">
+                        <button class="btn btn-success" onclick="window.print()">
+                            <i class="fas fa-print"></i> Imprimer tout
+                        </button>
+                        <button class="btn btn-purple" onclick="printFilteredTeachers()">
+                            <i class="fas fa-user-print"></i> Imprimer filtrés
+                        </button>
+                        <button class="btn btn-info" onclick="exportAllToCSV()">
+                            <i class="fas fa-file-csv"></i> Exporter CSV
+                        </button>
+                        <button class="btn btn-danger" onclick="resetData()">
+                            <i class="fas fa-trash-alt"></i> Réinitialiser
+                        </button>
+                    </div>
+
+                    <h2><i class="fas fa-filter"></i> Filtres</h2>
+                    <div class="filter-section no-print">
+                        <div class="filter-item">
+                            <label for="teacherFilter"><i class="fas fa-user"></i> Enseignant</label>
+                            <select id="teacherFilter" onchange="filterByTeacher()">
+                                <option value="all">Tous les enseignants</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label for="monthFilter"><i class="fas fa-calendar"></i> Mois</label>
+                            <select id="monthFilter" onchange="filterByMonth()">
+                                <option value="all">Tous les mois</option>
+                                <option value="1">Mois 1</option>
+                                <option value="2">Mois 2</option>
+                                <option value="3">Mois 3</option>
+                                <option value="4">Mois 4</option>
+                                <option value="5">Mois 5</option>
+                                <option value="6">Mois 6</option>
+                                <option value="7">Mois 7</option>
+                                <option value="8">Mois 8</option>
+                                <option value="9">Mois 9</option>
+                                <option value="10">Mois 10</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label for="groupFilter"><i class="fas fa-money-bill"></i> Groupe</label>
+                            <select id="groupFilter" onchange="filterByGroup()">
+                                <option value="all">Tous les groupes</option>
+                                <option value="1000">1000 FCFA</option>
+                                <option value="2000">2000 FCFA</option>
+                                <option value="5000">5000 FCFA</option>
+                                <option value="10000">10000 FCFA</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Section des graphiques globaux -->
+                    <div class="chart-container no-print" id="globalCharts" style="display: none;">
+                        <h3><i class="fas fa-chart-pie"></i> Statistiques globales</h3>
+                        <div class="chart-row">
+                            <div class="chart-card">
+                                <h4><i class="fas fa-chart-bar"></i> Répartition par groupe</h4>
+                                <canvas id="globalGroupChart"></canvas>
+                            </div>
+                            <div class="chart-card">
+                                <h4><i class="fas fa-chart-line"></i> Évolution mensuelle</h4>
+                                <canvas id="globalMonthlyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="teacherDetails"></div>
+                    
+                    <h2><i class="fas fa-table"></i> Programme de Tontine</h2>
+                    <div id="programOutput"></div>
                 </div>
             </div>
-            
-            <div id="teacherList" class="teacher-list"></div>
-        </div>
-        
-        <div class="section no-print">
-            <h2>Génération du Programme</h2>
-            <p>Après avoir ajouté 10 enseignants, vous pourrez générer le programme de tontine.</p>
-            <button onclick="generateProgram()" id="generateBtn" disabled>Générer le Programme</button>
-        </div>
-        
-        <div class="section" id="programSection" style="display: none;">
-            <div class="button-group">
-                <button onclick="window.print()" class="print">Imprimer tout le Programme</button>
-                <button onclick="printFilteredTeachers()" class="print-teacher">Imprimer les enseignants filtrés</button>
-                <button class="reset" onclick="resetData()">Supprimer toutes les données</button>
-                <button class="save" onclick="saveData()">Enregistrer les données</button>
-                <button class="load" onclick="loadData()">Charger les données sauvegardées</button>
-            </div>
-            
-            <h2>Filtres</h2>
-            <div class="filter-section">
-                <div class="filter-item">
-                    <label for="teacherFilter">Filtrer par enseignant</label>
-                    <select id="teacherFilter" onchange="filterByTeacher()">
-                        <option value="all">Tous les enseignants</option>
-                    </select>
-                </div>
-                <div class="filter-item">
-                    <label for="monthFilter">Filtrer par mois</label>
-                    <select id="monthFilter" onchange="filterByMonth()">
-                        <option value="all">Tous les mois</option>
-                        <option value="1">Mois 1</option>
-                        <option value="2">Mois 2</option>
-                        <option value="3">Mois 3</option>
-                        <option value="4">Mois 4</option>
-                        <option value="5">Mois 5</option>
-                        <option value="6">Mois 6</option>
-                        <option value="7">Mois 7</option>
-                        <option value="8">Mois 8</option>
-                        <option value="9">Mois 9</option>
-                        <option value="10">Mois 10</option>
-                    </select>
-                </div>
-                <div class="filter-item">
-                    <label for="groupFilter">Filtrer par groupe</label>
-                    <select id="groupFilter" onchange="filterByGroup()">
-                        <option value="all">Tous les groupes</option>
-                        <option value="1000">1000 FCFA</option>
-                        <option value="2000">2000 FCFA</option>
-                        <option value="5000">5000 FCFA</option>
-                        <option value="10000">10000 FCFA</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div id="teacherDetails"></div>
-            
-            <h2>Programme de Tontine</h2>
-            <div id="programOutput"></div>
-        </div>
-        
-        <div class="auto-save-status">
-            <i class="fas fa-sync-alt"></i> Sauvegarde automatique active
         </div>
     </div>
 
+    <!-- Indicateur de sauvegarde -->
+    <div class="auto-save-status no-print" id="autoSaveIndicator">
+        <i class="fas fa-sync-alt fa-spin"></i> Sauvegarde automatique
+    </div>
+
     <script>
+        // Configuration
+        const CORRECT_USERNAME = "KOLA";
+        const CORRECT_PASSWORD = "KOLA1@";
+        const TOTAL_TEACHERS = 10;
+        
         // Variables globales
         let teachers = [];
         let programGenerated = false;
@@ -939,63 +959,56 @@
         };
         let autoSaveInterval = null;
         
-        // Identifiants de connexion
-        const CORRECT_USERNAME = "KOLA";
-        const CORRECT_PASSWORD = "KOLA1@";
-        
-        // Initialiser l'application
-        function initializeApp() {
+        // Références des graphiques
+        let teacherCharts = {};
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
             checkAuth();
             startAutoSave();
+            hideAutoSaveIndicator();
+        });
+
+        function hideAutoSaveIndicator() {
+            document.getElementById('autoSaveIndicator').style.display = 'none';
         }
-        
-        // Vérifier si l'utilisateur est déjà connecté
+
+        function showAutoSaveIndicator() {
+            const indicator = document.getElementById('autoSaveIndicator');
+            indicator.style.display = 'flex';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 2000);
+        }
+
         function checkAuth() {
             const isLoggedIn = localStorage.getItem('tontineLoggedIn');
             if (isLoggedIn === 'true') {
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('appContainer').style.display = 'block';
-                
-                // Charger les données sauvegardées si elles existent
-                const savedData = localStorage.getItem('tontineData');
-                if (savedData) {
-                    loadData();
-                }
+                loadData();
             }
         }
-        
-        // Fonction de connexion
+
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
             if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-                // Connexion réussie
                 localStorage.setItem('tontineLoggedIn', 'true');
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('appContainer').style.display = 'block';
-                
-                // Charger les données sauvegardées si elles existent
-                const savedData = localStorage.getItem('tontineData');
-                if (savedData) {
-                    loadData();
-                }
-                
-                // Démarrer la sauvegarde automatique
-                startAutoSave();
+                loadData();
+                showMessage('Connexion réussie !', true);
             } else {
-                // Afficher l'erreur de connexion
                 document.getElementById('loginError').style.display = 'block';
             }
         }
-        
-        // Fonction de déconnexion
+
         function logout() {
-            // Arrêter la sauvegarde automatique
             if (autoSaveInterval) {
                 clearInterval(autoSaveInterval);
             }
-            
             localStorage.removeItem('tontineLoggedIn');
             document.getElementById('loginContainer').style.display = 'block';
             document.getElementById('appContainer').style.display = 'none';
@@ -1003,36 +1016,31 @@
             document.getElementById('password').value = '';
             document.getElementById('loginError').style.display = 'none';
         }
-        
-        // Démarrer la sauvegarde automatique
+
         function startAutoSave() {
-            // Sauvegarde automatique toutes les 30 secondes
-            autoSaveInterval = setInterval(saveData, 30000);
-            console.log('Système de sauvegarde automatique activé');
+            autoSaveInterval = setInterval(() => {
+                if (teachers.length > 0) {
+                    saveData();
+                    showAutoSaveIndicator();
+                }
+            }, 30000);
         }
-        
-        // Afficher un message
+
         function showMessage(message, isSuccess = true) {
-            const messageElement = isSuccess ? 
+            const msgElement = isSuccess ? 
                 document.getElementById('successMessage') : 
                 document.getElementById('errorMessage');
-                
-            const otherElement = isSuccess ? 
-                document.getElementById('errorMessage') : 
-                document.getElementById('successMessage');
-                
-            messageElement.textContent = message;
-            messageElement.style.display = 'block';
-            otherElement.style.display = 'none';
+            const span = msgElement.querySelector('span');
+            span.textContent = message;
+            msgElement.style.display = 'block';
             
             if (isSuccess) {
                 setTimeout(() => {
-                    messageElement.style.display = 'none';
+                    msgElement.style.display = 'none';
                 }, 3000);
             }
         }
-        
-        // Ajouter un enseignant
+
         function addTeacher() {
             const nameInput = document.getElementById('teacherName');
             const name = nameInput.value.trim();
@@ -1042,8 +1050,8 @@
                 return;
             }
             
-            if (teachers.length >= 10) {
-                showMessage('Vous avez déjà ajouté 10 enseignants', false);
+            if (teachers.length >= TOTAL_TEACHERS) {
+                showMessage(`Maximum ${TOTAL_TEACHERS} enseignants atteint`, false);
                 return;
             }
             
@@ -1051,23 +1059,27 @@
                 id: teachers.length + 1,
                 name: name,
                 identifier: `PROF${String(teachers.length + 1).padStart(3, '0')}`,
-                password: `Tontine@${String(teachers.length + 1).padStart(2, '0')}`
+                password: `Tontine@${String(teachers.length + 1).padStart(2, '0')}`,
+                gains1000: 0,
+                gains2000: 0,
+                gains5000: 0,
+                gains10000: 0,
+                collections: []
             });
             
             updateTeacherList();
             nameInput.value = '';
             
-            if (teachers.length === 10) {
+            if (teachers.length === TOTAL_TEACHERS) {
                 document.getElementById('generateBtn').disabled = false;
+                document.getElementById('exportBtn').disabled = false;
+                document.getElementById('generateBtn').classList.add('pulse');
             }
             
             showMessage('Enseignant ajouté avec succès');
-            
-            // Sauvegarde automatique après ajout
             saveData();
         }
-        
-        // Mettre à jour la liste des enseignants
+
         function updateTeacherList() {
             const teacherList = document.getElementById('teacherList');
             teacherList.innerHTML = '';
@@ -1076,34 +1088,38 @@
                 const card = document.createElement('div');
                 card.className = 'teacher-card';
                 card.innerHTML = `
-                    <strong>${teacher.name}</strong><br>
-                    <small>ID: ${teacher.identifier} | Mot de passe: ${teacher.password}</small>
+                    <strong><i class="fas fa-user-circle"></i> ${teacher.name}</strong>
+                    <small><i class="fas fa-id-card"></i> ID: ${teacher.identifier}</small>
+                    <small><i class="fas fa-key"></i> Mot de passe: ${teacher.password}</small>
+                    <div class="teacher-badges">
+                        <span class="group-badge group-1000">1000F</span>
+                        <span class="group-badge group-2000">2000F</span>
+                        <span class="group-badge group-5000">5000F</span>
+                        <span class="group-badge group-10000">10000F</span>
+                    </div>
                 `;
                 teacherList.appendChild(card);
             });
         }
-        
-        // Sauvegarder les données
+
         function saveData() {
             try {
                 const dataToSave = {
                     teachers: teachers,
                     programGenerated: programGenerated
                 };
-                
                 localStorage.setItem('tontineData', JSON.stringify(dataToSave));
-                console.log('Sauvegarde automatique effectuée à ' + new Date().toLocaleTimeString());
+                console.log('Données sauvegardées');
             } catch (error) {
-                console.error('Erreur lors de la sauvegarde: ' + error.message);
+                console.error('Erreur de sauvegarde', error);
             }
         }
-        
-        // Charger les données
+
         function loadData() {
             try {
                 const savedData = localStorage.getItem('tontineData');
                 if (!savedData) {
-                    showMessage('Aucune donnée sauvegardée trouvée', false);
+                    showMessage('Aucune donnée sauvegardée', false);
                     return;
                 }
                 
@@ -1113,34 +1129,53 @@
                 
                 updateTeacherList();
                 
-                if (teachers.length === 10) {
+                if (teachers.length === TOTAL_TEACHERS) {
                     document.getElementById('generateBtn').disabled = false;
+                    document.getElementById('exportBtn').disabled = false;
                 }
                 
                 if (programGenerated) {
                     generateProgram();
                 }
                 
-                showMessage('Données chargées avec succès!');
+                showMessage('Données chargées avec succès !');
             } catch (error) {
-                showMessage('Erreur lors du chargement: ' + error.message, false);
+                showMessage('Erreur de chargement', false);
             }
         }
-        
-        // Générer le programme
+
+        function resetData() {
+            if (confirm('Êtes-vous sûr de vouloir supprimer toutes les données ?')) {
+                teachers = [];
+                programGenerated = false;
+                document.getElementById('teacherList').innerHTML = '';
+                document.getElementById('generateBtn').disabled = true;
+                document.getElementById('exportBtn').disabled = true;
+                document.getElementById('generateBtn').classList.remove('pulse');
+                document.getElementById('programSection').style.display = 'none';
+                document.getElementById('teacherName').value = '';
+                document.getElementById('teacherFilter').innerHTML = '<option value="all">Tous les enseignants</option>';
+                document.getElementById('teacherDetails').innerHTML = '';
+                document.getElementById('programOutput').innerHTML = '';
+                
+                localStorage.removeItem('tontineData');
+                showMessage('Données réinitialisées');
+            }
+        }
+
         function generateProgram() {
-            if (teachers.length !== 10) {
+            if (teachers.length !== TOTAL_TEACHERS) {
                 showMessage('Veuillez ajouter exactement 10 enseignants', false);
                 return;
             }
-            
-            // Définir l'ordre des favoris pour chaque groupe (prédéfini pour l'équité)
+
+            // Ordres prédéfinis pour l'équité
             const group1000Order = [3, 8, 1, 6, 9, 4, 10, 5, 2, 7];
             const group2000Order = [7, 2, 4, 10, 5, 9, 3, 6, 8, 1];
             const group5000Order = [10, 5, 7, 3, 2, 8, 1, 9, 6, 4];
             const group10000Order = [1, 9, 6, 5, 4, 7, 2, 10, 3, 8];
-            
-            // Réinitialiser les gains des enseignants
+
+            // Réinitialiser les gains
             teachers.forEach(teacher => {
                 teacher.gains1000 = 0;
                 teacher.gains2000 = 0;
@@ -1148,18 +1183,22 @@
                 teacher.gains10000 = 0;
                 teacher.collections = [];
             });
-            
+
             let programHTML = `
-                <h3>Identifiants et mots de passe</h3>
-                <table>
-                    <tr>
-                        <th>Enseignant</th>
-                        <th>Identifiant</th>
-                        <th>Mot de passe</th>
-                        <th>Groupes</th>
-                    </tr>
+                <div class="table-responsive">
+                    <h3><i class="fas fa-key"></i> Identifiants et mots de passe</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Enseignant</th>
+                                <th>Identifiant</th>
+                                <th>Mot de passe</th>
+                                <th>Groupes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             `;
-            
+
             teachers.forEach(teacher => {
                 programHTML += `
                     <tr>
@@ -1175,56 +1214,52 @@
                     </tr>
                 `;
             });
-            
-            programHTML += `</table>`;
-            
-            // Ajouter les tableaux de planning pour chaque groupe
+
+            programHTML += `</tbody></table></div>`;
+
+            // Générer les tableaux pour chaque groupe
             programHTML += generateGroupTable('1000 FCFA', '10 000 FCFA', group1000Order, 1000);
             programHTML += generateGroupTable('2000 FCFA', '20 000 FCFA', group2000Order, 2000);
             programHTML += generateGroupTable('5000 FCFA', '50 000 FCFA', group5000Order, 5000);
             programHTML += generateGroupTable('10000 FCFA', '100 000 FCFA', group10000Order, 10000);
-            
-            // Récapitulatif des gains par enseignant
+
+            // Récapitulatif des gains
             programHTML += `
-                <h3>Récapitulatif des gains par enseignant</h3>
-                <table>
-                    <tr>
-                        <th>Enseignant</th>
-                        <th>Gains totaux</th>
-                        <th>Détail des gains</th>
-                    </tr>
+                <div class="table-responsive">
+                    <h3><i class="fas fa-chart-bar"></i> Récapitulatif des gains</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Enseignant</th>
+                                <th>Gains totaux</th>
+                                <th>Détail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             `;
-            
+
             teachers.forEach(teacher => {
-                const gains = {
-                    '1000': teacher.gains1000 || 0,
-                    '2000': teacher.gains2000 || 0,
-                    '5000': teacher.gains5000 || 0,
-                    '10000': teacher.gains10000 || 0
-                };
-                
-                const totalGains = Object.values(gains).reduce((sum, val) => sum + val, 0);
-                const gainDetails = [];
-                
-                if (gains['1000'] > 0) gainDetails.push(`${gains['1000']}F (1000F)`);
-                if (gains['2000'] > 0) gainDetails.push(`${gains['2000']}F (2000F)`);
-                if (gains['5000'] > 0) gainDetails.push(`${gains['5000']}F (5000F)`);
-                if (gains['10000'] > 0) gainDetails.push(`${gains['10000']}F (10000F)`);
+                const total = (teacher.gains1000 || 0) + (teacher.gains2000 || 0) + 
+                             (teacher.gains5000 || 0) + (teacher.gains10000 || 0);
+                const details = [];
+                if (teacher.gains1000) details.push(`${teacher.gains1000}F (1000F)`);
+                if (teacher.gains2000) details.push(`${teacher.gains2000}F (2000F)`);
+                if (teacher.gains5000) details.push(`${teacher.gains5000}F (5000F)`);
+                if (teacher.gains10000) details.push(`${teacher.gains10000}F (10000F)`);
                 
                 programHTML += `
                     <tr>
                         <td>${teacher.name}</td>
-                        <td><strong>${totalGains.toLocaleString()} FCFA</strong></td>
-                        <td>${gainDetails.join(', ')}</td>
+                        <td><strong>${total.toLocaleString()} FCFA</strong></td>
+                        <td>${details.join(' + ')}</td>
                     </tr>
                 `;
             });
-            
-            programHTML += `</table>`;
-            
+
+            programHTML += `</tbody></table></div>`;
+
             document.getElementById('programOutput').innerHTML = programHTML;
             document.getElementById('programSection').style.display = 'block';
-            document.getElementById('successMessage').style.display = 'block';
             
             // Mettre à jour le filtre des enseignants
             const teacherFilter = document.getElementById('teacherFilter');
@@ -1234,52 +1269,47 @@
             });
             
             programGenerated = true;
-            
-            // Afficher les détails par défaut
             showTeacherDetails();
-            
-            // Sauvegarder automatiquement après génération
+            createGlobalCharts();
             saveData();
             
-            // Faire défiler jusqu'au programme
+            // Animation de défilement
             document.getElementById('programSection').scrollIntoView({ behavior: 'smooth' });
         }
-        
-        // Générer le tableau d'un groupe
+
         function generateGroupTable(groupName, collectionAmount, order, groupValue) {
             let tableHTML = `
-                <h3>Groupe ${groupName} - Ramassage: ${collectionAmount}</h3>
-                <table>
-                    <tr>
-                        <th>Mois</th>
-                        <th>Enseignant favori</th>
-                        <th>Identifiant</th>
-                        <th>Montant ramassé</th>
-                    </tr>
+                <div class="table-responsive">
+                    <h3><i class="fas fa-users"></i> Groupe ${groupName} - Ramassage: ${collectionAmount}</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mois</th>
+                                <th>Enseignant</th>
+                                <th>Identifiant</th>
+                                <th>Montant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             `;
             
             for (let month = 1; month <= 10; month++) {
                 const teacherIndex = order[month - 1] - 1;
                 const teacher = teachers[teacherIndex];
+                const amount = groupValue;
                 
-                // Enregistrer le gain pour le récapitulatif
-                const amount = parseInt(collectionAmount.replace(/\s/g, ''));
-                if (groupValue === 1000) {
-                    teacher.gains1000 = (teacher.gains1000 || 0) + amount;
-                } else if (groupValue === 2000) {
-                    teacher.gains2000 = (teacher.gains2000 || 0) + amount;
-                } else if (groupValue === 5000) {
-                    teacher.gains5000 = (teacher.gains5000 || 0) + amount;
-                } else if (groupValue === 10000) {
-                    teacher.gains10000 = (teacher.gains10000 || 0) + amount;
-                }
+                // Enregistrer les gains
+                if (groupValue === 1000) teacher.gains1000 += amount * 10;
+                else if (groupValue === 2000) teacher.gains2000 += amount * 10;
+                else if (groupValue === 5000) teacher.gains5000 += amount * 10;
+                else if (groupValue === 10000) teacher.gains10000 += amount * 10;
                 
-                // Enregistrer la collection pour l'enseignant
+                // Enregistrer la collection
                 if (!teacher.collections) teacher.collections = [];
                 teacher.collections.push({
                     month: month,
                     group: groupValue,
-                    amount: amount
+                    amount: amount * 10
                 });
                 
                 tableHTML += `
@@ -1287,71 +1317,43 @@
                         <td>Mois ${month}</td>
                         <td>${teacher.name}</td>
                         <td>${teacher.identifier}</td>
-                        <td>${collectionAmount} FCFA</td>
+                        <td>${(amount * 10).toLocaleString()} FCFA</td>
                     </tr>
                 `;
             }
             
-            tableHTML += `</table>`;
+            tableHTML += `</tbody></table></div>`;
             return tableHTML;
         }
-        
-        // Fonctions de filtrage
+
         function filterByTeacher() {
-            const teacherId = document.getElementById('teacherFilter').value;
-            currentFilter.teacher = teacherId;
+            currentFilter.teacher = document.getElementById('teacherFilter').value;
             showTeacherDetails();
         }
-        
+
         function filterByMonth() {
-            const month = document.getElementById('monthFilter').value;
-            currentFilter.month = month;
+            currentFilter.month = document.getElementById('monthFilter').value;
             showTeacherDetails();
         }
-        
+
         function filterByGroup() {
-            const group = document.getElementById('groupFilter').value;
-            currentFilter.group = group;
+            currentFilter.group = document.getElementById('groupFilter').value;
             showTeacherDetails();
         }
-        
-        // Afficher les détails de l'enseignant
+
         function showTeacherDetails() {
             if (!programGenerated) return;
             
             const teacherDetails = document.getElementById('teacherDetails');
             teacherDetails.innerHTML = '';
             
-            let filteredTeachers = teachers;
-            
-            // Appliquer les filtres
-            if (currentFilter.teacher !== 'all') {
-                filteredTeachers = teachers.filter(t => t.id == currentFilter.teacher);
-            }
+            let filteredTeachers = currentFilter.teacher === 'all' 
+                ? teachers 
+                : teachers.filter(t => t.id == currentFilter.teacher);
             
             filteredTeachers.forEach(teacher => {
-                let detailsHTML = `
-                    <div class="teacher-details">
-                        <div class="teacher-header">
-                            <h3>Détails pour ${teacher.name}</h3>
-                            <button onclick="printTeacher(${teacher.id})" class="print-teacher no-print">Imprimer cette fiche</button>
-                        </div>
-                        <p><strong>Identifiant:</strong> ${teacher.identifier} | <strong>Mot de passe:</strong> ${teacher.password}</p>
-                        
-                        <h4>Cotisations</h4>
-                        <div class="summary-card">
-                            <p>1000 FCFA × 10 mois: <strong>10 000 FCFA</strong></p>
-                            <p>2000 FCFA × 10 mois: <strong>20 000 FCFA</strong></p>
-                            <p>5000 FCFA × 10 mois: <strong>50 000 FCFA</strong></p>
-                            <p>10000 FCFA × 10 mois: <strong>100 000 FCFA</strong></p>
-                            <p><strong>Total des cotisations:</strong> 180 000 FCFA</p>
-                        </div>
-                        
-                        <h4>Ramassages</h4>
-                `;
-                
-                // Filtrer les collections selon les critères
                 let filteredCollections = teacher.collections || [];
+                
                 if (currentFilter.month !== 'all') {
                     filteredCollections = filteredCollections.filter(c => c.month == currentFilter.month);
                 }
@@ -1359,133 +1361,423 @@
                     filteredCollections = filteredCollections.filter(c => c.group == currentFilter.group);
                 }
                 
+                const totalCotisations = 180000; // 1000+2000+5000+10000 = 180000
+                const totalRamassages = teacher.collections ? 
+                    teacher.collections.reduce((sum, c) => sum + c.amount, 0) : 0;
+                
+                let detailsHTML = `
+                    <div class="teacher-details">
+                        <div class="teacher-header">
+                            <h3><i class="fas fa-user"></i> ${teacher.name}</h3>
+                            <button class="btn btn-purple no-print" onclick="printTeacher(${teacher.id})">
+                                <i class="fas fa-print"></i> Imprimer fiche
+                            </button>
+                        </div>
+                        
+                        <p><strong><i class="fas fa-id-card"></i> Identifiant:</strong> ${teacher.identifier}</p>
+                        <p><strong><i class="fas fa-key"></i> Mot de passe:</strong> ${teacher.password}</p>
+                        
+                        <div class="summary-card">
+                            <h4><i class="fas fa-coins"></i> Cotisations totales</h4>
+                            <p>1000 FCFA × 10 mois: <strong>10 000 FCFA</strong></p>
+                            <p>2000 FCFA × 10 mois: <strong>20 000 FCFA</strong></p>
+                            <p>5000 FCFA × 10 mois: <strong>50 000 FCFA</strong></p>
+                            <p>10000 FCFA × 10 mois: <strong>100 000 FCFA</strong></p>
+                            <p><strong>Total cotisations:</strong> 180 000 FCFA</p>
+                        </div>
+                `;
+                
                 if (filteredCollections.length > 0) {
-                    detailsHTML += `<table>
-                        <tr>
-                            <th>Mois</th>
-                            <th>Groupe</th>
-                            <th>Montant ramassé</th>
-                        </tr>`;
+                    detailsHTML += `
+                        <div class="table-responsive">
+                            <h4><i class="fas fa-calendar-check"></i> Ramassages</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Groupe</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
                     
-                    filteredCollections.forEach(collection => {
+                    let totalFiltered = 0;
+                    filteredCollections.forEach(c => {
+                        totalFiltered += c.amount;
                         detailsHTML += `
                             <tr>
-                                <td>Mois ${collection.month}</td>
-                                <td>${collection.group} FCFA</td>
-                                <td>${(collection.amount).toLocaleString()} FCFA</td>
+                                <td>Mois ${c.month}</td>
+                                <td>${c.group} FCFA</td>
+                                <td>${c.amount.toLocaleString()} FCFA</td>
                             </tr>
                         `;
                     });
                     
-                    detailsHTML += `</table>`;
-                    
-                    // Calculer le total des ramassages filtrés
-                    const totalCollected = filteredCollections.reduce((sum, c) => sum + c.amount, 0);
                     detailsHTML += `
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="summary-card">
-                            <p><strong>Total des ramassages (filtre appliqué):</strong> ${totalCollected.toLocaleString()} FCFA</p>
+                            <p><strong>Total ramassages (filtrés):</strong> ${totalFiltered.toLocaleString()} FCFA</p>
                         </div>
                     `;
                 } else {
-                    detailsHTML += `<p>Aucun ramassage ne correspond aux filtres sélectionnés.</p>`;
+                    detailsHTML += `<p>Aucun ramassage pour ces filtres.</p>`;
                 }
-                
-                // Afficher le total de tous les ramassages
-                const totalAllCollections = teacher.collections ? 
-                    teacher.collections.reduce((sum, c) => sum + c.amount, 0) : 0;
                 
                 detailsHTML += `
                     <div class="summary-card">
-                        <p><strong>Total de tous les ramassages:</strong> ${totalAllCollections.toLocaleString()} FCFA</p>
-                        <p><strong>Solde net:</strong> ${(totalAllCollections - 180000).toLocaleString()} FCFA</p>
+                        <h4><i class="fas fa-balance-scale"></i> Bilan</h4>
+                        <p><strong>Total tous ramassages:</strong> ${totalRamassages.toLocaleString()} FCFA</p>
+                        <p><strong>Solde net:</strong> ${(totalRamassages - totalCotisations).toLocaleString()} FCFA</p>
                     </div>
-                `;
+                    
+                    <!-- Graphique de répartition mensuelle pour cet enseignant -->
+                    <div class="chart-container no-print">
+                        <h4><i class="fas fa-chart-line"></i> Répartition mensuelle des gains</h4>
+                        <canvas id="teacherChart-${teacher.id}" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>`;
                 
-                detailsHTML += `</div>`;
                 teacherDetails.innerHTML += detailsHTML;
             });
-        }
-        
-        // Imprimer les enseignants filtrés
-        function printFilteredTeachers() {
-            window.print();
-        }
-        
-        // Imprimer la fiche d'un enseignant
-        function printTeacher(teacherId) {
-            // Sauvegarder l'état actuel des filtres
-            const currentTeacherFilter = currentFilter.teacher;
-            const currentMonthFilter = currentFilter.month;
-            const currentGroupFilter = currentFilter.group;
             
-            // Appliquer le filtre pour cet enseignant seulement
+            // Créer les graphiques pour chaque enseignant affiché
+            setTimeout(() => {
+                filteredTeachers.forEach(teacher => {
+                    createTeacherChart(teacher);
+                });
+            }, 100);
+        }
+
+        function createTeacherChart(teacher) {
+            const canvasId = `teacherChart-${teacher.id}`;
+            const canvas = document.getElementById(canvasId);
+            
+            if (!canvas) return;
+            
+            // Détruire l'ancien graphique s'il existe
+            if (teacherCharts[teacher.id]) {
+                teacherCharts[teacher.id].destroy();
+            }
+            
+            // Préparer les données
+            const months = ['Mois 1', 'Mois 2', 'Mois 3', 'Mois 4', 'Mois 5', 'Mois 6', 'Mois 7', 'Mois 8', 'Mois 9', 'Mois 10'];
+            const monthlyData = new Array(10).fill(0);
+            
+            if (teacher.collections) {
+                teacher.collections.forEach(c => {
+                    monthlyData[c.month - 1] += c.amount;
+                });
+            }
+            
+            // Créer le graphique
+            const ctx = canvas.getContext('2d');
+            teacherCharts[teacher.id] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Montant perçu (FCFA)',
+                        data: monthlyData,
+                        backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                        borderColor: 'rgba(79, 70, 229, 1)',
+                        borderWidth: 1,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y.toLocaleString() + ' FCFA';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' F';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createGlobalCharts() {
+            document.getElementById('globalCharts').style.display = 'block';
+            
+            // Graphique de répartition par groupe
+            const groupCtx = document.getElementById('globalGroupChart').getContext('2d');
+            const groupData = {
+                '1000 FCFA': 0,
+                '2000 FCFA': 0,
+                '5000 FCFA': 0,
+                '10000 FCFA': 0
+            };
+            
+            teachers.forEach(teacher => {
+                if (teacher.collections) {
+                    teacher.collections.forEach(c => {
+                        if (c.group === 1000) groupData['1000 FCFA'] += c.amount;
+                        else if (c.group === 2000) groupData['2000 FCFA'] += c.amount;
+                        else if (c.group === 5000) groupData['5000 FCFA'] += c.amount;
+                        else if (c.group === 10000) groupData['10000 FCFA'] += c.amount;
+                    });
+                }
+            });
+            
+            new Chart(groupCtx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(groupData),
+                    datasets: [{
+                        data: Object.values(groupData),
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${context.label}: ${value.toLocaleString()} FCFA (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Graphique d'évolution mensuelle globale
+            const monthlyCtx = document.getElementById('globalMonthlyChart').getContext('2d');
+            const monthlyData = new Array(10).fill(0);
+            
+            teachers.forEach(teacher => {
+                if (teacher.collections) {
+                    teacher.collections.forEach(c => {
+                        monthlyData[c.month - 1] += c.amount;
+                    });
+                }
+            });
+            
+            new Chart(monthlyCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mois 1', 'Mois 2', 'Mois 3', 'Mois 4', 'Mois 5', 'Mois 6', 'Mois 7', 'Mois 8', 'Mois 9', 'Mois 10'],
+                    datasets: [{
+                        label: 'Total des gains (FCFA)',
+                        data: monthlyData,
+                        borderColor: 'rgba(79, 70, 229, 1)',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(79, 70, 229, 1)',
+                        pointBorderColor: 'white',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y.toLocaleString() + ' FCFA';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' F';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function printTeacher(teacherId) {
+            const originalFilter = {...currentFilter};
+            
             currentFilter.teacher = teacherId;
             currentFilter.month = 'all';
             currentFilter.group = 'all';
             
-            // Mettre à jour l'interface
             document.getElementById('teacherFilter').value = teacherId;
             document.getElementById('monthFilter').value = 'all';
             document.getElementById('groupFilter').value = 'all';
             
-            // Regénérer l'affichage
             showTeacherDetails();
             
-            // Attendre un peu pour que l'interface se mette à jour puis imprimer
             setTimeout(() => {
                 window.print();
                 
-                // Restaurer les filtres après l'impression
-                currentFilter.teacher = currentTeacherFilter;
-                currentFilter.month = currentMonthFilter;
-                currentFilter.group = currentGroupFilter;
+                currentFilter = originalFilter;
+                document.getElementById('teacherFilter').value = originalFilter.teacher;
+                document.getElementById('monthFilter').value = originalFilter.month;
+                document.getElementById('groupFilter').value = originalFilter.group;
                 
-                document.getElementById('teacherFilter').value = currentTeacherFilter;
-                document.getElementById('monthFilter').value = currentMonthFilter;
-                document.getElementById('groupFilter').value = currentGroupFilter;
-                
-                // Remettre à jour l'interface
-                setTimeout(() => {
-                    showTeacherDetails();
-                }, 100);
+                setTimeout(() => showTeacherDetails(), 100);
             }, 500);
         }
-        
-        // Réinitialiser les données
-        function resetData() {
-            if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données? Cette action est irréversible.")) {
-                teachers = [];
-                programGenerated = false;
-                document.getElementById('teacherList').innerHTML = '';
-                document.getElementById('generateBtn').disabled = true;
-                document.getElementById('programSection').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'none';
-                document.getElementById('teacherName').value = '';
-                document.getElementById('teacherFilter').innerHTML = '<option value="all">Tous les enseignants</option>';
-                document.getElementById('teacherDetails').innerHTML = '';
-                document.getElementById('programOutput').innerHTML = '';
-                
-                // Réinitialiser les filtres
-                document.getElementById('monthFilter').value = 'all';
-                document.getElementById('groupFilter').value = 'all';
-                currentFilter = {
-                    teacher: 'all',
-                    month: 'all',
-                    group: 'all'
-                };
-                
-                // Supprimer les données sauvegardées
-                localStorage.removeItem('tontineData');
-                
-                showMessage('Données réinitialisées avec succès');
-            }
+
+        function printFilteredTeachers() {
+            window.print();
         }
-        
-        // Sauvegarde avant de quitter la page
+
+        // Fonction d'export CSV
+        function exportAllToCSV() {
+            if (teachers.length === 0) {
+                showMessage('Aucune donnée à exporter', false);
+                return;
+            }
+
+            let csvContent = "";
+            
+            // 1. En-têtes du fichier
+            csvContent += "=== TONTINE ENSEIGNANTS - RAPPORT COMPLET ===\n";
+            csvContent += `Date d'export: ${new Date().toLocaleString()}\n\n`;
+            
+            // 2. Liste des enseignants
+            csvContent += "=== LISTE DES ENSEIGNANTS ===\n";
+            csvContent += "ID;Nom;Identifiant;Mot de passe;Gains 1000F;Gains 2000F;Gains 5000F;Gains 10000F;Total Gains\n";
+            
+            teachers.forEach(teacher => {
+                const totalGains = (teacher.gains1000 || 0) + (teacher.gains2000 || 0) + 
+                                   (teacher.gains5000 || 0) + (teacher.gains10000 || 0);
+                
+                csvContent += `${teacher.id};${teacher.name};${teacher.identifier};${teacher.password};` +
+                             `${teacher.gains1000 || 0};${teacher.gains2000 || 0};` +
+                             `${teacher.gains5000 || 0};${teacher.gains10000 || 0};${totalGains}\n`;
+            });
+            
+            csvContent += "\n";
+            
+            // 3. Programme de tontine par groupe
+            const groups = [
+                { name: "Groupe 1000 FCFA", value: 1000 },
+                { name: "Groupe 2000 FCFA", value: 2000 },
+                { name: "Groupe 5000 FCFA", value: 5000 },
+                { name: "Groupe 10000 FCFA", value: 10000 }
+            ];
+            
+            groups.forEach(group => {
+                csvContent += `=== ${group.name} ===\n`;
+                csvContent += "Mois;Enseignant;Identifiant;Montant\n";
+                
+                // Filtrer les collections pour ce groupe
+                const groupCollections = [];
+                teachers.forEach(teacher => {
+                    if (teacher.collections) {
+                        teacher.collections
+                            .filter(c => c.group === group.value)
+                            .forEach(c => {
+                                groupCollections.push({
+                                    month: c.month,
+                                    teacher: teacher.name,
+                                    identifier: teacher.identifier,
+                                    amount: c.amount
+                                });
+                            });
+                    }
+                });
+                
+                // Trier par mois
+                groupCollections.sort((a, b) => a.month - b.month);
+                
+                groupCollections.forEach(c => {
+                    csvContent += `${c.month};${c.teacher};${c.identifier};${c.amount}\n`;
+                });
+                
+                csvContent += "\n";
+            });
+            
+            // 4. Récapitulatif des gains par enseignant
+            csvContent += "=== RÉCAPITULATIF DES GAINS ===\n";
+            csvContent += "Enseignant;Gains 1000F;Gains 2000F;Gains 5000F;Gains 10000F;Total Gains;Cotisations;Solde net\n";
+            
+            teachers.forEach(teacher => {
+                const totalGains = (teacher.gains1000 || 0) + (teacher.gains2000 || 0) + 
+                                   (teacher.gains5000 || 0) + (teacher.gains10000 || 0);
+                const cotisations = 180000; // 1000+2000+5000+10000 = 180000
+                const solde = totalGains - cotisations;
+                
+                csvContent += `${teacher.name};${teacher.gains1000 || 0};${teacher.gains2000 || 0};` +
+                             `${teacher.gains5000 || 0};${teacher.gains10000 || 0};${totalGains};` +
+                             `${cotisations};${solde}\n`;
+            });
+            
+            // 5. Détail des ramassages par enseignant
+            csvContent += "\n=== DÉTAIL DES RAMASSAGES PAR ENSEIGNANT ===\n";
+            
+            teachers.forEach(teacher => {
+                if (teacher.collections && teacher.collections.length > 0) {
+                    csvContent += `\n--- ${teacher.name} ---\n`;
+                    csvContent += "Mois;Groupe;Montant\n";
+                    
+                    teacher.collections
+                        .sort((a, b) => a.month - b.month)
+                        .forEach(c => {
+                            csvContent += `${c.month};${c.group} FCFA;${c.amount} FCFA\n`;
+                        });
+                    
+                    const totalTeacher = teacher.collections.reduce((sum, c) => sum + c.amount, 0);
+                    csvContent += `Total;${totalTeacher} FCFA\n`;
+                }
+            });
+            
+            // Créer et télécharger le fichier CSV
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `tontine_enseignants_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showMessage('Export CSV effectué avec succès !');
+        }
+
+        // Sauvegarde avant de quitter
         window.addEventListener('beforeunload', saveData);
-        
-        // Initialiser l'application au chargement
-        window.onload = initializeApp;
     </script>
 </body>
 </html>
