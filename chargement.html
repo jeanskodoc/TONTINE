@@ -2,1371 +2,642 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tontine Enseignants - Gestion des Cotisations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Tontine Enseignants - Espace Membres</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #3498db;
-            --secondary: #2ecc71;
-            --accent: #e74c3c;
-            --light: #f9f9f9;
-            --dark: #34495e;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        
+
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            font-size: 16px;
+            background: #f0f5fa;
+            color: #1e293b;
+            line-height: 1.5;
         }
-        
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+            --radius: 24px;
+            --radius-sm: 16px;
+            --radius-xs: 12px;
+        }
+
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 0 20px;
         }
-        
-        .login-container, .registration-container {
-            max-width: 100%;
-            margin: 20px auto;
-            padding: 15px;
+
+        /* Retour */
+        .retour-wrapper {
+            padding: 16px 20px 8px;
         }
-        
+        .btn-retour {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            border: 1px solid var(--gray-light);
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+        }
+        .btn-retour i {
+            font-size: 0.9rem;
+        }
+        .btn-retour:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateX(-3px);
+        }
+
+        /* Header */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.8rem 0;
-            box-shadow: var(--shadow);
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226,232,240,0.6);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 50;
         }
-        
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 15px;
+            padding: 14px 20px;
+            max-width: 1280px;
+            margin: 0 auto;
         }
-        
         .logo {
             font-size: 1.4rem;
-            font-weight: bold;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 60%;
         }
-        
         .nav-links {
             display: flex;
+            align-items: center;
+            gap: 8px;
             list-style: none;
         }
-        
-        .nav-links li {
-            margin-left: 12px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: opacity 0.3s;
-            font-size: 0.9rem;
-        }
-        
-        .nav-links a:hover {
-            opacity: 0.8;
-        }
-        
-        .btn {
-            padding: 12px 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            font-size: 1rem;
-            width: 100%;
-            margin: 8px 0;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #2980b9;
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #27ae60;
-        }
-        
-        .btn-warning {
-            background-color: #f39c12;
-            color: white;
-        }
-        
-        .btn-warning:hover {
-            background-color: #e67e22;
-        }
-        
-        .btn-whatsapp {
-            background-color: #25D366;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .btn-whatsapp:hover {
-            background-color: #128C7E;
-        }
-        
-        .btn-payment {
-            background-color: #9b59b6;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .btn-payment:hover {
-            background-color: #8e44ad;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-        }
-        
-        .card-title {
-            font-size: 1.2rem;
-            margin-bottom: 12px;
+        .nav-links li a {
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.95rem;
             color: var(--dark);
-            border-bottom: 2px solid var(--light);
-            padding-bottom: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
         }
-        
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .form-group {
-            margin-bottom: 12px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 0.95rem;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        
-        table th, table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        
-        .alert {
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-        }
-        
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .alert-warning {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .alert-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .badge-success {
-            background-color: var(--secondary);
-            color: white;
-        }
-        
-        .badge-warning {
-            background-color: #f39c12;
-            color: white;
-        }
-        
-        .badge-danger {
-            background-color: var(--accent);
-            color: white;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .tabs {
-            display: flex;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #ddd;
-            flex-wrap: wrap;
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .tab {
-            padding: 10px 15px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-        
-        .tab:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .tab.active {
-            border-bottom: 3px solid var(--primary);
-            font-weight: bold;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .user-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .group-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .group-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .group-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
-        }
-        
-        .group-amount {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 8px 0;
-        }
-        
-        .group-description {
-            color: #666;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
-        
-        .group-card-1000 {
-            border-top: 4px solid #3498db;
-        }
-        
-        .group-card-2000 {
-            border-top: 4px solid #2ecc71;
-        }
-        
-        .group-card-5000 {
-            border-top: 4px solid #f39c12;
-        }
-        
-        .group-card-10000 {
-            border-top: 4px solid #9b59b6;
-        }
-        
-        .member-card {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            background-color: #f9f9f9;
-        }
-        
-        .member-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        
-        .member-info {
-            flex: 1;
-        }
-        
-        .payment-status {
-            display: flex;
-            align-items: center;
-            margin-top: 5px;
-            font-size: 0.9rem;
-        }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-        
-        .status-paid {
-            background-color: var(--secondary);
-        }
-        
-        .status-pending {
-            background-color: #f39c12;
-        }
-        
-        .status-delayed {
-            background-color: var(--accent);
-        }
-        
-        .next-winner-section {
-            background-color: #e1f5fe;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            text-align: center;
-        }
-        
-        .month-indicator {
-            display: flex;
-            justify-content: space-between;
-            margin: 15px 0;
-            padding: 8px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .month-item {
-            text-align: center;
-            padding: 8px;
-            min-width: 45px;
-            font-size: 0.85rem;
-        }
-        
-        .month-item.current {
-            background-color: var(--primary);
-            color: white;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        
-        .month-item.paid {
-            background-color: var(--secondary);
-            color: white;
-            border-radius: 5px;
-        }
-        
-        .month-item.pending {
-            background-color: #ffeaa7;
-            border-radius: 5px;
-        }
-        
-        .month-item.delayed {
-            background-color: #ffcccc;
-            border-radius: 5px;
-        }
-        
-        .summary-box {
-            background-color: #e8f4f8;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 12px 0;
-        }
-        
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .winner-history {
-            margin-top: 20px;
-        }
-        
-        .winner-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            align-items: center;
-        }
-        
-        .reminder-section {
-            background-color: #fff3cd;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 15px 0;
-        }
-        
-        .reminder-list {
-            margin-top: 12px;
-        }
-        
-        .reminder-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            border-bottom: 1px solid #ffeaa7;
-            font-size: 0.9rem;
-        }
-        
-        .teacher-icon {
-            text-align: center;
-            font-size: 2.5rem;
+        .nav-links li a:hover {
+            background: rgba(37,99,235,0.08);
             color: var(--primary);
-            margin-bottom: 12px;
         }
-        
-        .support-info {
-            text-align: center;
-            margin-top: 20px;
-            padding: 12px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .whatsapp-support {
-            display: inline-block;
-            background-color: #25D366;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        
-        .credentials-instruction {
-            background-color: #e8f4f8;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .payment-action {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 1px solid #eee;
-        }
-        
-        .whatsapp-group-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: #25D366;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        
-        .payment-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: #9b59b6;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        
-        /* Styles pour le formulaire d'inscription */
-        .registration-form {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        
-        .form-full-width {
-            grid-column: span 1;
-        }
-        
-        .form-section-title {
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            color: var(--dark);
-            padding-bottom: 5px;
-            border-bottom: 2px solid var(--light);
-            grid-column: span 1;
-        }
-        
-        /* Menu hamburger pour mobile */
         .menu-toggle {
             display: none;
             flex-direction: column;
-            justify-content: space-around;
-            width: 30px;
-            height: 25px;
+            gap: 5px;
             background: transparent;
             border: none;
             cursor: pointer;
-            padding: 0;
+            padding: 8px;
+            z-index: 60;
         }
-        
         .menu-toggle span {
-            width: 100%;
-            height: 3px;
-            background-color: white;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-
-        /* Styles pour le bouton retour */
-        .btn-retour {
-            padding: 8px 16px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
+            width: 24px;
+            height: 2px;
+            background: var(--dark);
             border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        
-        .btn-retour:hover {
-            background-color: #e0e0e0;
+            transition: 0.3s;
         }
 
-        /* Indicateur de sauvegarde automatique */
-        .auto-save-status {
-            display: flex;
+        /* Sections */
+        .section {
+            padding: 24px 20px;
+        }
+        .hidden {
+            display: none !important;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+        }
+
+        /* Formulaires */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--gray);
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius-xs);
+            font-size: 1rem;
+            transition: border 0.2s, box-shadow 0.2s;
+            background: #f9fbfd;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        /* Boutons */
+        .btn {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 10px;
-            font-size: 14px;
-            color: #27ae60;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
+            padding: 14px 24px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--gray-light);
+        }
+        .btn-secondary:hover {
+            background: #f1f5f9;
+            border-color: var(--primary);
+        }
+        .btn-warning {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        .btn-whatsapp:hover {
+            background: #128C7E;
+        }
+        .btn-payment {
+            background: #8b5cf6;
+            color: white;
+        }
+        .btn-payment:hover {
+            background: #7c3aed;
+        }
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            width: auto;
         }
 
-        /* ========== STYLES RESPONSIVE ========== */
-
-        /* Petits écrans mobiles (jusqu'à 360px) */
-        @media (max-width: 360px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .login-container, .registration-container {
-                padding: 10px;
-                margin: 10px auto;
-            }
-            
-            .logo {
-                font-size: 1.1rem;
-                max-width: 50%;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 60px;
-                right: -100%;
-                flex-direction: column;
-                background-color: var(--primary);
-                width: 80%;
-                height: 100vh;
-                transition: right 0.3s ease;
-                padding-top: 20px;
-                z-index: 99;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links li {
-                margin: 12px 0;
-                padding-left: 20px;
-            }
-            
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .card {
-                padding: 10px;
-                margin-bottom: 12px;
-            }
-            
-            .card-title {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-            }
-            
-            .btn {
-                padding: 10px;
-                font-size: 0.9rem;
-                margin: 6px 0;
-            }
-            
-            .form-control {
-                padding: 10px;
-                font-size: 16px; /* Éviter le zoom sur iOS */
-            }
-            
-            table {
-                font-size: 0.75rem;
-            }
-            
-            table th, table td {
-                padding: 6px 4px;
-            }
-            
-            .group-cards {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .group-card {
-                padding: 12px;
-            }
-            
-            .group-amount {
-                font-size: 1.1rem;
-            }
-            
-            .teacher-icon {
-                font-size: 1.8rem;
-                margin-bottom: 8px;
-            }
-            
-            .member-card {
-                flex-direction: column;
-                text-align: center;
-                padding: 10px;
-            }
-            
-            .member-avatar {
-                margin-right: 0;
-                margin-bottom: 8px;
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-            
-            .month-item {
-                min-width: 35px;
-                font-size: 0.7rem;
-                padding: 5px;
-            }
-            
-            .tabs {
-                font-size: 0.85rem;
-            }
-            
-            .tab {
-                padding: 8px 10px;
-                font-size: 0.85rem;
-            }
-            
-            .alert {
-                padding: 10px;
-                font-size: 0.9rem;
-            }
-            
-            .badge {
-                font-size: 0.7rem;
-                padding: 4px 8px;
-            }
-            
-            .whatsapp-group-link, .payment-link {
-                padding: 8px 12px;
-                font-size: 0.9rem;
-            }
-            
-            .btn-retour {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
+        /* Alertes */
+        .alert {
+            padding: 14px 18px;
+            border-radius: var(--radius-xs);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            border-left: 4px solid transparent;
+        }
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left-color: var(--secondary);
+        }
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left-color: var(--danger);
+        }
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left-color: var(--primary);
         }
 
-        /* Mobiles standards (361px à 480px) */
-        @media (min-width: 361px) and (max-width: 480px) {
-            .container {
-                padding: 12px;
-            }
-            
-            .login-container, .registration-container {
-                padding: 12px;
-            }
-            
-            .logo {
-                font-size: 1.2rem;
-                max-width: 55%;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 60px;
-                right: -100%;
-                flex-direction: column;
-                background-color: var(--primary);
-                width: 70%;
-                height: 100vh;
-                transition: right 0.3s ease;
-                padding-top: 20px;
-                z-index: 99;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links li {
-                margin: 15px 0;
-                padding-left: 20px;
-            }
-            
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .card {
-                padding: 12px;
-            }
-            
-            .card-title {
-                font-size: 1.15rem;
-            }
-            
-            .btn {
-                padding: 11px;
-            }
-            
-            table {
-                font-size: 0.8rem;
-            }
-            
-            table th, table td {
-                padding: 8px 5px;
-            }
-            
-            .group-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            .month-item {
-                min-width: 40px;
-                font-size: 0.8rem;
-                padding: 6px;
-            }
-            
-            .teacher-icon {
-                font-size: 2rem;
-            }
-            
-            .member-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .member-avatar {
-                margin-right: 0;
-                margin-bottom: 8px;
-            }
-            
-            .payment-action {
-                flex-direction: column;
-                gap: 10px;
-            }
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .badge-warning {
+            background: #fed7aa;
+            color: #92400e;
+        }
+        .badge-danger {
+            background: #fee2e2;
+            color: #b91c1c;
         }
 
-        /* Tablettes et écrans moyens (481px à 768px) */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .login-container, .registration-container {
-                max-width: 90%;
-            }
-            
-            .nav-links {
-                position: static;
-                flex-direction: row;
-                width: auto;
-                height: auto;
-                background-color: transparent;
-                padding-top: 0;
-            }
-            
-            .menu-toggle {
-                display: none;
-            }
-            
-            .group-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .registration-form {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .form-section-title {
-                grid-column: span 2;
-            }
-            
-            .form-full-width {
-                grid-column: span 2;
-            }
-            
-            .member-card {
-                flex-direction: row;
-                text-align: left;
-            }
-            
-            .member-avatar {
-                margin-right: 12px;
-                margin-bottom: 0;
-            }
-            
-            .payment-action {
-                flex-direction: row;
-                justify-content: space-around;
-            }
+        /* Grilles */
+        .group-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .group-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 24px 20px;
+            box-shadow: var(--shadow-sm);
+            border-top: 4px solid transparent;
+            transition: 0.2s;
+        }
+        .group-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .group-card-1000 { border-top-color: #3b82f6; }
+        .group-card-2000 { border-top-color: #10b981; }
+        .group-card-5000 { border-top-color: #f59e0b; }
+        .group-card-10000 { border-top-color: #8b5cf6; }
+        .group-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 12px 0;
+            color: var(--dark);
+        }
+        .payment-action {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .payment-action .btn {
+            flex: 1;
+            min-width: 130px;
+            padding: 12px;
         }
 
-        /* Tablettes larges et petits écrans desktop (769px à 1024px) */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .login-container, .registration-container {
-                max-width: 80%;
-                padding: 25px;
-            }
-            
-            .group-cards {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .registration-form {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .form-section-title {
-                grid-column: span 2;
-            }
-            
-            .form-full-width {
-                grid-column: span 2;
-            }
-            
-            .card {
-                padding: 20px;
-            }
-            
-            .dashboard {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 8px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-sm);
         }
-
-        /* Grands écrans (1025px et plus) */
-        @media (min-width: 1025px) {
-            .group-cards {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .registration-form {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .form-section-title {
-                grid-column: span 2;
-            }
-            
-            .form-full-width {
-                grid-column: span 2;
-            }
-            
-            .dashboard {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-            }
+        .tab {
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            background: transparent;
+            color: var(--gray);
+            flex: 1;
+            text-align: center;
+            min-width: 100px;
         }
-
-        /* Très grands écrans (1400px et plus) */
-        @media (min-width: 1400px) {
-            .container {
-                max-width: 1400px;
-            }
-            
-            .group-cards {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 25px;
-            }
-            
-            .group-card {
-                padding: 25px;
-            }
-            
-            .card {
-                padding: 25px;
-            }
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
         }
-
-        /* Améliorations pour le tactile */
-        @media (hover: none) and (pointer: coarse) {
-            .btn:hover {
-                transform: none;
-                filter: brightness(0.95);
-            }
-            
-            .tab:hover {
-                background-color: transparent;
-            }
-            
-            .group-card:hover {
-                transform: none;
-            }
-            
-            input, button, select {
-                min-height: 44px;
-            }
-            
-            .member-card {
-                cursor: pointer;
-            }
-        }
-
-        /* Support pour les préférences de contraste élevé */
-        @media (prefers-contrast: high) {
-            :root {
-                --primary: #0066cc;
-                --secondary: #008000;
-                --dark: #000000;
-            }
-            
-            .card, .group-card, .member-card {
-                border: 2px solid #333;
-            }
-            
-            table th {
-                background-color: #e0e0e0;
-            }
-        }
-
-        /* Support pour la réduction des animations */
-        @media (prefers-reduced-motion: reduce) {
-            .group-card, .btn, .tab {
-                transition: none;
-            }
-            
-            .group-card:hover, .btn:hover {
-                transform: none;
-            }
-        }
-
-        /* Mode paysage sur mobile */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .login-container, .registration-container {
-                margin: 10px auto;
-                padding: 10px;
-            }
-            
-            .teacher-icon {
-                font-size: 1.8rem;
-                margin-bottom: 8px;
-            }
-            
-            .card {
-                margin-bottom: 10px;
-                padding: 10px;
-            }
-            
-            .btn {
-                padding: 8px;
-                margin: 5px 0;
-            }
-        }
-
-        /* Styles d'impression */
-        @media print {
-            .btn-retour, .no-print, .menu-toggle, .payment-action, 
-            .auto-save-status, .btn, .tabs, .nav-links {
-                display: none !important;
-            }
-            
-            .container {
-                box-shadow: none;
-                padding: 0;
-                margin: 0;
-                max-width: 100%;
-            }
-            
-            .card {
-                page-break-inside: avoid;
-                box-shadow: none;
-                border: 1px solid #ddd;
-            }
-            
-            .group-card {
-                page-break-inside: avoid;
-                border: 1px solid #ddd;
-            }
-            
-            table {
-                font-size: 10pt;
-            }
-            
-            th {
-                background-color: #f0f0f0 !important;
-                color: black !important;
-            }
-            
-            .hidden {
-                display: none !important;
-            }
-            
-            #login-section, #registration-section {
-                display: none !important;
-            }
-            
-            #dashboard-section {
-                display: block !important;
-            }
-        }
-
-        /* Impression en mode paysage */
-        @media print and (orientation: landscape) {
-            .group-cards {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        /* Impression en mode portrait */
-        @media print and (orientation: portrait) {
-            .group-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .group-card {
-                break-inside: avoid;
-            }
-        }
-
-        .print-only {
+        .tab-content, .subtab-content {
             display: none;
         }
-        
-        @media print {
-            .print-only {
-                display: block;
+        .tab-content.active, .subtab-content.active {
+            display: block;
+        }
+
+        /* Tableaux */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: var(--radius-xs);
+            background: white;
+            padding: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #f8fafc;
+            padding: 14px 12px;
+            font-weight: 600;
+            color: var(--gray);
+            text-align: left;
+        }
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        /* Utilitaires */
+        .teacher-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .support-info {
+            text-align: center;
+            margin-top: 24px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: var(--radius-xs);
+        }
+        .auto-save-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 18px;
+            border-radius: 40px;
+            box-shadow: var(--shadow-lg);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--gray-light);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mt-4 {
+            margin-top: 24px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .menu-toggle {
+                display: flex;
             }
-            
-            .no-print {
-                display: none;
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 80px 24px;
+                box-shadow: var(--shadow-lg);
+                transition: right 0.3s ease;
+                z-index: 55;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links li {
+                width: 100%;
+            }
+            .nav-links li a {
+                display: block;
+                padding: 14px;
+                text-align: center;
+            }
+            .card {
+                padding: 20px 16px;
+            }
+            .group-cards {
+                grid-template-columns: 1fr;
+            }
+            .tabs {
+                border-radius: var(--radius-xs);
+                padding: 6px;
+            }
+            .tab {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                min-width: auto;
+            }
+            .auto-save-status {
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 8px 14px;
             }
         }
 
-        /* Empêcher le zoom sur les champs de formulaire sur iOS */
-        @media screen and (max-width: 768px) {
-            input, select, textarea {
-                font-size: 16px !important;
+        @media (min-width: 641px) and (max-width: 900px) {
+            .group-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Préférences réduction mouvement */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Impression */
+        @media print {
+            .btn-retour, .menu-toggle, .payment-action, .auto-save-status, .tabs {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <button class="btn-retour" onclick="history.back()">← Retour</button>
+    <div class="retour-wrapper">
+        <button class="btn-retour" onclick="window.location.href='index.html'"><i class="fas fa-arrow-left"></i> Retour à l'accueil</button>
     </div>
 
-    <!-- Section de connexion -->
-    <div id="login-section">
-        <header>
-            <nav>
-                <div class="logo">Tontine Enseignants</div>
-                <button class="menu-toggle" id="mobile-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <ul class="nav-links" id="nav-links">
-                    <li><a href="#" id="nav-dashboard">Tableau de bord</a></li>
-                    <li><a href="#" id="nav-profile">Mon Profil</a></li>
-                    <li><a href="#" id="nav-logout">Déconnexion</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <div class="login-container">
+    <!-- Section Connexion -->
+    <div id="login-section" class="section">
+        <div class="card">
             <div class="teacher-icon">
                 <i class="fas fa-chalkboard-teacher"></i>
             </div>
+            <h2 class="card-title">Connexion enseignant</h2>
             
-            <div class="card">
-                <h2 class="card-title">Connexion à l'espace membre</h2>
-                
-                <div class="credentials-instruction">
-                    <p><strong>Accès réservé aux enseignants inscrits</strong></p>
-                    <p>Utilisez les identifiants qui vous ont été fournis</p>
-                </div>
-                
-                <div id="login-error" class="alert alert-danger hidden">
-                    Identifiant ou mot de passe incorrect. Veuillez réessayer.
-                </div>
-                
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="login-email">Identifiant</label>
-                        <input type="text" id="login-email" class="form-control" placeholder="Votre identifiant personnel" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="login-password">Mot de passe</label>
-                        <input type="password" id="login-password" class="form-control" placeholder="Votre mot de passe" required>
-                    </div>
-                    
-                    <button type="button" id="btn-login" class="btn btn-primary">Se connecter</button>
-                </form>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Utilisez vos identifiants personnels
             </div>
             
+            <div id="login-error" class="alert alert-danger hidden"></div>
+            
+            <form id="login-form" onsubmit="event.preventDefault()">
+                <div class="form-group">
+                    <label>Identifiant</label>
+                    <input type="text" id="login-email" class="form-control" placeholder="ex: ENS001" required>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="button" id="btn-login" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </button>
+            </form>
+            
             <div class="support-info">
-                <p><strong>Vous êtes enseignant mais n'avez pas encore de compte ?</strong></p>
-                <button id="btn-show-registration" class="btn btn-secondary">S'inscrire maintenant</button>
+                <p>Première visite ?</p>
+                <button id="btn-show-registration" class="btn btn-secondary">
+                    <i class="fas fa-user-plus"></i> S'inscrire
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Section d'inscription (cachée initialement) -->
-    <div id="registration-section" class="hidden">
-        <header>
-            <nav>
-                <div class="logo">Tontine Enseignants</div>
-                <button class="menu-toggle" id="mobile-menu-reg">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <ul class="nav-links" id="nav-links-reg">
-                    <li><a href="#" id="nav-back-to-login">Retour à la connexion</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <div class="registration-container">
+    <!-- Section Inscription -->
+    <div id="registration-section" class="section hidden">
+        <div class="card" style="max-width: 700px;">
             <div class="teacher-icon">
-                <i class="fas fa-user-plus"></i>
+                <i class="fas fa-user-graduate"></i>
             </div>
+            <h2 class="card-title">Inscription enseignant</h2>
             
-            <div class="card">
-                <h2 class="card-title">Formulaire d'inscription</h2>
-                
-                <div class="credentials-instruction">
-                    <p><strong>Remplissez ce formulaire pour vous inscrire à la tontine des enseignants</strong></p>
-                    <p>Après validation, vos identifiants vous seront communiqués par WhatsApp</p>
+            <div id="registration-error" class="alert alert-danger hidden"></div>
+            <div id="registration-success" class="alert alert-success hidden"></div>
+            
+            <form id="registration-form" onsubmit="event.preventDefault()">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label>Nom *</label>
+                        <input type="text" id="reg-nom" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Prénoms *</label>
+                        <input type="text" id="reg-prenoms" class="form-control" required>
+                    </div>
                 </div>
                 
-                <div id="registration-error" class="alert alert-danger hidden"></div>
-                <div id="registration-success" class="alert alert-success hidden"></div>
-                
-                <form id="registration-form">
-                    <h3 class="form-section-title">Informations personnelles</h3>
-                    
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                     <div class="form-group">
-                        <label for="reg-nom">Nom *</label>
-                        <input type="text" id="reg-nom" class="form-control" placeholder="Votre nom" required>
+                        <label>N° Carte identité *</label>
+                        <input type="text" id="reg-cin" class="form-control" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="reg-prenoms">Prénoms *</label>
-                        <input type="text" id="reg-prenoms" class="form-control" placeholder="Vos prénoms" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="reg-cin">Numéro de carte d'identité *</label>
-                        <input type="text" id="reg-cin" class="form-control" placeholder="Numéro CIN" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="reg-cin-expiry">Date d'expiration de la carte *</label>
+                        <label>Expiration CIN *</label>
                         <input type="date" id="reg-cin-expiry" class="form-control" required>
                     </div>
-                    
-                    <h3 class="form-section-title">Informations professionnelles</h3>
-                    
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                     <div class="form-group">
-                        <label for="reg-etablissement">Établissement *</label>
-                        <input type="text" id="reg-etablissement" class="form-control" placeholder="Nom de l'établissement" required>
+                        <label>Établissement *</label>
+                        <input type="text" id="reg-etablissement" class="form-control" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="reg-iesg">IESG *</label>
-                        <input type="text" id="reg-iesg" class="form-control" placeholder="IESG" required>
+                        <label>IESG *</label>
+                        <input type="text" id="reg-iesg" class="form-control" required>
                     </div>
-                    
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                     <div class="form-group">
-                        <label for="reg-dre">DRE *</label>
+                        <label>DRE *</label>
                         <select id="reg-dre" class="form-control" required>
-                            <option value="">Sélectionnez votre DRE</option>
-                            <option value="DRE-Maritimes">DRE-Lomé-Maritimes</option>
-                            <option value="DRE-Golfe">DRE-Golfe</option>
-                            <option value="DRE-Plateaux Est">DRE-Plateaux Est</option>
-                            <option value="DRE-Plateaux Ouest">DRE-Plateaux Ouest</option>
-                            <option value="DRE-Centrale">DRE-Centrale</option>
-                            <option value="DRE-KARA">DRE-KARA</option>
-                            <option value="DRE-Savanes">DRE-Savanes</option>
+                            <option value="">Sélectionnez</option>
+                            <option>DRE-Lomé-Maritimes</option>
+                            <option>DRE-Golfe</option>
+                            <option>DRE-Plateaux Est</option>
+                            <option>DRE-Plateaux Ouest</option>
+                            <option>DRE-Centrale</option>
+                            <option>DRE-KARA</option>
+                            <option>DRE-Savanes</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="reg-matricule">Numéro matricule *</label>
-                        <input type="text" id="reg-matricule" class="form-control" placeholder="Votre numéro matricule" required>
+                        <label>Matricule *</label>
+                        <input type="text" id="reg-matricule" class="form-control" required>
                     </div>
-                    
-                    <h3 class="form-section-title">Informations de tontine</h3>
-                    
-                    <div class="form-group">
-                        <label>Groupes de tontine *</label>
-                        <div style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; background-color: #f9f9f9;">
-                            <p><strong>Chaque enseignant est automatiquement inscrit dans tous les groupes</strong></p>
-                            <ul style="list-style-type: none; padding-left: 0;">
-                                <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Groupe 1000 FCFA/mois</li>
-                                <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Groupe 2000 FCFA/mois</li>
-                                <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Groupe 5000 FCFA/mois</li>
-                                <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Groupe 10000 FCFA/mois</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group form-full-width">
-                        <label for="reg-phone">Numéro de téléphone (WhatsApp) *</label>
-                        <input type="tel" id="reg-phone" class="form-control" placeholder="Votre numéro WhatsApp avec indicatif" required>
-                    </div>
-                    
-                    <div class="form-group form-full-width">
-                        <button type="button" id="btn-submit-registration" class="btn btn-primary">Soumettre l'inscription</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Téléphone (WhatsApp) *</label>
+                    <input type="tel" id="reg-phone" class="form-control" placeholder="+22890000000" required>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Inscription automatique à tous les groupes de tontine
+                </div>
+                
+                <button type="button" id="btn-submit-registration" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Envoyer ma demande
+                </button>
+            </form>
             
             <div class="support-info">
-                <p><strong>Après soumission, vos informations seront envoyées à l'administrateur par WhatsApp</strong></p>
-                <p>Vous recevrez vos identifiants de connexion après validation de votre inscription</p>
+                <button id="nav-back-to-login" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour à la connexion
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Tableau de bord (caché initialement) -->
-    <div id="dashboard-section" class="hidden">
+    <!-- Tableau de bord -->
+    <div id="dashboard-section" class="section hidden">
         <header>
             <nav>
                 <div class="logo">Tontine Enseignants</div>
@@ -1376,434 +647,299 @@
                     <span></span>
                 </button>
                 <ul class="nav-links" id="nav-links-dash">
-                    <li><a href="#" id="nav-dashboard">Tableau de bord</a></li>
-                    <li><a href="#" id="nav-profile">Mon Profil</a></li>
+                    <li><a href="#" id="nav-dashboard-link">Tableau de bord</a></li>
+                    <li><a href="#" id="nav-profile-link">Mon profil</a></li>
                     <li><a href="#" id="nav-logout-dash">Déconnexion</a></li>
                 </ul>
             </nav>
         </header>
 
-        <div class="container">
-            <h1>Gestion des Cotisations - <span id="user-welcome">Groupes de Tontine</span></h1>
+        <div class="container" style="margin-top: 24px;">
+            <h1 style="font-size: 1.8rem; margin-bottom: 20px;">Bonjour <span id="user-welcome"></span> 👋</h1>
             
-            <div class="tabs">
+            <!-- Tabs principales -->
+            <div class="tabs" id="main-tabs">
                 <div class="tab active" data-tab="all-groups">Tous les groupes</div>
                 <div class="tab" data-tab="contributions">Mes cotisations</div>
-                <div class="tab" data-tab="winners">Anciens bénéficiaires</div>
+                <div class="tab" data-tab="winners">Bénéficiaires</div>
             </div>
             
+            <!-- Onglet Tous les groupes -->
             <div class="tab-content active" id="tab-all-groups">
-                <div class="card">
-                    <h2 class="card-title">Tous les groupes de tontine</h2>
-                    <p>En tant qu'enseignant, vous êtes inscrit dans tous les groupes de tontine. Vous pouvez accéder à chaque groupe et effectuer vos paiements.</p>
-                    
-                    <div class="group-cards" id="all-groups-container">
-                        <!-- Group cards will be populated dynamically -->
-                    </div>
-                </div>
+                <div class="group-cards" id="all-groups-container"></div>
             </div>
             
+            <!-- Onglet Mes cotisations -->
             <div class="tab-content" id="tab-contributions">
-                <div class="card">
-                    <h2 class="card-title">Détail de mes cotisations</h2>
-                    
-                    <div class="tabs" style="margin-top: 15px;">
-                        <div class="tab active" data-subtab="contributions-1000">1000 FCFA</div>
-                        <div class="tab" data-subtab="contributions-2000">2000 FCFA</div>
-                        <div class="tab" data-subtab="contributions-5000">5000 FCFA</div>
-                        <div class="tab" data-subtab="contributions-10000">10000 FCFA</div>
-                    </div>
-                    
-                    <div class="subtab-content active" id="subtab-contributions-1000">
-                        <div class="summary-box">
-                            <h3>Synthèse - Groupe 1000 FCFA</h3>
-                            <div class="summary-item">
-                                <span>Total des cotisations:</span>
-                                <span id="total-contributions-1000">0 FCFA</span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Mois payés:</span>
-                                <span id="months-paid-1000">0/10</span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Prochain mois à payer:</span>
-                                <span id="next-month-to-pay-1000">Mois 1</span>
-                            </div>
+                <div class="tabs" id="contributions-tabs" style="margin-bottom: 20px;">
+                    <div class="tab active" data-subtab="contributions-1000">1000 F</div>
+                    <div class="tab" data-subtab="contributions-2000">2000 F</div>
+                    <div class="tab" data-subtab="contributions-5000">5000 F</div>
+                    <div class="tab" data-subtab="contributions-10000">10000 F</div>
+                </div>
+                
+                <!-- Groupe 1000 -->
+                <div class="subtab-content active" id="subtab-contributions-1000">
+                    <div class="card" style="max-width: 100%;">
+                        <h3>Groupe 1000 FCFA</h3>
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+                            <div><strong>Total cotisé :</strong> <span id="total-contributions-1000">0 F</span></div>
+                            <div><strong>Mois payés :</strong> <span id="months-paid-1000">0/10</span></div>
+                            <div><strong>Prochain mois :</strong> <span id="next-month-to-pay-1000">-</span></div>
                         </div>
-                        
-                        <h3>Historique détaillé par mois</h3>
-                        <div style="overflow-x: auto;">
+                        <div class="table-responsive">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>Mois</th>
-                                        <th>Date limite</th>
                                         <th>Montant</th>
                                         <th>Statut</th>
-                                        <th>Date de paiement</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="contributions-detail-1000">
-                                    <!-- Contributions detail will be populated dynamically -->
-                                </tbody>
+                                <tbody id="contributions-detail-1000"></tbody>
                             </table>
                         </div>
                     </div>
-                    
-                    <div class="subtab-content" id="subtab-contributions-2000">
-                        <div class="summary-box">
-                            <h3>Synthèse - Groupe 2000 FCFA</h3>
-                            <div class="summary-item">
-                                <span>Total des cotisations:</span>
-                                <span id="total-contributions-2000">0 FCFA</span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Mois payés:</span>
-                                <span id="months-paid-2000">0/10</span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Prochain mois à payer:</span>
-                                <span id="next-month-to-pay-2000">Mois 1</span>
-                            </div>
+                </div>
+                
+                <!-- Groupe 2000 -->
+                <div class="subtab-content" id="subtab-contributions-2000">
+                    <div class="card" style="max-width: 100%;">
+                        <h3>Groupe 2000 FCFA</h3>
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+                            <div><strong>Total cotisé :</strong> <span id="total-contributions-2000">0 F</span></div>
+                            <div><strong>Mois payés :</strong> <span id="months-paid-2000">0/10</span></div>
+                            <div><strong>Prochain mois :</strong> <span id="next-month-to-pay-2000">-</span></div>
                         </div>
-                        
-                        <h3>Historique détaillé par mois</h3>
-                        <div style="overflow-x: auto;">
+                        <div class="table-responsive">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>Mois</th>
-                                        <th>Date limite</th>
                                         <th>Montant</th>
                                         <th>Statut</th>
-                                        <th>Date de paiement</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="contributions-detail-2000">
-                                    <!-- Contributions detail will be populated dynamically -->
-                                </tbody>
+                                <tbody id="contributions-detail-2000"></tbody>
                             </table>
                         </div>
                     </div>
-                    
-                    <div class="subtab-content" id="subtab-contributions-5000">
-                        <div class="summary-box">
-                            <h3>Synthèse - Groupe 5000 FCFA</h3>
-                            <div class="summary-item">
-                                <span>Total des cotisations:</span>
-                                <span id="total-contributions-5000">0 FCFA</span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Mois payés:</span>
-                                <span id="months-paid-5000">0/10</span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Prochain mois à payer:</span>
-                                <span id="next-month-to-pay-5000">Mois 1</span>
-                            </div>
+                </div>
+                
+                <!-- Groupe 5000 -->
+                <div class="subtab-content" id="subtab-contributions-5000">
+                    <div class="card" style="max-width: 100%;">
+                        <h3>Groupe 5000 FCFA</h3>
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+                            <div><strong>Total cotisé :</strong> <span id="total-contributions-5000">0 F</span></div>
+                            <div><strong>Mois payés :</strong> <span id="months-paid-5000">0/10</span></div>
+                            <div><strong>Prochain mois :</strong> <span id="next-month-to-pay-5000">-</span></div>
                         </div>
-                        
-                        <h3>Historique détaillé par mois</h3>
-                        <div style="overflow-x: auto;">
+                        <div class="table-responsive">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>Mois</th>
-                                        <th>Date limite</th>
                                         <th>Montant</th>
                                         <th>Statut</th>
-                                        <th>Date de paiement</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="contributions-detail-5000">
-                                    <!-- Contributions detail will be populated dynamically -->
-                                </tbody>
+                                <tbody id="contributions-detail-5000"></tbody>
                             </table>
                         </div>
                     </div>
-                    
-                    <div class="subtab-content" id="subtab-contributions-10000">
-                        <div class="summary-box">
-                            <h3>Synthèse - Groupe 10000 FCFA</h3>
-                            <div class="summary-item">
-                                <span>Total des cotisations:</span>
-                                <span id="total-contributions-10000">0 FCFA</span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Mois payés:</span>
-                                <span id="months-paid-10000">0/10</span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Prochain mois à payer:</span>
-                                <span id="next-month-to-pay-10000">Mois 1</span>
-                            </div>
+                </div>
+                
+                <!-- Groupe 10000 -->
+                <div class="subtab-content" id="subtab-contributions-10000">
+                    <div class="card" style="max-width: 100%;">
+                        <h3>Groupe 10000 FCFA</h3>
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+                            <div><strong>Total cotisé :</strong> <span id="total-contributions-10000">0 F</span></div>
+                            <div><strong>Mois payés :</strong> <span id="months-paid-10000">0/10</span></div>
+                            <div><strong>Prochain mois :</strong> <span id="next-month-to-pay-10000">-</span></div>
                         </div>
-                        
-                        <h3>Historique détaillé par mois</h3>
-                        <div style="overflow-x: auto;">
+                        <div class="table-responsive">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>Mois</th>
-                                        <th>Date limite</th>
                                         <th>Montant</th>
                                         <th>Statut</th>
-                                        <th>Date de paiement</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="contributions-detail-10000">
-                                    <!-- Contributions detail will be populated dynamically -->
-                                </tbody>
+                                <tbody id="contributions-detail-10000"></tbody>
                             </table>
                         </div>
                     </div>
-                    
-                    <div class="payment-action">
-                        <div>
-                            <p><strong>Confirmer votre paiement via WhatsApp</strong></p>
-                            <a href="#" id="whatsapp-confirm-link" class="whatsapp-group-link" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Confirmer le paiement
-                            </a>
-                        </div>
-                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="#" id="whatsapp-confirm-link" class="btn btn-whatsapp btn-sm" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Confirmer un paiement
+                    </a>
                 </div>
             </div>
             
+            <!-- Onglet Bénéficiaires -->
             <div class="tab-content" id="tab-winners">
-                <div class="card">
-                    <h2 class="card-title">Historique des bénéficiaires</h2>
-                    <p>Liste de tous les anciens bénéficiaires, leur mois de ramassage et le montant perçu</p>
-                    
-                    <div class="tabs" style="margin-top: 15px;">
-                        <div class="tab active" data-subtab="winners-1000">1000 FCFA</div>
-                        <div class="tab" data-subtab="winners-2000">2000 FCFA</div>
-                        <div class="tab" data-subtab="winners-5000">5000 FCFA</div>
-                        <div class="tab" data-subtab="winners-10000">10000 FCFA</div>
-                    </div>
-                    
-                    <div class="subtab-content active" id="subtab-winners-1000">
-                        <div class="winner-history">
-                            <h3>Bénéficiaires du groupe 1000 FCFA</h3>
-                            <div style="overflow-x: auto;">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Mois</th>
-                                            <th>Bénéficiaire</th>
-                                            <th>Montant perçu</th>
-                                            <th>Date de ramassage</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="winners-list-1000">
-                                        <!-- Winners will be populated dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="subtab-content" id="subtab-winners-2000">
-                        <div class="winner-history">
-                            <h3>Bénéficiaires du groupe 2000 FCFA</h3>
-                            <div style="overflow-x: auto;">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Mois</th>
-                                            <th>Bénéficiaire</th>
-                                            <th>Montant perçu</th>
-                                            <th>Date de ramassage</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="winners-list-2000">
-                                        <!-- Winners will be populated dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="subtab-content" id="subtab-winners-5000">
-                        <div class="winner-history">
-                            <h3>Bénéficiaires du groupe 5000 FCFA</h3>
-                            <div style="overflow-x: auto;">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Mois</th>
-                                            <th>Bénéficiaire</th>
-                                            <th>Montant perçu</th>
-                                            <th>Date de ramassage</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="winners-list-5000">
-                                        <!-- Winners will be populated dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="subtab-content" id="subtab-winners-10000">
-                        <div class="winner-history">
-                            <h3>Bénéficiaires du groupe 10000 FCFA</h3>
-                            <div style="overflow-x: auto;">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Mois</th>
-                                            <th>Bénéficiaire</th>
-                                            <th>Montant perçu</th>
-                                            <th>Date de ramassage</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="winners-list-10000">
-                                        <!-- Winners will be populated dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
+                <div class="tabs" id="winners-tabs" style="margin-bottom: 20px;">
+                    <div class="tab active" data-subtab="winners-1000">1000 F</div>
+                    <div class="tab" data-subtab="winners-2000">2000 F</div>
+                    <div class="tab" data-subtab="winners-5000">5000 F</div>
+                    <div class="tab" data-subtab="winners-10000">10000 F</div>
+                </div>
+                
+                <div class="subtab-content active" id="subtab-winners-1000">
+                    <div class="card" style="max-width: 100%;">
+                        <h3>Historique - Groupe 1000 F</h3>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Bénéficiaire</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="winners-list-1000"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="auto-save-status">
-                <i class="fas fa-sync-alt"></i> Sauvegarde automatique active
+                
+                <div class="subtab-content" id="subtab-winners-2000">
+                    <div class="card" style="max-width: 100%;">
+                        <h3>Historique - Groupe 2000 F</h3>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Bénéficiaire</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="winners-list-2000"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="subtab-content" id="subtab-winners-5000">
+                    <div class="card" style="max-width: 100%;">
+                        <h3>Historique - Groupe 5000 F</h3>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Bénéficiaire</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="winners-list-5000"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="subtab-content" id="subtab-winners-10000">
+                    <div class="card" style="max-width: 100%;">
+                        <h3>Historique - Groupe 10000 F</h3>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mois</th>
+                                        <th>Bénéficiaire</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="winners-list-10000"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Indicateur sauvegarde -->
+    <div class="auto-save-status hidden" id="auto-save-indicator">
+        <i class="fas fa-sync-alt fa-spin"></i> Sauvegarde...
+    </div>
+
     <script>
-        // Configuration de la tontine - 10 mois
+        // Configuration
         const TOTAL_MONTHS = 10;
-        const WHATSAPP_ADMIN_NUMBER = "22892871605";
-        const AUTO_SAVE_INTERVAL = 30000; // 30 secondes
+        const WHATSAPP_ADMIN = "22892871605";
         
-        // Liens de paiement FedaPay par groupe
+        // Données des enseignants
+        let registeredTeachers = [
+            { identifier: "ENS001", password: "pass123", name: "Koffi Amétépé", school: "Lycée Moderne", phone: "+22890123456", groups: ["1000","2000","5000","10000"] },
+            { identifier: "ENS002", password: "pass123", name: "Ama Djondo", school: "CEG Nyékonakpoè", phone: "+22891234567", groups: ["1000","2000","5000","10000"] },
+            { identifier: "ENS003", password: "pass123", name: "Yawo Agbefou", school: "Lycée de Tokoin", phone: "+22892345678", groups: ["1000","2000","5000","10000"] },
+            { identifier: "ENS004", password: "pass123", name: "Mawussi Adoko", school: "Collège Protestant", phone: "+22893456789", groups: ["1000","2000","5000","10000"] },
+            { identifier: "ENS005", password: "pass123", name: "Abra Djelou", school: "Lycée Scientifique", phone: "+22894567890", groups: ["1000","2000","5000","10000"] },
+            { identifier: "ENS006", password: "pass123", name: "Séna Agbogbo", school: "CETEF", phone: "+22895678901", groups: ["1000","2000","5000","10000"] },
+            { identifier: "ENS007", password: "pass123", name: "Kossi Atchi", school: "Lycée du 2 Février", phone: "+22896789012", groups: ["1000","2000","5000","10000"] },
+            { identifier: "ENS008", password: "pass123", name: "Essi Adani", school: "Lycée de Bé", phone: "+22897890123", groups: ["1000","2000","5000","10000"] }
+        ];
+
+        // Groupes de tontine
+        const tontineGroups = {
+            "1000": { name: "Groupe 1000 F", amount: 1000, description: "Cotisation 1000 F/mois", total: 10000 },
+            "2000": { name: "Groupe 2000 F", amount: 2000, description: "Cotisation 2000 F/mois", total: 20000 },
+            "5000": { name: "Groupe 5000 F", amount: 5000, description: "Cotisation 5000 F/mois", total: 50000 },
+            "10000": { name: "Groupe 10000 F", amount: 10000, description: "Cotisation 10000 F/mois", total: 100000 }
+        };
+
+        // Liens de paiement
         const paymentLinks = {
             "1000": "https://me.fedapay.com/F50SPObJ",
             "2000": "https://me.fedapay.com/n0UlodtK",
             "5000": "https://me.fedapay.com/vE2joUDA",
             "10000": "https://me.fedapay.com/TTbl2m0s"
         };
-        
-        // Liens de groupes WhatsApp par groupe
-        const whatsappGroupLinks = {
-            "1000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY?mode=ems_share_c",
-            "2000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY?mode=ems_share_c",
-            "5000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY?mode=ems_share_c",
-            "10000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY?mode=ems_share_c"
-        };
-        
-        // Base de données des enseignants inscrits
-        let registeredTeachers = [
-            { 
-                identifier: "ENS001", 
-                password: "pass1000", 
-                name: "Koffi Amétépé", 
-                school: "Lycée Moderne d'Adidogomé",
-                groups: ["1000", "2000", "5000", "10000"],
-                phone: "+22890123456"
-            },
-            { 
-                identifier: "ENS002", 
-                password: "pass1000", 
-                name: "Ama Djondo", 
-                school: "CEG Nyékonakpoè",
-                groups: ["1000", "2000", "5000", "10000"],
-                phone: "+22891234567"
-            },
-            { 
-                identifier: "ENS003", 
-                password: "pass2000", 
-                name: "Yawo Agbefou", 
-                school: "Lycée de Tokoin",
-                groups: ["1000", "2000", "5000", "10000"],
-                phone: "+22892345678"
-            },
-            { 
-                identifier: "ENS004", 
-                password: "pass2000", 
-                name: "Mawussi Adoko", 
-                school: "Collège Protestant",
-                groups: ["1000", "2000", "5000", "10000"],
-                phone: "+22893456789"
-            },
-            { 
-                identifier: "ENS005", 
-                password: "pass5000", 
-                name: "Abra Djelou", 
-                school: "Lycée Scientifique de Lomé",
-                groups: ["1000", "2000", "5000", "10000"],
-                phone: "+22894567890"
-            },
-            { 
-                identifier: "ENS006", 
-                password: "pass5000", 
-                name: "Séna Agbogbo", 
-                school: "CETEF d'Agbalépédogan",
-                groups: ["1000", "2000", "5000", "10000"],
-                phone: "+22895678901"
-            },
-            { 
-                identifier: "ENS007", 
-                password: "pass10000", 
-                name: "Kossi Atchi", 
-                school: "Lycée du 2 Février",
-                groups: ["1000", "2000", "5000", "10000"],
-                phone: "+22896789012"
-            },
-            { 
-                identifier: "ENS008", 
-                password: "pass10000", 
-                name: "Essi Adani", 
-                school: "Lycée de Bé",
-                groups: ["1000", "2000", "5000", "10000"],
-                phone: "+22897890123"
-            }
-        ];
 
-        // Historique des bénéficiaires par groupe
+        // Liens des groupes WhatsApp
+        const whatsappGroupLinks = {
+            "1000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY",
+            "2000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY",
+            "5000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY",
+            "10000": "https://chat.whatsapp.com/C7pn853asFz6wqNc2NKTjY"
+        };
+
+        // Historique des bénéficiaires
         let winnersHistory = {
             "1000": [
-                { month: "Janvier 2023", winner: "Koffi Amétépé", amount: 10000, date: "15/01/2023" },
-                { month: "Février 2023", winner: "Ama Djondo", amount: 10000, date: "15/02/2023" },
-                { month: "Mars 2023", winner: "Koffi Amétépé", amount: 10000, date: "15/03/2023" },
-                { month: "Avril 2023", winner: "Yawo Agbefou", amount: 10000, date: "15/04/2023" },
-                { month: "Mai 2023", winner: "Mawussi Adoko", amount: 10000, date: "15/05/2023" },
-                { month: "Juin 2023", winner: "Abra Djelou", amount: 10000, date: "15/06/2023" }
+                { month: "Janvier 2024", winner: "Koffi Amétépé", amount: 10000 },
+                { month: "Février 2024", winner: "Ama Djondo", amount: 10000 },
+                { month: "Mars 2024", winner: "Yawo Agbefou", amount: 10000 }
             ],
             "2000": [
-                { month: "Janvier 2023", winner: "Yawo Agbefou", amount: 20000, date: "15/01/2023" },
-                { month: "Février 2023", winner: "Mawussi Adoko", amount: 20000, date: "15/02/2023" },
-                { month: "Mars 2023", winner: "Yawo Agbefou", amount: 20000, date: "15/03/2023" },
-                { month: "Avril 2023", winner: "Ama Djondo", amount: 20000, date: "15/04/2023" },
-                { month: "Mai 2023", winner: "Kossi Atchi", amount: 20000, date: "15/05/2023" },
-                { month: "Juin 2023", winner: "Essi Adani", amount: 20000, date: "15/06/2023" }
+                { month: "Janvier 2024", winner: "Yawo Agbefou", amount: 20000 },
+                { month: "Février 2024", winner: "Mawussi Adoko", amount: 20000 },
+                { month: "Mars 2024", winner: "Koffi Amétépé", amount: 20000 }
             ],
             "5000": [
-                { month: "Janvier 2023", winner: "Abra Djelou", amount: 50000, date: "15/01/2023" },
-                { month: "Février 2023", winner: "Séna Agbogbo", amount: 50000, date: "15/02/2023" },
-                { month: "Mars 2023", winner: "Abra Djelou", amount: 50000, date: "15/03/2023" },
-                { month: "Avril 2023", winner: "Koffi Amétépé", amount: 50000, date: "15/04/2023" },
-                { month: "Mai 2023", winner: "Mawussi Adoko", amount: 50000, date: "15/05/2023" },
-                { month: "Juin 2023", winner: "Yawo Agbefou", amount: 50000, date: "15/06/2023" }
+                { month: "Janvier 2024", winner: "Abra Djelou", amount: 50000 },
+                { month: "Février 2024", winner: "Séna Agbogbo", amount: 50000 },
+                { month: "Mars 2024", winner: "Kossi Atchi", amount: 50000 }
             ],
             "10000": [
-                { month: "Janvier 2023", winner: "Kossi Atchi", amount: 100000, date: "15/01/2023" },
-                { month: "Février 2023", winner: "Essi Adani", amount: 100000, date: "15/02/2023" },
-                { month: "Mars 2023", winner: "Kossi Atchi", amount: 100000, date: "15/03/2023" },
-                { month: "Avril 2023", winner: "Séna Agbogbo", amount: 100000, date: "15/04/2023" },
-                { month: "Mai 2023", winner: "Abra Djelou", amount: 100000, date: "15/05/2023" },
-                { month: "Juin 2023", winner: "Ama Djondo", amount: 100000, date: "15/06/2023" }
+                { month: "Janvier 2024", winner: "Kossi Atchi", amount: 100000 },
+                { month: "Février 2024", winner: "Essi Adani", amount: 100000 },
+                { month: "Mars 2024", winner: "Abra Djelou", amount: 100000 }
             ]
         };
 
-        // Bénéficiaire du mois en cours
+        // Bénéficiaires du mois en cours
         const currentMonthWinner = {
             "1000": { winner: "Ama Djondo", amount: 10000 },
             "2000": { winner: "Mawussi Adoko", amount: 20000 },
@@ -1811,443 +947,345 @@
             "10000": { winner: "Essi Adani", amount: 100000 }
         };
 
-        // Groupes de tontine disponibles
-        const tontineGroups = {
-            "1000": {
-                name: "Groupe 1000 FCFA",
-                amount: 1000,
-                description: "Cotisation mensuelle de 1000 FCFA pendant 10 mois"
-            },
-            "2000": {
-                name: "Groupe 2000 FCFA",
-                amount: 2000,
-                description: "Cotisation mensuelle de 2000 FCFA pendant 10 mois"
-            },
-            "5000": {
-                name: "Groupe 5000 FCFA",
-                amount: 5000,
-                description: "Cotisation mensuelle de 5000 FCFA pendant 10 mois"
-            },
-            "10000": {
-                name: "Groupe 10000 FCFA",
-                amount: 10000,
-                description: "Cotisation mensuelle de 10000 FCFA pendant 10 mois"
-            }
-        };
-        
-        // Données de démonstration (remplacées par des données réelles en production)
+        // Variables globales
         let currentUser = null;
-        let allMembers = [];
-        let autoSaveInterval = null;
-        
+        let autoSaveTimer = null;
+
         // Éléments DOM
         const loginSection = document.getElementById('login-section');
         const registrationSection = document.getElementById('registration-section');
         const dashboardSection = document.getElementById('dashboard-section');
-        
-        const loginForm = document.getElementById('login-form');
-        const registrationForm = document.getElementById('registration-form');
-        
-        const btnLogin = document.getElementById('btn-login');
-        const btnShowRegistration = document.getElementById('btn-show-registration');
-        const btnSubmitRegistration = document.getElementById('btn-submit-registration');
-        const navBackToLogin = document.getElementById('nav-back-to-login');
-        const navLogout = document.getElementById('nav-logout');
-        const navLogoutDash = document.getElementById('nav-logout-dash');
-        
-        const loginError = document.getElementById('login-error');
-        const registrationError = document.getElementById('registration-error');
-        const registrationSuccess = document.getElementById('registration-success');
-        
-        // Initialisation de l'application
+        const autoSaveIndicator = document.getElementById('auto-save-indicator');
+
+        // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
-            // Charger les données sauvegardées
             loadSavedData();
-            
-            // Initialiser les gestionnaires d'événements
-            initEventListeners();
-            
-            // Vérifier si l'utilisateur est déjà connecté
-            checkIfLoggedIn();
-            
-            // Démarrer la sauvegarde automatique
+            initEvents();
+            checkLoggedIn();
             startAutoSave();
         });
-        
-        function initEventListeners() {
-            // Navigation mobile
-            document.querySelectorAll('.menu-toggle').forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    const navLinks = this.closest('nav').querySelector('.nav-links');
-                    navLinks.classList.toggle('active');
+
+        function initEvents() {
+            // Menu mobile
+            document.querySelectorAll('.menu-toggle').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const nav = this.closest('nav').querySelector('.nav-links');
+                    nav.classList.toggle('active');
                 });
             });
-            
+
             // Bouton de connexion
-            btnLogin.addEventListener('click', handleLogin);
+            document.getElementById('btn-login').addEventListener('click', handleLogin);
             
-            // Bouton pour afficher le formulaire d'inscription
-            btnShowRegistration.addEventListener('click', function() {
+            // Afficher formulaire d'inscription
+            document.getElementById('btn-show-registration').addEventListener('click', function() {
                 loginSection.classList.add('hidden');
                 registrationSection.classList.remove('hidden');
             });
             
-            // Bouton pour revenir à la connexion
-            navBackToLogin.addEventListener('click', function() {
+            // Retour à la connexion
+            document.getElementById('nav-back-to-login').addEventListener('click', function() {
                 registrationSection.classList.add('hidden');
                 loginSection.classList.remove('hidden');
             });
             
-            // Bouton de soumission d'inscription
-            btnSubmitRegistration.addEventListener('click', handleRegistration);
+            // Soumission inscription
+            document.getElementById('btn-submit-registration').addEventListener('click', handleRegistration);
             
-            // Boutons de déconnexion
-            navLogout.addEventListener('click', handleLogout);
-            navLogoutDash.addEventListener('click', handleLogout);
+            // Déconnexion
+            const logoutButtons = document.querySelectorAll('#nav-logout, #nav-logout-dash');
+            logoutButtons.forEach(btn => {
+                btn.addEventListener('click', logout);
+            });
+
+            // Navigation dans le dashboard
+            document.getElementById('nav-dashboard-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                switchTab('all-groups');
+                document.querySelector('.tab[data-tab="all-groups"]').classList.add('active');
+            });
             
-            // Navigation par onglets
-            document.querySelectorAll('.tab').forEach(tab => {
+            document.getElementById('nav-profile-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Profil utilisateur :\n' + 
+                      'Nom : ' + currentUser.name + '\n' +
+                      'Établissement : ' + currentUser.school + '\n' +
+                      'Téléphone : ' + currentUser.phone);
+            });
+
+            // Tabs principales
+            document.querySelectorAll('#main-tabs .tab[data-tab]').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');
                     switchTab(tabId);
                 });
             });
-            
-            // Navigation par sous-onglets
-            document.querySelectorAll('[data-subtab]').forEach(subtab => {
-                subtab.addEventListener('click', function() {
+
+            // Tabs des cotisations
+            document.querySelectorAll('#contributions-tabs .tab[data-subtab]').forEach(tab => {
+                tab.addEventListener('click', function() {
                     const subtabId = this.getAttribute('data-subtab');
-                    switchSubTab(subtabId);
+                    switchSubTab(subtabId, 'contributions-tabs');
+                });
+            });
+
+            // Tabs des bénéficiaires
+            document.querySelectorAll('#winners-tabs .tab[data-subtab]').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const subtabId = this.getAttribute('data-subtab');
+                    switchSubTab(subtabId, 'winners-tabs');
                 });
             });
         }
-        
-        function checkIfLoggedIn() {
-            // Vérifier si l'utilisateur est déjà connecté (dans le localStorage)
-            const savedUser = localStorage.getItem('tontine_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showDashboard();
+
+        function checkLoggedIn() {
+            const saved = localStorage.getItem('tontine_user');
+            if (saved) {
+                try {
+                    currentUser = JSON.parse(saved);
+                    showDashboard();
+                } catch(e) {
+                    console.error('Erreur de chargement utilisateur');
+                }
             }
         }
-        
+
         function handleLogin() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
+            const id = document.getElementById('login-email').value.trim();
+            const pwd = document.getElementById('login-password').value.trim();
             
-            // Validation simple
-            if (!email || !password) {
-                showError(loginError, 'Veuillez remplir tous les champs');
+            if (!id || !pwd) {
+                showError('login-error', 'Veuillez remplir tous les champs');
                 return;
             }
             
-            // Rechercher l'utilisateur dans la base de données
-            const teacher = registeredTeachers.find(t => t.identifier === email && t.password === password);
+            const user = registeredTeachers.find(t => t.identifier === id && t.password === pwd);
             
-            if (teacher) {
-                // Connexion réussie
-                currentUser = teacher;
-                
-                // Sauvegarder l'utilisateur dans le localStorage
-                localStorage.setItem('tontine_user', JSON.stringify(currentUser));
-                
-                // Afficher le tableau de bord
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('tontine_user', JSON.stringify(user));
                 showDashboard();
             } else {
-                showError(loginError, 'Identifiant ou mot de passe incorrect');
+                showError('login-error', 'Identifiants incorrects. Essayez ENS001 / pass123');
             }
         }
-        
+
         function handleRegistration() {
-            // Récupérer les valeurs du formulaire
-            const nom = document.getElementById('reg-nom').value;
-            const prenoms = document.getElementById('reg-prenoms').value;
-            const cin = document.getElementById('reg-cin').value;
-            const cinExpiry = document.getElementById('reg-cin-expiry').value;
-            const etablissement = document.getElementById('reg-etablissement').value;
-            const iesg = document.getElementById('reg-iesg').value;
-            const dre = document.getElementById('reg-dre').value;
-            const matricule = document.getElementById('reg-matricule').value;
-            const phone = document.getElementById('reg-phone').value;
+            // Récupérer les valeurs
+            const nom = document.getElementById('reg-nom').value.trim();
+            const prenoms = document.getElementById('reg-prenoms').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
             
-            // Validation
-            if (!nom || !prenoms || !cin || !cinExpiry || !etablissement || !iesg || !dre || !matricule || !phone) {
-                showError(registrationError, 'Veuillez remplir tous les champs obligatoires');
+            if (!nom || !prenoms || !phone) {
+                showError('registration-error', 'Veuillez remplir tous les champs obligatoires');
                 return;
             }
             
-            // En production, on enverrait ces données au serveur
-            // Pour la démo, on simule juste un envoi réussi
-            
-            // Afficher un message de succès
-            registrationError.classList.add('hidden');
-            registrationSuccess.classList.remove('hidden');
-            registrationSuccess.innerHTML = `
-                <p><strong>Inscription soumise avec succès !</strong></p>
-                <p>Vos informations ont été envoyées à l'administrateur.</p>
-                <p>Vous recevrez vos identifiants de connexion par WhatsApp une fois votre inscription validée.</p>
-            `;
+            // Simuler l'envoi
+            const successEl = document.getElementById('registration-success');
+            successEl.classList.remove('hidden');
+            successEl.innerHTML = '<i class="fas fa-check-circle"></i> Demande envoyée avec succès ! Vous recevrez vos identifiants par WhatsApp dans les plus brefs délais.';
             
             // Réinitialiser le formulaire
-            registrationForm.reset();
+            document.getElementById('registration-form').reset();
             
-            // Rediriger vers la page de connexion après 5 secondes
+            // Rediriger après 3 secondes
             setTimeout(() => {
                 registrationSection.classList.add('hidden');
                 loginSection.classList.remove('hidden');
-                registrationSuccess.classList.add('hidden');
-            }, 5000);
+                successEl.classList.add('hidden');
+            }, 3000);
         }
-        
-        function handleLogout() {
-            // Arrêter la sauvegarde automatique
-            if (autoSaveInterval) {
-                clearInterval(autoSaveInterval);
-            }
-            
-            // Déconnecter l'utilisateur
+
+        function logout(e) {
+            e.preventDefault();
             currentUser = null;
             localStorage.removeItem('tontine_user');
-            
-            // Revenir à la page de connexion
             dashboardSection.classList.add('hidden');
-            registrationSection.classList.add('hidden');
             loginSection.classList.remove('hidden');
+            
+            // Réinitialiser les champs de connexion
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
         }
-        
+
         function showDashboard() {
-            // Cacher les autres sections et afficher le tableau de bord
             loginSection.classList.add('hidden');
             registrationSection.classList.add('hidden');
             dashboardSection.classList.remove('hidden');
             
-            // Mettre à jour les informations utilisateur
-            document.getElementById('user-welcome').textContent = `${currentUser.name}`;
-            
-            // Charger les données de tous les groupes
-            loadAllGroupsData();
-            
-            // Charger les cotisations de l'utilisateur
+            document.getElementById('user-welcome').textContent = currentUser.name;
+            loadGroups();
             loadContributions();
-            
-            // Charger l'historique des bénéficiaires
             loadWinners();
-        }
-        
-        function loadAllGroupsData() {
-            const allGroupsContainer = document.getElementById('all-groups-container');
-            allGroupsContainer.innerHTML = '';
             
-            // Afficher tous les groupes
-            for (const groupKey in tontineGroups) {
-                const group = tontineGroups[groupKey];
-                const groupMembers = generateDemoMembers(groupKey);
-                const paymentLink = paymentLinks[groupKey];
-                const whatsappLink = whatsappGroupLinks[groupKey];
-                
-                const groupCard = document.createElement('div');
-                groupCard.className = `group-card group-card-${groupKey}`;
-                groupCard.innerHTML = `
+            // Mettre à jour le lien WhatsApp de confirmation
+            document.getElementById('whatsapp-confirm-link').href = `https://wa.me/${WHATSAPP_ADMIN}?text=${encodeURIComponent('Bonjour, je suis ' + currentUser.name + ' et je souhaite confirmer mon paiement de tontine.')}`;
+        }
+
+        function loadGroups() {
+            const container = document.getElementById('all-groups-container');
+            container.innerHTML = '';
+            
+            for (const [key, group] of Object.entries(tontineGroups)) {
+                const members = registeredTeachers.filter(t => t.groups.includes(key));
+                const card = document.createElement('div');
+                card.className = `group-card group-card-${key}`;
+                card.innerHTML = `
                     <h3>${group.name}</h3>
-                    <div class="group-amount">${group.amount.toLocaleString()} FCFA/mois</div>
-                    <div class="group-description">${group.description}</div>
-                    <p><strong>Nombre de membres:</strong> ${groupMembers.length}</p>
-                    <p><strong>Montant total par ramassage:</strong> ${(group.amount * groupMembers.length).toLocaleString()} FCFA</p>
-                    <p><strong>Bénéficiaire du mois:</strong> ${currentMonthWinner[groupKey].winner}</p>
-                    
+                    <div class="group-amount">${group.amount.toLocaleString()} F/mois</div>
+                    <p><i class="fas fa-users"></i> ${members.length} membres</p>
+                    <p><i class="fas fa-trophy"></i> Bénéficiaire: ${currentMonthWinner[key].winner}</p>
                     <div class="payment-action">
-                        <a href="${paymentLink}" class="btn btn-payment" target="_blank">
-                            <i class="fas fa-money-bill-wave"></i> Payer la cotisation
-                        </a>
-                        <a href="${whatsappLink}" class="btn btn-whatsapp" target="_blank">
-                            <i class="fab fa-whatsapp"></i> Rejoindre le groupe
-                        </a>
+                        <a href="${paymentLinks[key]}" target="_blank" class="btn btn-payment"><i class="fas fa-credit-card"></i> Payer</a>
+                        <a href="${whatsappGroupLinks[key]}" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Groupe</a>
                     </div>
                 `;
-                
-                allGroupsContainer.appendChild(groupCard);
+                container.appendChild(card);
             }
         }
-        
-        function generateDemoMembers(group) {
-            // Récupérer les membres du groupe depuis la base de données
-            return registeredTeachers.filter(teacher => teacher.groups.includes(group));
-        }
-        
+
         function loadContributions() {
-            // En production, ces données viendraient d'une API
-            // Pour la démo, nous générons des données factices pour chaque groupe
+            const groups = ["1000","2000","5000","10000"];
+            const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre"];
             
-            const groups = ["1000", "2000", "5000", "10000"];
-            
-            groups.forEach(group => {
-                const groupAmount = tontineGroups[group].amount;
-                const paidMonths = Math.floor(Math.random() * 5); // L'utilisateur a payé entre 0 et 4 mois
+            groups.forEach(g => {
+                // Générer un nombre aléatoire de mois payés (entre 2 et 6)
+                const paidMonths = Math.floor(Math.random() * 5) + 2;
+                const total = paidMonths * tontineGroups[g].amount;
                 
-                // Mettre à jour le résumé pour chaque groupe
-                document.getElementById(`total-contributions-${group}`).textContent = (groupAmount * paidMonths).toLocaleString() + ' FCFA';
-                document.getElementById(`months-paid-${group}`).textContent = `${paidMonths}/${TOTAL_MONTHS}`;
-                document.getElementById(`next-month-to-pay-${group}`).textContent = `Mois ${paidMonths + 1}`;
+                document.getElementById(`total-contributions-${g}`).innerHTML = total.toLocaleString() + ' F';
+                document.getElementById(`months-paid-${g}`).innerHTML = `${paidMonths}/10`;
+                document.getElementById(`next-month-to-pay-${g}`).innerHTML = `Mois ${paidMonths + 1}`;
                 
-                // Générer le détail des cotisations pour chaque groupe
-                const contributionsDetail = document.getElementById(`contributions-detail-${group}`);
-                contributionsDetail.innerHTML = '';
+                const tbody = document.getElementById(`contributions-detail-${g}`);
+                tbody.innerHTML = '';
                 
-                const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre"];
-                
-                for (let i = 0; i < TOTAL_MONTHS; i++) {
-                    const isPaid = i < paidMonths;
-                    const status = isPaid ? 'Payé' : (i === paidMonths ? 'En attente' : 'À venir');
-                    const statusClass = isPaid ? 'badge-success' : (i === paidMonths ? 'badge-warning' : 'badge-danger');
-                    const paymentDate = isPaid ? `15/${i + 1}/2023` : '-';
+                for (let i = 0; i < 10; i++) {
+                    const monthIndex = i;
+                    let status, badgeClass, statusText;
+                    
+                    if (i < paidMonths) {
+                        status = 'paid';
+                        badgeClass = 'badge-success';
+                        statusText = 'Payé';
+                    } else if (i === paidMonths) {
+                        status = 'pending';
+                        badgeClass = 'badge-warning';
+                        statusText = 'À payer';
+                    } else {
+                        status = 'future';
+                        badgeClass = 'badge-danger';
+                        statusText = 'À venir';
+                    }
+                    
+                    const actionButton = i === paidMonths ? 
+                        `<button class="btn btn-payment btn-sm" onclick="window.open('${paymentLinks[g]}', '_blank')">Payer</button>` : 
+                        '-';
                     
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${months[i]}</td>
-                        <td>15/${i + 1}/2023</td>
-                        <td>${groupAmount.toLocaleString()} FCFA</td>
-                        <td><span class="badge ${statusClass}">${status}</span></td>
-                        <td>${paymentDate}</td>
-                        <td>${i === paidMonths ? `<button class="btn-payment" style="padding: 5px 10px; font-size: 0.8rem;" onclick="handleGroupPayment('${group}')">Payer</button>` : ''}</td>
+                        <td>${months[monthIndex]}</td>
+                        <td>${tontineGroups[g].amount} F</td>
+                        <td><span class="badge ${badgeClass}">${statusText}</span></td>
+                        <td>${actionButton}</td>
                     `;
-                    
-                    contributionsDetail.appendChild(row);
+                    tbody.appendChild(row);
                 }
             });
-            
-            // Mettre à jour le lien WhatsApp de confirmation
-            const whatsappConfirmLink = document.getElementById('whatsapp-confirm-link');
-            whatsappConfirmLink.href = `https://wa.me/${WHATSAPP_ADMIN_NUMBER}?text=${encodeURIComponent('Bonjour, je confirme mon paiement pour les groupes de tontine.')}`;
         }
-        
+
         function loadWinners() {
-            // Charger l'historique des bénéficiaires pour chaque groupe
-            const groups = ["1000", "2000", "5000", "10000"];
-            
-            groups.forEach(group => {
-                const winnersList = document.getElementById(`winners-list-${group}`);
-                winnersList.innerHTML = '';
+            const groups = ["1000","2000","5000","10000"];
+            groups.forEach(g => {
+                const list = document.getElementById(`winners-list-${g}`);
+                list.innerHTML = '';
                 
-                const groupWinners = winnersHistory[group];
-                
-                if (!groupWinners || groupWinners.length === 0) {
-                    winnersList.innerHTML = '<tr><td colspan="4" style="text-align: center;">Aucun bénéficiaire enregistré pour le moment.</td></tr>';
+                const winners = winnersHistory[g] || [];
+                if (winners.length === 0) {
+                    list.innerHTML = '<tr><td colspan="3" class="text-center">Aucun bénéficiaire pour le moment</td></tr>';
                     return;
                 }
                 
-                groupWinners.forEach(winner => {
+                winners.forEach(w => {
                     const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${winner.month}</td>
-                        <td>${winner.winner}</td>
-                        <td>${winner.amount.toLocaleString()} FCFA</td>
-                        <td>${winner.date}</td>
-                    `;
-                    
-                    winnersList.appendChild(row);
+                    row.innerHTML = `<td>${w.month}</td><td>${w.winner}</td><td>${w.amount} F</td>`;
+                    list.appendChild(row);
                 });
             });
         }
-        
+
         function switchTab(tabId) {
-            // Désactiver tous les onglets
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
+            // Désactiver tous les tabs
+            document.querySelectorAll('#main-tabs .tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Activer l'onglet sélectionné
-            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            // Activer le tab sélectionné
+            document.querySelector(`#main-tabs .tab[data-tab="${tabId}"]`).classList.add('active');
             document.getElementById(`tab-${tabId}`).classList.add('active');
         }
-        
-        function switchSubTab(subtabId) {
-            // Désactiver tous les sous-onglets du conteneur parent
-            const parent = document.querySelector(`[data-subtab="${subtabId}"]`).closest('.tabs');
-            parent.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
+
+        function switchSubTab(subtabId, tabsId) {
+            // Désactiver tous les tabs du groupe
+            document.querySelectorAll(`#${tabsId} .tab`).forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.subtab-content').forEach(c => c.classList.remove('active'));
             
-            // Désactiver tous les sous-contenus du conteneur parent
-            const contentContainer = parent.parentElement;
-            contentContainer.querySelectorAll('.subtab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Activer le sous-onglet sélectionné
-            document.querySelector(`[data-subtab="${subtabId}"]`).classList.add('active');
+            // Activer le tab sélectionné
+            document.querySelector(`#${tabsId} .tab[data-subtab="${subtabId}"]`).classList.add('active');
             document.getElementById(subtabId).classList.add('active');
         }
-        
-        function handleGroupPayment(group) {
-            const groupAmount = tontineGroups[group].amount;
-            const paymentLink = paymentLinks[group];
-            
-            // Ouvrir le lien de paiement dans une nouvelle fenêtre
-            window.open(paymentLink, '_blank');
-            
-            // Afficher un message de confirmation
-            alert(`Vous allez être redirigé vers la page de paiement de ${groupAmount.toLocaleString()} FCFA pour le groupe ${group}. Après paiement, n'oubliez pas de confirmer via WhatsApp.`);
-        }
-        
-        function showError(element, message) {
-            element.textContent = message;
-            element.classList.remove('hidden');
-            
-            // Masquer le message après 5 secondes
-            setTimeout(() => {
-                element.classList.add('hidden');
-            }, 5000);
+
+        function showError(id, msg) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 4000);
         }
 
-        // Système de sauvegarde automatique
+        // Sauvegarde automatique
         function startAutoSave() {
-            // Sauvegarde automatique toutes les 30 secondes
-            autoSaveInterval = setInterval(saveData, AUTO_SAVE_INTERVAL);
-            console.log('Système de sauvegarde automatique activé');
-        }
-
-        function saveData() {
-            try {
-                const dataToSave = {
-                    registeredTeachers: registeredTeachers,
-                    winnersHistory: winnersHistory,
-                    lastSave: new Date().toISOString()
-                };
-                
-                localStorage.setItem('tontine_app_data', JSON.stringify(dataToSave));
-                console.log('Sauvegarde automatique effectuée à ' + new Date().toLocaleTimeString());
-            } catch (error) {
-                console.error('Erreur lors de la sauvegarde automatique: ' + error.message);
-            }
+            autoSaveTimer = setInterval(() => {
+                autoSaveIndicator.classList.remove('hidden');
+                try {
+                    localStorage.setItem('tontine_app_data', JSON.stringify({
+                        teachers: registeredTeachers,
+                        winners: winnersHistory,
+                        lastSave: new Date().toISOString()
+                    }));
+                } catch(e) {
+                    console.error('Erreur de sauvegarde', e);
+                }
+                setTimeout(() => autoSaveIndicator.classList.add('hidden'), 1000);
+            }, 30000);
         }
 
         function loadSavedData() {
             try {
-                const savedData = localStorage.getItem('tontine_app_data');
-                if (savedData) {
-                    const parsedData = JSON.parse(savedData);
-                    
-                    if (parsedData.registeredTeachers) {
-                        registeredTeachers = parsedData.registeredTeachers;
-                    }
-                    
-                    if (parsedData.winnersHistory) {
-                        winnersHistory = parsedData.winnersHistory;
-                    }
-                    
-                    console.log('Données chargées depuis la sauvegarde automatique');
+                const saved = localStorage.getItem('tontine_app_data');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data.winners) winnersHistory = data.winners;
+                    if (data.teachers) registeredTeachers = data.teachers;
                 }
-            } catch (error) {
-                console.error('Erreur lors du chargement des données sauvegardées: ' + error.message);
+            } catch(e) {
+                console.error('Erreur de chargement des données', e);
             }
         }
 
-        // Sauvegarde avant de quitter la page
-        window.addEventListener('beforeunload', saveData);
+        // Sauvegarde avant de quitter
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('tontine_app_data', JSON.stringify({
+                teachers: registeredTeachers,
+                winners: winnersHistory,
+                lastSave: new Date().toISOString()
+            }));
+        });
+
+        // Fonction globale pour les boutons de paiement
+        window.openPaymentLink = function(link) {
+            window.open(link, '_blank');
+        };
     </script>
 </body>
 </html>
