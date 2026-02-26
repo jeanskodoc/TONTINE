@@ -526,7 +526,7 @@
             
             <div id="login-error" class="alert alert-danger hidden"></div>
             
-            <form id="login-form" onsubmit="event.preventDefault()">
+            <form id="login-form">
                 <div class="form-group">
                     <label>Identifiant</label>
                     <input type="text" id="login-email" class="form-control" placeholder="ex: ENS001" required>
@@ -560,7 +560,7 @@
             <div id="registration-error" class="alert alert-danger hidden"></div>
             <div id="registration-success" class="alert alert-success hidden"></div>
             
-            <form id="registration-form" onsubmit="event.preventDefault()">
+            <form id="registration-form">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                     <div class="form-group">
                         <label>Nom *</label>
@@ -672,10 +672,10 @@
             <!-- Onglet Mes cotisations -->
             <div class="tab-content" id="tab-contributions">
                 <div class="tabs" id="contributions-tabs" style="margin-bottom: 20px;">
-                    <div class="tab active" data-subtab="contributions-1000">1000 F</div>
-                    <div class="tab" data-subtab="contributions-2000">2000 F</div>
-                    <div class="tab" data-subtab="contributions-5000">5000 F</div>
-                    <div class="tab" data-subtab="contributions-10000">10000 F</div>
+                    <div class="tab active" data-subtab="subtab-contributions-1000">1000 F</div>
+                    <div class="tab" data-subtab="subtab-contributions-2000">2000 F</div>
+                    <div class="tab" data-subtab="subtab-contributions-5000">5000 F</div>
+                    <div class="tab" data-subtab="subtab-contributions-10000">10000 F</div>
                 </div>
                 
                 <!-- Groupe 1000 -->
@@ -788,10 +788,10 @@
             <!-- Onglet Bénéficiaires -->
             <div class="tab-content" id="tab-winners">
                 <div class="tabs" id="winners-tabs" style="margin-bottom: 20px;">
-                    <div class="tab active" data-subtab="winners-1000">1000 F</div>
-                    <div class="tab" data-subtab="winners-2000">2000 F</div>
-                    <div class="tab" data-subtab="winners-5000">5000 F</div>
-                    <div class="tab" data-subtab="winners-10000">10000 F</div>
+                    <div class="tab active" data-subtab="subtab-winners-1000">1000 F</div>
+                    <div class="tab" data-subtab="subtab-winners-2000">2000 F</div>
+                    <div class="tab" data-subtab="subtab-winners-5000">5000 F</div>
+                    <div class="tab" data-subtab="subtab-winners-10000">10000 F</div>
                 </div>
                 
                 <div class="subtab-content active" id="subtab-winners-1000">
@@ -971,8 +971,17 @@
                 btn.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const nav = this.closest('nav').querySelector('.nav-links');
-                    nav.classList.toggle('active');
+                    if (nav) nav.classList.toggle('active');
                 });
+            });
+
+            // Fermer le menu en cliquant ailleurs
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle')) {
+                    document.querySelectorAll('.nav-links.active').forEach(nav => {
+                        nav.classList.remove('active');
+                    });
+                }
             });
 
             // Bouton de connexion
@@ -994,28 +1003,30 @@
             document.getElementById('btn-submit-registration').addEventListener('click', handleRegistration);
             
             // Déconnexion
-            const logoutButtons = document.querySelectorAll('#nav-logout, #nav-logout-dash');
-            logoutButtons.forEach(btn => {
-                btn.addEventListener('click', logout);
-            });
+            document.getElementById('nav-logout-dash').addEventListener('click', logout);
 
             // Navigation dans le dashboard
             document.getElementById('nav-dashboard-link').addEventListener('click', function(e) {
                 e.preventDefault();
-                switchTab('all-groups');
-                document.querySelector('.tab[data-tab="all-groups"]').classList.add('active');
+                // Activer le premier tab (tous les groupes)
+                document.querySelectorAll('#main-tabs .tab').forEach(t => t.classList.remove('active'));
+                document.querySelector('#main-tabs .tab[data-tab="all-groups"]').classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById('tab-all-groups').classList.add('active');
             });
             
             document.getElementById('nav-profile-link').addEventListener('click', function(e) {
                 e.preventDefault();
-                alert('Profil utilisateur :\n' + 
-                      'Nom : ' + currentUser.name + '\n' +
-                      'Établissement : ' + currentUser.school + '\n' +
-                      'Téléphone : ' + currentUser.phone);
+                if (currentUser) {
+                    alert('Profil utilisateur :\n' + 
+                          'Nom : ' + currentUser.name + '\n' +
+                          'Établissement : ' + currentUser.school + '\n' +
+                          'Téléphone : ' + currentUser.phone);
+                }
             });
 
             // Tabs principales
-            document.querySelectorAll('#main-tabs .tab[data-tab]').forEach(tab => {
+            document.querySelectorAll('#main-tabs .tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');
                     switchTab(tabId);
@@ -1023,7 +1034,7 @@
             });
 
             // Tabs des cotisations
-            document.querySelectorAll('#contributions-tabs .tab[data-subtab]').forEach(tab => {
+            document.querySelectorAll('#contributions-tabs .tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const subtabId = this.getAttribute('data-subtab');
                     switchSubTab(subtabId, 'contributions-tabs');
@@ -1031,7 +1042,7 @@
             });
 
             // Tabs des bénéficiaires
-            document.querySelectorAll('#winners-tabs .tab[data-subtab]').forEach(tab => {
+            document.querySelectorAll('#winners-tabs .tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const subtabId = this.getAttribute('data-subtab');
                     switchSubTab(subtabId, 'winners-tabs');
@@ -1148,7 +1159,7 @@
 
         function loadContributions() {
             const groups = ["1000","2000","5000","10000"];
-            const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre"];
+            const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
             
             groups.forEach(g => {
                 // Générer un nombre aléatoire de mois payés (entre 2 et 6)
@@ -1163,7 +1174,7 @@
                 tbody.innerHTML = '';
                 
                 for (let i = 0; i < 10; i++) {
-                    const monthIndex = i;
+                    const monthIndex = i % months.length;
                     let status, badgeClass, statusText;
                     
                     if (i < paidMonths) {
@@ -1186,7 +1197,7 @@
                     
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${months[monthIndex]}</td>
+                        <td>${months[monthIndex]} ${2024 + Math.floor(i/12)}</td>
                         <td>${tontineGroups[g].amount} F</td>
                         <td><span class="badge ${badgeClass}">${statusText}</span></td>
                         <td>${actionButton}</td>
@@ -1245,6 +1256,7 @@
 
         // Sauvegarde automatique
         function startAutoSave() {
+            if (autoSaveTimer) clearInterval(autoSaveTimer);
             autoSaveTimer = setInterval(() => {
                 autoSaveIndicator.classList.remove('hidden');
                 try {
@@ -1275,17 +1287,14 @@
 
         // Sauvegarde avant de quitter
         window.addEventListener('beforeunload', function() {
-            localStorage.setItem('tontine_app_data', JSON.stringify({
-                teachers: registeredTeachers,
-                winners: winnersHistory,
-                lastSave: new Date().toISOString()
-            }));
+            if (currentUser) {
+                localStorage.setItem('tontine_app_data', JSON.stringify({
+                    teachers: registeredTeachers,
+                    winners: winnersHistory,
+                    lastSave: new Date().toISOString()
+                }));
+            }
         });
-
-        // Fonction globale pour les boutons de paiement
-        window.openPaymentLink = function(link) {
-            window.open(link, '_blank');
-        };
     </script>
 </body>
 </html>
